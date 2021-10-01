@@ -21,10 +21,10 @@ class Board(Component.with_extensions(GridHelper), ABC):
         self.state = self.parent.state
 
     @property
-    def display_name(self):
+    def display_name(self) -> str:
         raise NotImplementedError
 
-    def _apply_dividers(self, rows=(), columns=()):
+    def _apply_dividers(self, rows=(), columns=()) -> None:
         for row_index in rows:
             self._frame.grid_rowconfigure(row_index, minsize=TrackerConstants.DIVIDER_SIZE)
         for column_index in columns:

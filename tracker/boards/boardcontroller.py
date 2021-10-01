@@ -7,8 +7,8 @@ from .board import Board
 
 
 class BoardController(Board):
-    def __init__(self, parent, container):
-        super().__init__(parent, container)
+    def __init__(self, tracker, container):
+        super().__init__(tracker, container)
 
         self._full_view = True
 
@@ -23,16 +23,16 @@ class BoardController(Board):
             self.render()
 
         def toggle_board_visibility(board_class, toggle_button):
-            if board_class in self.parent.visible_boards:
-                self.parent.visible_boards.remove(board_class)
+            if board_class in self.tracker.visible_boards:
+                self.tracker.visible_boards.remove(board_class)
             else:
-                self.parent.visible_boards.add(board_class)
+                self.tracker.visible_boards.add(board_class)
 
-            self.parent.render()
+            self.tracker.render()
 
         self._apply_frame_stretch(rows=[0], columns=[0])
 
-        config = self.parent.config
+        config = self.tracker.config
         row_index = 0
 
         ToggleButton(
@@ -48,7 +48,7 @@ class BoardController(Board):
 
         if self._full_view:
             other_boards = sorted(
-                [board for board in self.parent.boards if type(board) != BoardController],
+                [board for board in self.tracker.boards if type(board) != BoardController],
                 key=lambda board: config.BOARDS_LIST_ORDER.index(type(board))
             )
 
@@ -65,7 +65,7 @@ class BoardController(Board):
                 ToggleButton(
                     self._frame,
                     get_data=partial(
-                        lambda board_class, toggle_button: board_class in self.parent.visible_boards,
+                        lambda board_class, toggle_button: board_class in self.tracker.visible_boards,
                         other_board_class),
                     on_change=partial(toggle_board_visibility, other_board_class),
                     styles={

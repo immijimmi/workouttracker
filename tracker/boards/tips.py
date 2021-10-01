@@ -4,8 +4,8 @@ from .board import Board
 
 
 class Tips(Board):
-    def __init__(self, parent, container):
-        super().__init__(parent, container)
+    def __init__(self, tracker, container):
+        super().__init__(tracker, container)
 
     @property
     def display_name(self):
@@ -13,15 +13,15 @@ class Tips(Board):
 
     def _render(self):
         def on_change__text_carousel(text_carousel, increment_amount):
-            self.parent.tips_index = text_carousel.index
+            self.tracker.tips_index = text_carousel.index
 
         self._apply_frame_stretch(rows=[0], columns=[0])
 
         TextCarousel(
             self._frame,
-            get_data=lambda carousel: self.parent.tips,
+            get_data=lambda carousel: self.tracker.tips,
             on_change=on_change__text_carousel,
-            index=self.parent.tips_index,
+            index=self.tracker.tips_index,
             styles={
                 "button": {
                     **TrackerConstants.DEFAULT_STYLES["symbol_button"]

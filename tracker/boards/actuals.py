@@ -8,8 +8,8 @@ from .board import Board
 
 
 class Actuals(Board):
-    def __init__(self, parent, container):
-        super().__init__(parent, container)
+    def __init__(self, tracker, container):
+        super().__init__(tracker, container)
 
         self._date_offset = 0
 

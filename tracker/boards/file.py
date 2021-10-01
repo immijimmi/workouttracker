@@ -10,20 +10,20 @@ from .board import Board
 
 
 class File(Board):
-    def __init__(self, parent, container):
-        super().__init__(parent, container, update_interval=TrackerConstants.INTERVAL__SHORT_DELAY)
+    def __init__(self, tracker, container):
+        super().__init__(tracker, container, update_interval=TrackerConstants.INTERVAL__SHORT_DELAY)
 
         self.active_alerts = {}
 
         self._file_path__var = StringVar()
-        self._file_path__var.set(self.parent.state_file_path)
+        self._file_path__var.set(self.tracker.state_file_path)
 
     @property
     def display_name(self):
         return "File"
 
     def _update(self):
-        self._file_path__var.set(self.parent.state_file_path)
+        self._file_path__var.set(self.tracker.state_file_path)
         self._set_path_label_style()
 
     def _render(self):
@@ -49,25 +49,25 @@ class File(Board):
                 return
 
             selected_file_path = path.relpath(selected_file_path)
-            if selected_file_path == self.parent.state_file_path:
+            if selected_file_path == self.tracker.state_file_path:
                 return self._add_alert("Selected file is already open.")
 
             if operation in ("Open", "Import"):
-                loaded = self.parent.load_state(selected_file_path, catch=True)
+                loaded = self.tracker.load_state(selected_file_path, catch=True)
                 if not loaded:
                     return self._add_alert("Unable to open selected file.")
             else:
-                saved = self.parent.save_state(selected_file_path, catch=True)
+                saved = self.tracker.save_state(selected_file_path, catch=True)
                 if not saved:
                     return self._add_alert("Unable to save as selected file name.")
 
             if operation in ("Open", "Save As"):
-                self.parent.state_file_path = selected_file_path
-                self.parent.is_state_unsaved = False
+                self.tracker.state_file_path = selected_file_path
+                self.tracker.is_state_unsaved = False
             else:
-                self.parent.is_state_unsaved = True
+                self.tracker.is_state_unsaved = True
 
-            self.parent.render()
+            self.tracker.render()
 
         self._expire_alerts()
 
@@ -138,7 +138,7 @@ class File(Board):
                ).grid(row=row_index, column=3, sticky="nswe")
 
     def _set_path_label_style(self):
-        style = ({**TrackerConstants.DEFAULT_STYLES["unsaved"]} if self.parent.is_state_unsaved else
+        style = ({**TrackerConstants.DEFAULT_STYLES["unsaved"]} if self.tracker.is_state_unsaved else
                  {"fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"]})
 
         self.children["file_path_label"].config(**style)

@@ -5,7 +5,7 @@ from ..constants import Constants as TrackerConstants
 
 
 class Board(Component.with_extensions(GridHelper), ABC):
-    def __init__(self, parent, container, update_interval=None):
+    def __init__(self, tracker, container, update_interval=None):
         super().__init__(container, update_interval=update_interval, styles={
             "frame": {
                 "borderwidth": TrackerConstants.BORDERWIDTH__TINY,
@@ -16,9 +16,9 @@ class Board(Component.with_extensions(GridHelper), ABC):
             }
         })
 
-        self.parent = parent
+        self.tracker = tracker
 
-        self.state = self.parent.state
+        self.state = self.tracker.state
 
     @property
     def display_name(self) -> str:

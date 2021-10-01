@@ -27,13 +27,11 @@ class SchedulePicker(ButtonListBox):
             return result
 
         def on_change__button_list_box(list_box, new_value):
-            tracker = board.parent
-
             if new_value is None:
                 board.state.registered_set(None, "active_schedule_id")
 
             elif new_value is True:
-                tracker.state__add_schedule()
+                board.tracker.state__add_schedule()
 
             else:
                 schedules = board.state.registered_get("workout_schedules")
@@ -42,7 +40,7 @@ class SchedulePicker(ButtonListBox):
 
                 board.state.registered_set(new_value, "active_schedule_id")
 
-            tracker.render()
+            board.tracker.render()
 
         def get_height__button_list_box():
             return board.height_clearance

@@ -6,8 +6,8 @@ from .board import Board
 
 
 class ScheduleEditor(Board):
-    def __init__(self, parent, container):
-        super().__init__(parent, container)
+    def __init__(self, tracker, container):
+        super().__init__(tracker, container)
 
     @property
     def display_name(self):
@@ -34,15 +34,15 @@ class ScheduleEditor(Board):
 
             self.state.registered_set(schedules, "workout_schedules")
 
-            self.parent.render()
+            self.tracker.render()
 
         def delete_schedule():
             if active_schedule_id is None:
                 return
 
-            self.parent.state__del_schedule(active_schedule_id)
+            self.tracker.state__del_schedule(active_schedule_id)
 
-            self.parent.render()
+            self.tracker.render()
 
         self._apply_frame_stretch(rows=[3], columns=[1])
         self._apply_dividers(rows=[1, 3], columns=[1])

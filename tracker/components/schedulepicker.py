@@ -6,22 +6,21 @@ class SchedulePicker(ButtonListBox):
     def __init__(self, board, container, new_schedule_button=False):
         def get_data__button_list_box(list_box):
             schedule_button_style = {"bg": TrackerConstants.COLOURS["cool_less_dark_grey"]}
-            default_button_format = "({0})"
 
-            result = [{"value": None, "text": default_button_format.format(None)}]
+            result = [{"value": None, "text": TrackerConstants.META_LABEL_FORMAT.format(None)}]
 
             schedules = board.state.registered_get("workout_schedules")
             for schedule_id in schedules:
                 result.append({
                     "value": schedule_id,
-                    "text": schedules[schedule_id]["name"] or default_button_format.format(schedule_id),
+                    "text": schedules[schedule_id]["name"] or TrackerConstants.META_LABEL_FORMAT.format(schedule_id),
                     "style": schedule_button_style if schedules[schedule_id]["name"] else {}
                 })
 
             if new_schedule_button:
                 result.append({
                     "value": True,
-                    "text": default_button_format.format("New")
+                    "text": TrackerConstants.META_LABEL_FORMAT.format("New")
                 })
 
             return result

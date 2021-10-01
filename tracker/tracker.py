@@ -98,6 +98,19 @@ class Tracker(Component.with_extensions(GridHelper)):
 
         self.state.registered_set(schedules, "workout_schedules")
 
+    def state__add_workout_type(self):
+        workout_types = self.state.registered_get("workout_types")
+
+        new_id = str(
+            max(
+                (int(workout_type_id) for workout_type_id in workout_types), default=-1
+            ) + 1
+        )  # Gives the new workout type an ID incremented by 1 from the highest previous ID
+        new_workout_type = {"name": "", "desc": "", "single_set_reps": 1}
+        workout_types[new_id] = new_workout_type
+
+        self.state.registered_set(workout_types, "workout_types")
+
     def _register_paths(self):
         self.state.register("load_file", [], [])  # Used to add metadata for listeners
 

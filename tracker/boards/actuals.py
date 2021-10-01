@@ -137,7 +137,7 @@ class Actuals(Board):
                     continue  # Ignore workout types that were not scheduled nor performed on this date
             is_date_empty = False
 
-            workout_name = workout_type_details["name"]
+            workout_name = workout_type_details["name"] or TrackerConstants.META_LABEL_FORMAT.format(workout_type_id)
             workout_desc = workout_type_details["desc"]
             workout_reps = workout_type_details["single_set_reps"]
 
@@ -146,8 +146,8 @@ class Actuals(Board):
 
             column_index = 1
             row_index += 1
-            Label(self._frame, text=workout_name, width=24,
-                  **TrackerConstants.DEFAULT_STYLES["label"]
+            Label(self._frame, text=workout_name,
+                  width=24, **TrackerConstants.DEFAULT_STYLES["label"]
                   ).grid(row=row_index, column=column_index, sticky="nswe")
 
             column_index += 1

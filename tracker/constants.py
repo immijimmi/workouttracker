@@ -12,6 +12,8 @@ class Constants:
     WINDOW_TITLE = "Workout Logger"
 
     DATE_KEY_FORMAT = "%Y/%m/%d"
+    # Should be used whenever a label does not contain the same kind of information as is standard for its section
+    META_LABEL_FORMAT = "({0})"
 
     TIP_PLACEHOLDER = "You have not added any tips."
 

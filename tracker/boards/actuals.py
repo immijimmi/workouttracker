@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from tkinter import Label
 from functools import partial
 
-from ..components import DateStepper, NumberStepper, ToggleButton
+from ..components import DateStepper, NumberStepper, ToggleButton, LabelWrapper
 from ..constants import Constants as TrackerConstants
 from .board import Board
 
@@ -81,6 +81,12 @@ class Actuals(Board):
             self.state.registered_set(
                 new_workout_reps_actual, "completed_reps_single_entry", [_working_date_key, _workout_type_id])
 
+        def get_data__label_wrapper(_workout_type_id, label_wrapper):
+            _workout_type_details = self.state.registered_get("workout_type_details", [_workout_type_id])
+            _workout_reps = _workout_type_details["single_set_reps"]
+
+            return "x{0}".format(_workout_reps)
+
         def toggle_workout_desc(_workout_type_id, toggle_button):
             if _workout_type_id in self._visible_workout_descriptions:
                 self._visible_workout_descriptions.remove(_workout_type_id)
@@ -153,9 +159,18 @@ class Actuals(Board):
             column_index += 1
 
             workout_reps_text = "x{0}".format(workout_reps)
-            Label(self._frame, text=workout_reps_text, width=4,
-                  **TrackerConstants.DEFAULT_STYLES["label"]
-                  ).grid(row=row_index, column=column_index, sticky="nsw")
+            label_wrapper = LabelWrapper(
+                self._frame,
+                get_data=partial(get_data__label_wrapper, workout_type_id),
+                update_interval=TrackerConstants.INTERVAL__SHORT_DELAY,
+                styles={
+                    "label": {
+                        "width": 4,
+                        **TrackerConstants.DEFAULT_STYLES["label"]
+                    },
+                }
+            )
+            label_wrapper.render().grid(row=row_index, column=column_index, sticky="nsw")
 
             column_index += 3 if self._date_offset == 0 else 4
             sets_actual_text_format = get_workout_stepper_label_format(workout_sets_scheduled)

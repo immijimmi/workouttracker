@@ -107,5 +107,5 @@ class Constants:
             "font": SMALL_ITALICS_FONT,
             "fg": DEFAULT_STYLE_ARGS["fg"],
             "bg": DEFAULT_STYLE_ARGS["bg"]
-        }
+        },
     }

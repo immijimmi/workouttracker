@@ -131,12 +131,8 @@ class Actuals(Board):
                                                             [working_date_key, workout_type_id])
             workout_sets_scheduled = self.state.registered_get(
                 "scheduled_sets_single_entry", [active_schedule_id, working_date.strftime("%a"), workout_type_id])
-            is_workout_disabled = self.state.registered_get("is_workout_disabled", [workout_type_id])
 
-            if self._date_offset == 0:  # Rendering the current date
-                if is_workout_disabled:
-                    continue  # Ignore workout types that have been disabled
-            else:  # Rendering a previous date
+            if self._date_offset != 0:  # Rendering a previous date
                 if workout_sets_scheduled == 0 and workout_reps_actual == 0:
                     continue  # Ignore workout types that were not scheduled nor performed on this date
             is_date_empty = False

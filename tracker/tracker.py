@@ -108,8 +108,6 @@ class Tracker(Component.with_extensions(GridHelper)):
 
         self.state.register("workout_types", ["workout_types"], [{}])
         self.state.register("workout_type_details", ["workout_types", Constants.PATH_DYNAMIC_KEY], [{}, {}])
-        self.state.register(
-            "is_workout_disabled", ["workout_types", Constants.PATH_DYNAMIC_KEY, "disabled"], [{}, {}, False])
 
         self.state.register("workout_schedules", ["workout_schedules"], [{}])
         self.state.register(

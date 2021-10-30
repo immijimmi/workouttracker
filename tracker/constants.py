@@ -63,11 +63,11 @@ class Constants:
         "white": "#FFFFFF",
         "cool_off_white": "#FAFAFF",
         "cool_dark_grey": "#37373C",
-        "cool_dark_grey_green_tint": "#333F38",  # #37373C@255 + #00B211@18
-        "cool_dark_grey_blue_tint": "#3A3C49",  # #37373C@255 + #667FFF@18
+        "cool_dark_grey_green_tint": "#333E39",  # #37373C@255 + #00B211@15
+        "cool_dark_grey_blue_tint": "#3A3C4B",  # #37373C@255 + #667FFF@20
         "cool_less_dark_grey": "#46464C",
-        "cool_less_dark_grey_green_tint": "#414D47",  # #46464C@255 + #00B211@18
-        "cool_less_dark_grey_blue_tint": "#484A58",  # #46464C@255 + #667FFF@18
+        "cool_less_dark_grey_green_tint": "#414C48",  # #46464C@255 + #00B211@15
+        "cool_less_dark_grey_blue_tint": "#484A5A",  # #46464C@255 + #667FFF@20
         "tk_default_grey": "#f0f0f0"
     }
 
@@ -75,6 +75,10 @@ class Constants:
         "Actuals": {
             "bg": COLOURS["cool_dark_grey_blue_tint"],
             "highlight": COLOURS["cool_less_dark_grey_blue_tint"]
+        },
+        "File": {
+            "bg": COLOURS["cool_dark_grey_green_tint"],
+            "highlight": COLOURS["cool_less_dark_grey_green_tint"]
         }
     }
 

@@ -114,7 +114,11 @@ class File(Board):
             alert_component.render().grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
-        Label(self._frame, text="Save Location", **TrackerConstants.DEFAULT_STYLES["label"]
+        Label(self._frame, text="Save Location",
+              **{
+                  **TrackerConstants.DEFAULT_STYLES["label"],
+                  "bg": self.styles["board_specific"]["bg"]
+              }
               ).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 1

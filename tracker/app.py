@@ -10,6 +10,8 @@ class App:
         self._window.title(Constants.WINDOW_TITLE)
         self._window.iconbitmap(config.ICON_FILE_PATH)
 
+        self._window.minsize(width=200, height=0)  # Min width so that the window remains grabbable using the cursor
+
         # Make the window expand to fill the screen
         self._window.columnconfigure(0, weight=1)
         self._window.rowconfigure(0, weight=1)

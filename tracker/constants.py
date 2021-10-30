@@ -63,8 +63,11 @@ class Constants:
         "white": "#FFFFFF",
         "cool_off_white": "#FAFAFF",
         "cool_dark_grey": "#37373C",
-        "cool_dark_grey-green": "",  # #37373C@255 + #00B211@25
+        "cool_dark_grey_green_tint": "#333F38",  # #37373C@255 + #00B211@18
+        "cool_dark_grey_blue_tint": "#3A3C49",  # #37373C@255 + #667FFF@18
         "cool_less_dark_grey": "#46464C",
+        "cool_less_dark_grey_green_tint": "#414D47",  # #46464C@255 + #00B211@18
+        "cool_less_dark_grey_blue_tint": "#484A58",  # #46464C@255 + #667FFF@18
         "tk_default_grey": "#f0f0f0"
     }
 
@@ -109,4 +112,11 @@ class Constants:
             "fg": DEFAULT_STYLE_ARGS["fg"],
             "bg": DEFAULT_STYLE_ARGS["bg"]
         },
+    }
+
+    BOARD_SPECIFIC_COLOURS = {  # The keys used here are the class names of each board
+        "Actuals": {
+            "bg": COLOURS["cool_dark_grey_blue_tint"],
+            "highlight": COLOURS["cool_less_dark_grey_blue_tint"]
+        }
     }

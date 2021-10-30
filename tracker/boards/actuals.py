@@ -152,9 +152,11 @@ class Actuals(Board):
 
             column_index = 1
             row_index += 1
-            Label(self._frame, text=workout_name,
-                  width=24, **TrackerConstants.DEFAULT_STYLES["label"]
-                  ).grid(row=row_index, column=column_index, sticky="nswe")
+            Label(self._frame, text=workout_name, width=24,
+                  **{
+                      **TrackerConstants.DEFAULT_STYLES["label"],
+                      "bg": self.styles["board_specific"]["bg"]
+                  }).grid(row=row_index, column=column_index, sticky="nswe")
 
             column_index += 1
 
@@ -166,7 +168,8 @@ class Actuals(Board):
                 styles={
                     "label": {
                         "width": 4,
-                        **TrackerConstants.DEFAULT_STYLES["label"]
+                        **TrackerConstants.DEFAULT_STYLES["label"],
+                        "bg": self.styles["board_specific"]["bg"]
                     },
                 }
             )

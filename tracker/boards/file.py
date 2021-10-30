@@ -106,7 +106,7 @@ class File(Board):
                     },
                     "progress_bar": {
                         "filled_bar_frame": {"bg": TrackerConstants.COLOURS["cool_less_dark_grey"]},
-                        "empty_bar_frame": {"bg": TrackerConstants.COLOURS["default_grey"]}
+                        "empty_bar_frame": {"bg": TrackerConstants.COLOURS["tk_default_grey"]}
                     }
                 }
             )

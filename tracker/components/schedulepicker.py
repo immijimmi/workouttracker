@@ -59,7 +59,7 @@ class SchedulePicker(ButtonListBox):
                     "relief": "raised"
                 },
                 "button_selected": {
-                    "bg": TrackerConstants.COLOURS["default_grey"],
+                    "bg": TrackerConstants.COLOURS["tk_default_grey"],
                     "relief": "sunken"
                 },
                 "scrollbar": {

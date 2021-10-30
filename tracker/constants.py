@@ -63,8 +63,9 @@ class Constants:
         "white": "#FFFFFF",
         "cool_off_white": "#FAFAFF",
         "cool_dark_grey": "#37373C",
+        "cool_dark_grey-green": "",  # #37373C@255 + #00B211@25
         "cool_less_dark_grey": "#46464C",
-        "default_grey": "#f0f0f0"
+        "tk_default_grey": "#f0f0f0"
     }
 
     DEFAULT_STYLE_ARGS = {

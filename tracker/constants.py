@@ -71,6 +71,13 @@ class Constants:
         "tk_default_grey": "#f0f0f0"
     }
 
+    BOARD_SPECIFIC_COLOURS = {  # The keys used here are the class names of each board
+        "Actuals": {
+            "bg": COLOURS["cool_dark_grey_blue_tint"],
+            "highlight": COLOURS["cool_less_dark_grey_blue_tint"]
+        }
+    }
+
     DEFAULT_STYLE_ARGS = {
         "fg": COLOURS["cool_off_white"],
         "bg": COLOURS["cool_dark_grey"],
@@ -112,11 +119,8 @@ class Constants:
             "fg": DEFAULT_STYLE_ARGS["fg"],
             "bg": DEFAULT_STYLE_ARGS["bg"]
         },
-    }
-
-    BOARD_SPECIFIC_COLOURS = {  # The keys used here are the class names of each board
-        "Actuals": {
-            "bg": COLOURS["cool_dark_grey_blue_tint"],
-            "highlight": COLOURS["cool_less_dark_grey_blue_tint"]
+        "board_specific_colours": {
+            "bg": DEFAULT_STYLE_ARGS["bg"],
+            "highlight": COLOURS["cool_less_dark_grey"]
         }
     }

@@ -62,6 +62,10 @@ class BoardController(Board):
                       ).grid(row=row_index, column=column_index, sticky="nswe")
                 column_index += 1
 
+                board_specific_colours = TrackerConstants.BOARD_SPECIFIC_COLOURS.get(
+                    other_board_class.__name__,
+                    TrackerConstants.DEFAULT_STYLES["board_specific_colours"]
+                )
                 ToggleButton(
                     self._frame,
                     get_data=partial(
@@ -71,6 +75,7 @@ class BoardController(Board):
                     styles={
                         "button": {
                             **TrackerConstants.DEFAULT_STYLES["button"],
+                            "bg": board_specific_colours["bg"]
                         }
                     }
                 ).render().grid(row=row_index, column=column_index, sticky="nswe")

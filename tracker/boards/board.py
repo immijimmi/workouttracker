@@ -8,10 +8,7 @@ class Board(Component.with_extensions(GridHelper), ABC):
     def __init__(self, tracker, container, update_interval=None):
         board_specific_colours = TrackerConstants.BOARD_SPECIFIC_COLOURS.get(
             type(self).__name__,
-            {
-                "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                "highlight": TrackerConstants.COLOURS["cool_less_dark_grey"]
-            }
+            TrackerConstants.DEFAULT_STYLES["board_specific_colours"]
         )
 
         super().__init__(container, update_interval=update_interval, styles={

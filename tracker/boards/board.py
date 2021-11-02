@@ -32,9 +32,3 @@ class Board(Component.with_extensions(GridHelper), ABC):
     @property
     def display_name(self) -> str:
         raise NotImplementedError
-
-    def _apply_dividers(self, rows=(), columns=()) -> None:
-        for row_index in rows:
-            self._frame.grid_rowconfigure(row_index, minsize=TrackerConstants.DIVIDER_SIZE)
-        for column_index in columns:
-            self._frame.grid_columnconfigure(column_index, minsize=TrackerConstants.DIVIDER_SIZE)

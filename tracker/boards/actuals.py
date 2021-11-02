@@ -224,7 +224,7 @@ class Actuals(Board):
         row_index += 1
 
         if not is_date_empty:
-            self._apply_dividers(rows=[1], columns=[4])
+            self._apply_dividers(TrackerConstants.DIVIDER_SIZE, rows=[1], columns=[4])
 
             # Prevents description box rendering from making the NumberStepper labels too thin
             number_stepper_label_width = number_stepper.children["label"].winfo_reqwidth()

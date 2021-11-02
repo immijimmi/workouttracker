@@ -76,7 +76,7 @@ class WorkoutEditor(Board):
         last_divider_column_index = max(column_dividers, default=1)  # If there are none, it takes the end of the board
 
         self._apply_frame_stretch(rows=[7], columns=[last_divider_column_index])
-        self._apply_dividers(rows=[1, 3, 5], columns=[*column_dividers])
+        self._apply_dividers(TrackerConstants.DIVIDER_SIZE, rows=[1, 3, 5], columns=[*column_dividers])
 
         title_column_char_width = 8
         entry_width = 13

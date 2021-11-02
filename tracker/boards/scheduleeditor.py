@@ -45,7 +45,7 @@ class ScheduleEditor(Board):
             self.tracker.render()
 
         self._apply_frame_stretch(rows=[3], columns=[1])
-        self._apply_dividers(rows=[1, 3], columns=[1])
+        self._apply_dividers(TrackerConstants.DIVIDER_SIZE, rows=[1, 3], columns=[1])
 
         schedule_picker = SchedulePicker(self, self._frame, new_schedule_button=True)
         schedule_picker.render().grid(row=0, column=0, rowspan=5, sticky="nswe")

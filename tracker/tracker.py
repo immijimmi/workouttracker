@@ -16,13 +16,14 @@ class Tracker(Component.with_extensions(GridHelper)):
             "frame": {"bg": Constants.DEFAULT_STYLE_ARGS["bg"]}
         })
 
-        self.config = config
-        self.board_handler = self.config.BOARD_HANDLER(self)
+        self._config = config
+
+        self._board_handler = self._config.BOARD_HANDLER(self)
 
         # Tracker temporary variables
-        self.state_file_path = path.relpath(self.config.STATE_FILE_PATH)
+        self.state_file_path = path.relpath(self._config.STATE_FILE_PATH)
         self.is_state_unsaved = True
-        self.visible_boards = set(self.config.INITIAL_BOARDS_VISIBLE)
+        self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
 
         # State Initialisation
         self.state = State.with_extensions(Registrar, Listeners)()
@@ -39,6 +40,10 @@ class Tracker(Component.with_extensions(GridHelper)):
         if loaded:
             self.is_state_unsaved = False
 
+    @property
+    def config(self):
+        return self._config
+
     def _render(self):
         # Board-specific temporary variables
         self.tips = self.state.registered_get("workout_tips")
@@ -46,9 +51,9 @@ class Tracker(Component.with_extensions(GridHelper)):
         self.tips_index = 0
 
         # Initialise all boards
-        self.boards = [board_class(self, self._frame) for board_class in self.board_handler.board_classes]
+        self.boards = [board_class(self, self._frame) for board_class in self._board_handler.board_classes]
 
-        frame_stretch = self.board_handler.arrange_boards()
+        frame_stretch = self._board_handler.arrange_boards()
         self._apply_frame_stretch(**frame_stretch)
 
     def load_state(self, file_path, catch=False):

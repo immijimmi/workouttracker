@@ -1,4 +1,4 @@
-from tracker import App
+from .__init__ import *
 
 App()
 

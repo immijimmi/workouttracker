@@ -18,7 +18,7 @@ class Tracker(Component.with_extensions(GridHelper)):
 
         self._config = config
 
-        self._board_handler = self._config.BOARD_HANDLER(self)
+        self._board_handler = self._config.BOARD_HANDLER_CLS(self)
 
         # Tracker temporary variables
         self.state_file_path = path.relpath(self._config.STATE_FILE_PATH)

@@ -6,7 +6,7 @@ class DefaultConfig:
     STATE_FILE_PATH = "data.json"
     ICON_FILE_PATH = r"res/icon.ico"
 
-    BOARD_HANDLER = ResponsiveGrid
+    BOARD_HANDLER_CLS = ResponsiveGrid
 
     # Board Handler Details
     INITIAL_BOARDS_VISIBLE = {BoardController}

@@ -2,7 +2,7 @@ from tracker.boards import *
 from tracker.boardhandlers import *
 
 
-class Config:
+class DefaultConfig:
     STATE_FILE_PATH = "data.json"
     ICON_FILE_PATH = r"res/icon.ico"
 

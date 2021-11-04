@@ -2,11 +2,11 @@ from tkinter import Tk
 
 from .tracker import Tracker
 from .constants import Constants
-from .config import Config
+from .config import DefaultConfig
 
 
 class App:
-    def __init__(self, config=Config):
+    def __init__(self, config=DefaultConfig):
         self._window = Tk()
         self._window.title(Constants.WINDOW_TITLE)
         self._window.iconbitmap(config.ICON_FILE_PATH)

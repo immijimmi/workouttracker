@@ -37,14 +37,19 @@ class Constants:
     BORDERWIDTH__SMALL = 2
     BORDERWIDTH__NORMAL = 3
 
+    # Font Sizes
+    FONTSIZE_TINY = 9
+    FONTSIZE_SMALL = 10
+    FONTSIZE_NORMAL = 11
+
     # Fonts
-    NORMAL_FONT = ("Bahnschrift", 10)
-    SMALL_FONT = ("Bahnschrift", 9)
-    TINY_FONT = ("Bahnschrift", 8)
-    BOLD_FONT = ("Bahnschrift", 10, "bold")
-    ITALICS_FONT = ("Bahnschrift", 10, "italic")
-    SMALL_ITALICS_FONT = ("Bahnschrift", 9, "italic")
-    SYMBOL_FONT = ("Bahnschrift", 10)
+    NORMAL_FONT = ("Bahnschrift", FONTSIZE_NORMAL)
+    SMALL_FONT = ("Bahnschrift", FONTSIZE_SMALL)
+    TINY_FONT = ("Bahnschrift", FONTSIZE_TINY)
+    BOLD_FONT = ("Bahnschrift", FONTSIZE_NORMAL, "bold")
+    ITALICS_FONT = ("Bahnschrift", FONTSIZE_NORMAL, "italic")
+    SMALL_ITALICS_FONT = ("Bahnschrift", FONTSIZE_SMALL, "italic")
+    SYMBOL_FONT = ("Bahnschrift", FONTSIZE_NORMAL)
 
     # Update Intervals
     INTERVAL__SHORT_DELAY = 500

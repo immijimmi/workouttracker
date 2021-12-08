@@ -18,18 +18,18 @@ class WorkoutEditor(Board):
 
     def _render(self):
         def save_all_workout_types_changes():
-            _workout_types = self.tracker.state.registered_get("workout_types")
+            workout_types = self.tracker.state.registered_get("workout_types")
 
-            for _workout_type_id in _workout_types:
-                workout_id_components = self.children[_workout_type_id]
+            for workout_type_id in workout_types:
+                workout_id_components = self.children[workout_type_id]
 
-                _workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
+                workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
 
-                _workout_type_details["name"] = workout_id_components["name"].value
-                _workout_type_details["desc"] = workout_id_components["desc"].value
-                _workout_type_details["single_set_reps"] = workout_id_components["single_set_reps"].value
+                workout_type_details["name"] = workout_id_components["name"].value
+                workout_type_details["desc"] = workout_id_components["desc"].value
+                workout_type_details["single_set_reps"] = workout_id_components["single_set_reps"].value
 
-                self.state.registered_set(_workout_type_details, "workout_type_details", [_workout_type_id])
+                self.state.registered_set(workout_type_details, "workout_type_details", [workout_type_id])
 
             self.tracker.render()
 
@@ -48,20 +48,20 @@ class WorkoutEditor(Board):
             self.children["save_all_workout_types_button"].configure(
                 state="normal" if self._unsaved_components else "disabled")
 
-        def on_change__number_stepper(_workout_type_id, stepper, increment_amount):
-            _workout_type_details = self.state.registered_get("workout_type_details", [_workout_type_id])
-            _workout_type_details["single_set_reps"] = stepper.value
+        def on_change__number_stepper(workout_type_id, stepper, increment_amount):
+            workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
+            workout_type_details["single_set_reps"] = stepper.value
 
-            self.state.registered_set(_workout_type_details, "workout_type_details", [_workout_type_id])
+            self.state.registered_set(workout_type_details, "workout_type_details", [workout_type_id])
 
-        def get_data__name(_workout_type_id, editor):
-            return self.state.registered_get("workout_type_details", [_workout_type_id])["name"]
+        def get_data__name(workout_type_id, editor):
+            return self.state.registered_get("workout_type_details", [workout_type_id])["name"]
 
-        def get_data__desc(_workout_type_id, editor):
-            return self.state.registered_get("workout_type_details", [_workout_type_id])["desc"]
+        def get_data__desc(workout_type_id, editor):
+            return self.state.registered_get("workout_type_details", [workout_type_id])["desc"]
 
-        def get_data__single_set_reps(_workout_type_id, stepper):
-            return self.state.registered_get("workout_type_details", [_workout_type_id])["single_set_reps"]
+        def get_data__single_set_reps(workout_type_id, stepper):
+            return self.state.registered_get("workout_type_details", [workout_type_id])["single_set_reps"]
 
         """
         .children is reset generically rather than via individual keys,
@@ -69,10 +69,9 @@ class WorkoutEditor(Board):
         """
         self.children.clear()
 
-        workout_types = self.tracker.state.registered_get("workout_types")
+        all_workout_types = self.tracker.state.registered_get("workout_types")
 
-        workout_type_columnspan = 3
-        column_dividers = [(x*4)+3 for x in range(len(workout_types))]
+        column_dividers = [(x*4)+3 for x in range(len(all_workout_types))]
         last_divider_column_index = max(column_dividers, default=1)  # If there are none, it takes the end of the board
 
         self._apply_frame_stretch(rows=[7], columns=[last_divider_column_index])
@@ -82,7 +81,7 @@ class WorkoutEditor(Board):
         entry_width = 13
 
         column_index = 0
-        for workout_type_id in workout_types:
+        for current_workout_type_id in all_workout_types:
             row_index = 0
 
             # ID Row
@@ -95,7 +94,7 @@ class WorkoutEditor(Board):
                 id_frame, text="id", width=title_column_char_width, anchor="w",
                 **TrackerConstants.DEFAULT_STYLES["label"])
             id_value_label = Label(
-                id_frame, text=workout_type_id, anchor="w", **TrackerConstants.DEFAULT_STYLES["label"])
+                id_frame, text=current_workout_type_id, anchor="w", **TrackerConstants.DEFAULT_STYLES["label"])
 
             id_title_label.grid(row=0, column=0, sticky="nswe")
             id_value_label.grid(row=0, column=1, sticky="nswe")
@@ -114,7 +113,7 @@ class WorkoutEditor(Board):
                 **TrackerConstants.DEFAULT_STYLES["label"])
             name_string_editor = StringEditor(
                 name_frame,
-                get_data=partial(get_data__name, workout_type_id),
+                get_data=partial(get_data__name, current_workout_type_id),
                 on_change=on_change__string_editor,
                 update_interval=TrackerConstants.INTERVAL__SHORT_DELAY,
                 styles={
@@ -154,7 +153,7 @@ class WorkoutEditor(Board):
                 **TrackerConstants.DEFAULT_STYLES["label"])
             desc_string_editor = StringEditor(
                 desc_frame,
-                get_data=partial(get_data__desc, workout_type_id),
+                get_data=partial(get_data__desc, current_workout_type_id),
                 on_change=on_change__string_editor,
                 update_interval=TrackerConstants.INTERVAL__SHORT_DELAY,
                 styles={
@@ -196,8 +195,8 @@ class WorkoutEditor(Board):
                 **TrackerConstants.DEFAULT_STYLES["label"])
             ssr_number_stepper = NumberStepper(
                 ssr_frame,
-                get_data=partial(get_data__single_set_reps, workout_type_id),
-                on_change=partial(on_change__number_stepper, workout_type_id),
+                get_data=partial(get_data__single_set_reps, current_workout_type_id),
+                on_change=partial(on_change__number_stepper, current_workout_type_id),
                 update_interval=TrackerConstants.INTERVAL__SHORT_DELAY,
                 step_amounts=(1,),
                 limits=(1, None),
@@ -216,10 +215,10 @@ class WorkoutEditor(Board):
             ssr_number_stepper.render().grid(row=0, column=1, sticky="nswe")
             ssr_frame.grid(row=row_index, column=column_index, columnspan=3, sticky="nswe")
 
-            self.children[workout_type_id] = {}
-            self.children[workout_type_id]["name"] = name_string_editor
-            self.children[workout_type_id]["desc"] = desc_string_editor
-            self.children[workout_type_id]["single_set_reps"] = ssr_number_stepper
+            self.children[current_workout_type_id] = {}
+            self.children[current_workout_type_id]["name"] = name_string_editor
+            self.children[current_workout_type_id]["desc"] = desc_string_editor
+            self.children[current_workout_type_id]["single_set_reps"] = ssr_number_stepper
 
             column_index += 4
 

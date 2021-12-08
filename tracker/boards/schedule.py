@@ -12,21 +12,21 @@ class Schedule(Board):
         return "Current Schedule"
 
     def _render(self):
-        def on_change__stepper_table(x_value, y_value, _stepper_table, increment_value):
+        def on_change__stepper_table(x_value, y_value, table, increment_value):
             active_schedule_id = self.state.registered_get("active_schedule_id")
 
             if active_schedule_id is None:
                 return
 
             self.state.registered_set(
-                _stepper_table.value, "scheduled_sets_single_entry", [active_schedule_id, x_value, y_value])
+                table.value, "scheduled_sets_single_entry", [active_schedule_id, x_value, y_value])
 
-        def get_data__stepper_table(x_value, y_value, _stepper_table):
+        def get_data__stepper_table(x_value, y_value, table):
             active_schedule_id = self.state.registered_get("active_schedule_id")
 
             if active_schedule_id is None:
-                _stepper_table.min = 0
-                _stepper_table.max = 0
+                table.min = 0
+                table.max = 0
 
                 return 0
 

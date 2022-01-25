@@ -1,2 +1,3 @@
 tkcomponents~=1.0.0
 managedstate~=1.0.0
+objectextensions~=1.1.0  # Can be removed once managedstate requires this version in its dependencies

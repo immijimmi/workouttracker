@@ -8,6 +8,7 @@ from os import path
 
 from .components import Component, GridHelper
 from .constants import Constants
+from .cls import Stopwatch
 
 
 class Tracker(Component.with_extensions(GridHelper)):
@@ -31,7 +32,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         self.state.add_listener(
             "set",
             lambda result, state_obj, *args, **kwargs: (
-                None if state_obj._extension_data.get("registered_path_label", None) == "load_file"
+                None if state_obj.extension_data.get("registered_path_label", None) == "load_file"
                 else self.save_state(self.state_file_path, catch=True)
             )
         )  # Only save if this was not a load operation
@@ -49,6 +50,8 @@ class Tracker(Component.with_extensions(GridHelper)):
         self.tips = self.state.registered_get("workout_tips")
         shuffle(self.tips)
         self.tips_index = 0
+
+        self.stopwatch = Stopwatch()
 
         # Initialise all boards
         self.boards = [board_class(self, self._frame) for board_class in self._board_handler.board_classes]
@@ -144,3 +147,8 @@ class Tracker(Component.with_extensions(GridHelper)):
             "completed_reps_single_entry",
             ["workout_log", Constants.PATH_DYNAMIC_KEY, Constants.PATH_DYNAMIC_KEY],
             [{}, {}, 0])
+
+        self.state.register(
+            "stopwatch_saved",
+            ["stopwatch", "saved"],
+            [{}, []])

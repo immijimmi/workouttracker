@@ -4,7 +4,7 @@ from tracker.boardhandlers import *
 
 class DefaultConfig:
     STATE_FILE_PATH = "data.json"
-    ICON_FILE_PATH = r"res/icon.ico"
+    ICON_FILE_PATH = r"res/"+"minimalist_dumbell_icon_scuffed.ico"
 
     BOARD_HANDLER_CLS = ResponsiveGrid
 

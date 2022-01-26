@@ -9,7 +9,9 @@ class Stopwatch:
 
     @property
     def elapsed(self) -> timedelta:
-        return self._stored_duration + (datetime.now() - (self._current_start or timedelta(0)))
+        return self._stored_duration + (
+            (datetime.now() - self._current_start) if self._current_start else timedelta(0)
+        )
 
     @property
     def is_running(self) -> bool:

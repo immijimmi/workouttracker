@@ -52,6 +52,7 @@ class Constants:
     SYMBOL_FONT = ("Bahnschrift", FONTSIZE_NORMAL)
 
     # Update Intervals
+    INTERVAL__TINY_DELAY = 20
     INTERVAL__SHORT_DELAY = 500
 
     # File Handling Errors

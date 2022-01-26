@@ -21,11 +21,6 @@ class Tracker(Component.with_extensions(GridHelper)):
 
         self._board_handler = self._config.BOARD_HANDLER_CLS(self)
 
-        # Tracker temporary variables
-        self.state_file_path = path.relpath(self._config.STATE_FILE_PATH)
-        self.is_state_unsaved = True
-        self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
-
         # State Initialisation
         self.state = State.with_extensions(Registrar, Listeners)()
         self._register_paths()
@@ -37,22 +32,28 @@ class Tracker(Component.with_extensions(GridHelper)):
             )
         )  # Only save if this was not a load operation
 
+        # Tracker temporary variables
+        self.state_file_path = path.relpath(self._config.STATE_FILE_PATH)
+        self.is_state_unsaved = True
+        self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
+
         loaded = self.load_state(self.state_file_path, catch=True)
         if loaded:
             self.is_state_unsaved = False
 
-    @property
-    def config(self):
-        return self._config
-
-    def _render(self):
         # Board-specific temporary variables
         self.tips = self.state.registered_get("workout_tips")
         shuffle(self.tips)
         self.tips_index = 0
 
         self.stopwatch = Stopwatch()
+        self.stopwatch_note = ""
 
+    @property
+    def config(self):
+        return self._config
+
+    def _render(self):
         # Initialise all boards
         self.boards = [board_class(self, self._frame) for board_class in self._board_handler.board_classes]
 

@@ -39,7 +39,7 @@ class Timer(Board):
 
         def on_change__stopwatch_save_button():
             stopwatch_entry = {
-                "datetime": datetime.now(timezone.utc).isoformat(),
+                "inserted_at": datetime.now(timezone.utc).isoformat(),
                 "duration_s": self.tracker.stopwatch.elapsed.total_seconds(),
                 "note": self.tracker.stopwatch_note
             }

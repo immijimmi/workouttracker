@@ -13,7 +13,7 @@ class App:
 
         self._window.minsize(width=200, height=0)  # Min width so that the window remains grabbable using the cursor
 
-        # Make the window expand to fill the screen
+        # Make the window expand to fit displayed content
         self._window.columnconfigure(0, weight=1)
         self._window.rowconfigure(0, weight=1)
 

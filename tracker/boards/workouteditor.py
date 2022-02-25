@@ -115,7 +115,7 @@ class WorkoutEditor(Board):
                 name_frame,
                 get_data=partial(get_data__name, current_workout_type_id),
                 on_change=on_change__string_editor,
-                update_interval=TrackerConstants.INTERVAL__SHORT_DELAY,
+                update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
                 styles={
                     "frame": {
                         "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
@@ -155,7 +155,7 @@ class WorkoutEditor(Board):
                 desc_frame,
                 get_data=partial(get_data__desc, current_workout_type_id),
                 on_change=on_change__string_editor,
-                update_interval=TrackerConstants.INTERVAL__SHORT_DELAY,
+                update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
                 styles={
                     "frame": {
                         "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
@@ -197,7 +197,7 @@ class WorkoutEditor(Board):
                 ssr_frame,
                 get_data=partial(get_data__single_set_reps, current_workout_type_id),
                 on_change=partial(on_change__number_stepper, current_workout_type_id),
-                update_interval=TrackerConstants.INTERVAL__SHORT_DELAY,
+                update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
                 step_amounts=(1,),
                 limits=(1, None),
                 styles={

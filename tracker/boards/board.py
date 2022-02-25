@@ -5,13 +5,13 @@ from ..constants import Constants as TrackerConstants
 
 
 class Board(Component.with_extensions(GridHelper), ABC):
-    def __init__(self, tracker, container, update_interval=None):
+    def __init__(self, tracker, container, update_interval_ms=None):
         board_specific_colours = TrackerConstants.BOARD_SPECIFIC_COLOURS.get(
             type(self).__name__,
             TrackerConstants.DEFAULT_STYLES["board_specific_colours"]
         )
 
-        super().__init__(container, update_interval=update_interval, styles={
+        super().__init__(container, update_interval_ms=update_interval_ms, styles={
             "frame": {
                 "borderwidth": TrackerConstants.BORDERWIDTH__TINY,
                 "relief": "sunken",

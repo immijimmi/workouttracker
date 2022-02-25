@@ -83,7 +83,7 @@ class ScheduleEditor(Board):
             name_frame,
             get_data=get_data__string_editor,
             on_change=on_change__string_editor,
-            update_interval=TrackerConstants.INTERVAL__SHORT_DELAY,
+            update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
             styles={
                 "frame": {
                     "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],

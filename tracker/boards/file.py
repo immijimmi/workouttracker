@@ -11,7 +11,7 @@ from .board import Board
 
 class File(Board):
     def __init__(self, tracker, container):
-        super().__init__(tracker, container, update_interval=TrackerConstants.INTERVAL__SHORT_DELAY)
+        super().__init__(tracker, container, update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY)
 
         self.active_alerts = {}
 

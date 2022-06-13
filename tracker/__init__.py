@@ -1,3 +1,3 @@
 from .app import App
-from .config import DefaultConfig
+from .config import Config
 from .constants import Constants

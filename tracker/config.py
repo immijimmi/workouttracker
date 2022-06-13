@@ -2,7 +2,7 @@ from .boards import *
 from .boardhandlers import *
 
 
-class DefaultConfig:
+class Config:
     STATE_FILE_PATH = "data.json"
     ICON_FILE_PATH = r"res/"+"minimalist_dumbell_icon_scuffed.ico"
 

@@ -1,5 +1,5 @@
-from tracker.boards import *
-from tracker.boardhandlers import *
+from .boards import *
+from .boardhandlers import *
 
 
 class DefaultConfig:

@@ -2,4 +2,4 @@
 
 cd ..
 
-start pythonw -m tracker
+start pythonw -m workouttracker

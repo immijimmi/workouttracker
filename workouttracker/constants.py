@@ -1,12 +1,9 @@
 from managedstate.extensions import PartialQuery
 
-from os import path
 from json import decoder
 
 
 class Constants:
-    TRACKER_DIR_PATH = path.dirname(path.dirname(__file__))
-
     WEEKDAY_KEY_STRINGS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
     PATH_DYNAMIC_KEY = PartialQuery(lambda key: key)

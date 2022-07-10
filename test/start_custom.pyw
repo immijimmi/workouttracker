@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.insert(0, os.path.dirname(os.getcwd()))
 
-from tracker import App, Config
+from workouttracker import App, Config
 
 
 class CustomConfig(Config):

@@ -1,20 +1,14 @@
-from os import path
+from importlib import resources
 
 from .boards import *
 from .boardhandlers import *
-from .constants import Constants
 
 
 class Config:
-    STATE_FILE_PATH = path.join(
-        Constants.TRACKER_DIR_PATH,
-        "data.json"
-    )
-    ICON_FILE_PATH = path.join(
-        Constants.TRACKER_DIR_PATH,
-        "res",
-        "minimalist_dumbell_icon_scuffed.ico"
-    )
+    STATE_FILE_PATH = "data.json"
+
+    with resources.path("workouttracker.res", "icon.ico") as path:
+        ICON_FILE_PATH = path
 
     BOARD_HANDLER_CLS = ResponsiveGrid
 

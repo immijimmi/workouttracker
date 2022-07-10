@@ -8,11 +8,12 @@ from os import path
 
 from .components import Component, GridHelper
 from .constants import Constants
-from .cls import Stopwatch
+from .stopwatch import Stopwatch
+from .config import Config
 
 
 class Tracker(Component.with_extensions(GridHelper)):
-    def __init__(self, container, config):
+    def __init__(self, container, config=Config):
         super().__init__(container, styles={
             "frame": {"bg": Constants.DEFAULT_STYLE_ARGS["bg"]}
         })

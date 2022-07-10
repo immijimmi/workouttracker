@@ -1,4 +1,4 @@
-from typing import Set, Type, Dict
+from typing import Set, Dict
 
 from .boardhandler import BoardHandler
 
@@ -8,11 +8,6 @@ class ResponsiveGrid(BoardHandler):
         super().__init__(tracker)
 
         self._grid_layout = self.tracker.config.BOARDS_GRID_LAYOUT
-        self._board_classes = set(self._grid_layout.keys())
-
-    @property
-    def board_classes(self) -> Set[Type["Board"]]:
-        return self._board_classes
 
     def arrange_boards(self) -> Dict[str, Set[int]]:
         def can_move_board(layout, coords_list_lookup, board_cls, offset):

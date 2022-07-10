@@ -56,7 +56,7 @@ class Tracker(Component.with_extensions(GridHelper)):
 
     def _render(self):
         # Initialise all boards
-        self.boards = [board_class(self, self._frame) for board_class in self._board_handler.board_classes]
+        self.boards = {board_class(self, self._frame) for board_class in self._config.BOARDS_LIST}
 
         frame_stretch = self._board_handler.arrange_boards()
         self._apply_frame_stretch(**frame_stretch)

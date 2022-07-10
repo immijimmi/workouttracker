@@ -49,7 +49,7 @@ class BoardController(Board):
         if self._full_view:
             other_boards = sorted(
                 [board for board in self.tracker.boards if type(board) != BoardController],
-                key=lambda board: config.BOARDS_LIST_ORDER.index(type(board))
+                key=lambda board: config.BOARDS_LIST.index(type(board))
             )
 
             for other_board in other_boards:

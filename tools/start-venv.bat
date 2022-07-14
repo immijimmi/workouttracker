@@ -2,5 +2,4 @@
 :: Requires a venv with compatible dependencies for the project to be installed under \venv
 
 cd ..
-
 start venv\Scripts\pythonw -m workouttracker

@@ -122,20 +122,20 @@ class Tracker(Component.with_extensions(GridHelper)):
         self.state.registered_set(workout_types, "workout_types")
 
     def _register_paths(self):
-        self.state.register("load_file", [], [])  # Used to add metadata for listeners
+        self.state.register_path("load_file", [], [])  # Used to add metadata for listeners
 
-        self.state.register("settings", ["settings"], [{}])
-        self.state.register("active_schedule_id", ["settings", "active_schedule_id"], [{}, None])
+        self.state.register_path("settings", ["settings"], [{}])
+        self.state.register_path("active_schedule_id", ["settings", "active_schedule_id"], [{}, None])
 
-        self.state.register("workout_tips", ["workout_tips"], [[Constants.TIP_PLACEHOLDER]])
+        self.state.register_path("workout_tips", ["workout_tips"], [[Constants.TIP_PLACEHOLDER]])
 
-        self.state.register("workout_types", ["workout_types"], [{}])
-        self.state.register("workout_type_details", ["workout_types", Constants.PATH_DYNAMIC_KEY], [{}, {}])
+        self.state.register_path("workout_types", ["workout_types"], [{}])
+        self.state.register_path("workout_type_details", ["workout_types", Constants.PATH_DYNAMIC_KEY], [{}, {}])
 
-        self.state.register("workout_schedules", ["workout_schedules"], [{}])
-        self.state.register(
+        self.state.register_path("workout_schedules", ["workout_schedules"], [{}])
+        self.state.register_path(
             "workout_schedule", ["workout_schedules", Constants.PATH_DYNAMIC_KEY], [{}, {}])
-        self.state.register(
+        self.state.register_path(
             "scheduled_sets_single_entry",
             [
                 "workout_schedules",
@@ -145,12 +145,12 @@ class Tracker(Component.with_extensions(GridHelper)):
                 Constants.PATH_DYNAMIC_KEY
             ],
             [{}, {}, {}, {}, 0])
-        self.state.register(
+        self.state.register_path(
             "completed_reps_single_entry",
             ["workout_log", Constants.PATH_DYNAMIC_KEY, Constants.PATH_DYNAMIC_KEY],
             [{}, {}, 0])
 
-        self.state.register(
+        self.state.register_path(
             "stopwatch_saved",
             ["stopwatch", "saved"],
             [{}, []])

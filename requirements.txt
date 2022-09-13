@@ -1,2 +1,2 @@
 tkcomponents~=2.1.1
-managedstate~=2.1.1
+managedstate~=3.0.0

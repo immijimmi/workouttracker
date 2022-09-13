@@ -11,5 +11,3 @@ class CustomConfig(Config):
 
 if __name__ == "__main__":
     App(config=CustomConfig)
-
-    raise SystemExit

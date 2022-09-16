@@ -68,9 +68,10 @@ class ResponsiveGrid(BoardHandler):
                         x = board_layout["column"] + column_offset
                         y = board_layout["row"] + row_offset
                         if grid_layout[x][y] is not None:
-                            raise ValueError("Boards '{0}' and '{1}' are in the same cell: ({2}, {3})".format(
-                                current_board_cls, grid_layout[x][y], x, y
-                            ))
+                            raise ValueError(
+                                f"boards `{current_board_cls.__name__}` and `{grid_layout[x][y].__name__}` "
+                                f"are in the same cell: ({x}, {y})"
+                            )
 
                         grid_layout[x][y] = current_board_cls
                         board_coords[current_board_cls] = board_coords.get(current_board_cls, []) + [(x, y)]

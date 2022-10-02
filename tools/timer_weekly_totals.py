@@ -9,6 +9,7 @@ Provides a summary of the total time logged using the workout tracker's timer pe
 """
 
 NUMBER_OF_WEEKS = 52
+FILENAME = "data.json"
 
 
 def get_week_start(start_value: date) -> date:
@@ -18,10 +19,8 @@ def get_week_start(start_value: date) -> date:
     return start_value - timedelta(days=start_value.weekday())
 
 
-filename = "data.json"
-
 chdir("..")
-with open(filename, "r") as file:
+with open(FILENAME, "r") as file:
     tracker_state = State(loads(file.read()))
 
     stopwatch_entries = tracker_state.get()["stopwatch"]["saved"]

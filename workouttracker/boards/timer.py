@@ -1,7 +1,8 @@
+from tkcomponents.basiccomponents import ToggleButton, LabelWrapper, StringEditor
+
 from tkinter import Button
 from datetime import datetime, timezone
 
-from ..components import ToggleButton, LabelWrapper, StringEditor
 from ..constants import Constants as TrackerConstants
 from .board import Board
 

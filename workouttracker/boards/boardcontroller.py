@@ -1,7 +1,8 @@
+from tkcomponents.basiccomponents import ToggleButton
+
 from tkinter import Label
 from functools import partial
 
-from ..components import ToggleButton
 from ..constants import Constants as TrackerConstants
 from .board import Board
 

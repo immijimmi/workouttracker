@@ -1,6 +1,8 @@
+from tkcomponents import Component
+from tkcomponents.extensions import GridHelper
+
 from abc import ABC
 
-from ..components import Component, GridHelper
 from ..constants import Constants as TrackerConstants
 
 

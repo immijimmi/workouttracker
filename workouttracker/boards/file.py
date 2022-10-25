@@ -1,3 +1,5 @@
+from tkcomponents.basiccomponents import Alert
+
 from datetime import datetime
 from functools import partial
 from os import path
@@ -5,7 +7,6 @@ from tkinter import Label, Button, StringVar
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
 from ..constants import Constants as TrackerConstants
-from ..components import Alert
 from .board import Board
 
 

@@ -1,6 +1,8 @@
+from tkcomponents.basiccomponents import StringEditor
+
 from tkinter import Frame, Label, Button
 
-from ..components import SchedulePicker, StringEditor
+from ..components import SchedulePicker
 from ..constants import Constants as TrackerConstants
 from .board import Board
 

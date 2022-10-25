@@ -1,8 +1,9 @@
+from tkcomponents.basiccomponents import StringEditor, NumberStepper
+
 from tkinter import Frame, Label, Button
 from functools import partial
 
 from .board import Board
-from ..components import StringEditor, NumberStepper
 from ..constants import Constants as TrackerConstants
 
 

@@ -1,4 +1,5 @@
-from ..components import SchedulePicker, NumberStepperTable
+from tkcomponents.basiccomponents import NumberStepperTable
+
 from ..constants import Constants as TrackerConstants
 from .board import Board
 

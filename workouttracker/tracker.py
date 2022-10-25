@@ -1,12 +1,13 @@
 from managedstate import State
 from managedstate.extensions import Registrar, Listeners
+from tkcomponents import Component
+from tkcomponents.extensions import GridHelper
 
 import json
 from random import shuffle
 from logging import warning
 from os import path
 
-from .components import Component, GridHelper
 from .constants import Constants
 from .stopwatch import Stopwatch
 from .config import Config

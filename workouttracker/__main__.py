@@ -1,3 +1,3 @@
-from .__init__ import *
+from .__init__ import App
 
 App()

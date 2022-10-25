@@ -1,4 +1,5 @@
-from .basiccomponents import ButtonListBox
+from tkcomponents.basiccomponents import ButtonListBox
+
 from ..constants import Constants as TrackerConstants
 
 

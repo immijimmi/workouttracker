@@ -28,7 +28,6 @@ class Board(Component.with_extensions(GridHelper), ABC):
         }
 
         self.tracker = tracker
-
         self.state = self.tracker.state
 
     @property

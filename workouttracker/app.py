@@ -17,7 +17,7 @@ class App:
         self._window.columnconfigure(0, weight=1)
         self._window.rowconfigure(0, weight=1)
 
-        self.tracker = Tracker(self._window, config)
+        self.tracker = Tracker(self._window, config=config)
         self.tracker.render().grid(sticky="nswe")
 
         self._window.mainloop()

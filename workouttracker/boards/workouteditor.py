@@ -81,6 +81,11 @@ class WorkoutEditor(Board):
         title_column_char_width = 8
         entry_width = 13
 
+        value_column_styles = {
+            "padx": TrackerConstants.DEFAULT_STYLE_ARGS["padx"],
+            "pady": TrackerConstants.DEFAULT_STYLE_ARGS["pady"]
+        }
+
         column_index = 0
         for current_workout_type_id in all_workout_types:
             row_index = 0
@@ -88,14 +93,22 @@ class WorkoutEditor(Board):
             # ID Row
             id_frame = Frame(
                 self._frame,
-                bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                **TrackerConstants.DEFAULT_STYLES["highlight"]
+                **{
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                    **TrackerConstants.DEFAULT_STYLES["highlight"]
+                }
             )
             id_title_label = Label(
                 id_frame, text="id", width=title_column_char_width, anchor="w",
-                **TrackerConstants.DEFAULT_STYLES["label"])
+                **TrackerConstants.DEFAULT_STYLES["label"]
+            )
             id_value_label = Label(
-                id_frame, text=current_workout_type_id, anchor="w", **TrackerConstants.DEFAULT_STYLES["label"])
+                id_frame, text=current_workout_type_id, anchor="w",
+                **{
+                    **TrackerConstants.DEFAULT_STYLES["label"],
+                    **value_column_styles
+                }
+            )
 
             id_title_label.grid(row=0, column=0, sticky="nswe")
             id_value_label.grid(row=0, column=1, sticky="nswe")
@@ -106,12 +119,15 @@ class WorkoutEditor(Board):
             # Name Row
             name_frame = Frame(
                 self._frame,
-                bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                **TrackerConstants.DEFAULT_STYLES["highlight"]
+                **{
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                    **TrackerConstants.DEFAULT_STYLES["highlight"]
+                }
             )
             name_title_label = Label(
                 name_frame, text="name", width=title_column_char_width, anchor="w",
-                **TrackerConstants.DEFAULT_STYLES["label"])
+                **TrackerConstants.DEFAULT_STYLES["label"]
+            )
             name_string_editor = StringEditor(
                 name_frame,
                 get_data=partial(get_data__name, current_workout_type_id),
@@ -120,8 +136,7 @@ class WorkoutEditor(Board):
                 styles={
                     "frame": {
                         "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                        "padx": TrackerConstants.DEFAULT_STYLE_ARGS["padx"],
-                        "pady": TrackerConstants.DEFAULT_STYLE_ARGS["pady"],
+                        **value_column_styles
                     },
                     "entry": {
                         "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
@@ -146,12 +161,15 @@ class WorkoutEditor(Board):
             # Desc Row
             desc_frame = Frame(
                 self._frame,
-                bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                **TrackerConstants.DEFAULT_STYLES["highlight"]
+                **{
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                    **TrackerConstants.DEFAULT_STYLES["highlight"]
+                }
             )
             desc_title_label = Label(
                 desc_frame, text="desc", width=title_column_char_width, anchor="w",
-                **TrackerConstants.DEFAULT_STYLES["label"])
+                **TrackerConstants.DEFAULT_STYLES["label"]
+            )
             desc_string_editor = StringEditor(
                 desc_frame,
                 get_data=partial(get_data__desc, current_workout_type_id),
@@ -160,8 +178,7 @@ class WorkoutEditor(Board):
                 styles={
                     "frame": {
                         "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                        "padx": TrackerConstants.DEFAULT_STYLE_ARGS["padx"],
-                        "pady": TrackerConstants.DEFAULT_STYLE_ARGS["pady"],
+                        **value_column_styles
                     },
                     "entry": {
                         "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
@@ -186,10 +203,10 @@ class WorkoutEditor(Board):
             # Single Set Reps Row
             ssr_frame = Frame(
                 self._frame,
-                bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                **TrackerConstants.DEFAULT_STYLES["highlight"],
-                padx=TrackerConstants.DEFAULT_STYLE_ARGS["padx"],
-                pady=TrackerConstants.DEFAULT_STYLE_ARGS["pady"]
+                **{
+                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                    **TrackerConstants.DEFAULT_STYLES["highlight"]
+                }
             )
             ssr_title_label = Label(
                 ssr_frame, text="reps/set", width=title_column_char_width, anchor="w",
@@ -202,6 +219,10 @@ class WorkoutEditor(Board):
                 step_amounts=(1,),
                 limits=(1, None),
                 styles={
+                    "frame": {
+                        "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                        **value_column_styles
+                    },
                     "label": {
                         **TrackerConstants.DEFAULT_STYLES["label"],
                         **TrackerConstants.DEFAULT_STYLES["highlight"],

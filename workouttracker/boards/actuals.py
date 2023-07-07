@@ -110,7 +110,7 @@ class Actuals(Board):
                 "label": {
                     **TrackerConstants.DEFAULT_STYLES["label"],
                     **TrackerConstants.DEFAULT_STYLES["highlight"],
-                    "width": 30  # Extra room left to keep the size somewhat constant between dates
+                    "width": 36  # Extra room left to keep the size somewhat constant between dates
                 },
                 "button": {
                     **TrackerConstants.DEFAULT_STYLES["symbol_button"]
@@ -160,7 +160,7 @@ class Actuals(Board):
 
             column_index = 1
             row_index += 1
-            Label(self._frame, text=current_workout_name, width=24,
+            Label(self._frame, text=current_workout_name, anchor="w", width=30,
                   **{
                       **TrackerConstants.DEFAULT_STYLES["label"],
                       "bg": self.styles["board_specific"]["bg"]
@@ -174,6 +174,7 @@ class Actuals(Board):
                 update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
                 styles={
                     "label": {
+                        "anchor": "e",
                         "width": 4,
                         **TrackerConstants.DEFAULT_STYLES["label"],
                         "bg": self.styles["board_specific"]["bg"]

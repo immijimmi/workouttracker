@@ -90,20 +90,20 @@ class File(Board):
                 on_expire=on_expire__alert,
                 styles={
                     "frame": {
-                        **self.theme.DEFAULT_STYLES["highlight"],
-                        "bg": self.theme.DEFAULT_STYLE_ARGS["bg"],
+                        **self.theme.STANDARD_STYLES["highlight"],
+                        "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
                     },
                     "inner_frame": {
-                        "bg": self.theme.DEFAULT_STYLE_ARGS["bg"],
+                        "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
                         "padx": TrackerConstants.PAD__TINY_SMALL,
                         "pady": TrackerConstants.PAD__TINY_SMALL
                     },
                     "label": {
-                        **self.theme.DEFAULT_STYLES["label"],
+                        **self.theme.STANDARD_STYLES["label"],
                         "font": TrackerConstants.SMALL_ITALICS_FONT
                     },
                     "button": {
-                        **self.theme.DEFAULT_STYLES["symbol_button"],
+                        **self.theme.STANDARD_STYLES["symbol_button"],
                     },
                     "progress_bar": {
                         "filled_bar_frame": {"bg": TrackerConstants.COLOURS["cool_less_dark_grey"]},
@@ -117,35 +117,35 @@ class File(Board):
         row_index += 2
         Label(self._frame, text="Save Location",
               **{
-                  **self.theme.DEFAULT_STYLES["label"],
-                  "bg": self.styles["board_specific"]["bg"]
+                  **self.theme.STANDARD_STYLES["label"],
+                  "bg": self.styles["board_args"]["bg"]
               }
               ).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 1
         path_label = Label(self._frame, textvariable=self._file_path__var,
-                           **self.theme.DEFAULT_STYLES["label"], **self.theme.DEFAULT_STYLES["highlight"])
+                           **self.theme.STANDARD_STYLES["label"], **self.theme.STANDARD_STYLES["highlight"])
         self.children["file_path_label"] = path_label
         self._set_path_label_style()
         path_label.grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
         Button(self._frame, text="Open...", width=8, command=lambda: set_file_config("Open"),
-               **self.theme.DEFAULT_STYLES["button"]
+               **self.theme.STANDARD_STYLES["button"]
                ).grid(row=row_index, column=1, sticky="nswe")
 
         Button(self._frame, text="Import...", width=8, command=lambda: set_file_config("Import"),
-               **self.theme.DEFAULT_STYLES["button"]
+               **self.theme.STANDARD_STYLES["button"]
                ).grid(row=row_index, column=2, sticky="nswe")
 
         Button(self._frame, text="Save As...", width=8, command=lambda: set_file_config("Save As"),
-               **self.theme.DEFAULT_STYLES["button"]
+               **self.theme.STANDARD_STYLES["button"]
                ).grid(row=row_index, column=3, sticky="nswe")
 
     def _set_path_label_style(self):
         style = (
-            {**self.theme.DEFAULT_STYLES["text_unsaved"]} if self.tracker.is_state_unsaved else
-            {**self.theme.DEFAULT_STYLES["text_saved"]}
+            {**self.theme.STANDARD_STYLES["text_unsaved"]} if self.tracker.is_state_unsaved else
+            {**self.theme.STANDARD_STYLES["text_saved"]}
         )
 
         self.children["file_path_label"].config(**style)

@@ -12,23 +12,23 @@ class Board(Component.with_extensions(GridHelper), ABC):
         self._state = self.tracker.state
         self._theme = self.tracker.config.Theme
 
-        board_specific_colours = TrackerConstants.BOARD_SPECIFIC_COLOURS.get(
+        board_style_args = self.theme.BOARD_STYLE_ARGS.get(
             type(self).__name__,
-            self.theme.DEFAULT_STYLES["board_specific_colours"]
+            self.theme.STANDARD_STYLES["board_args"]
         )
 
         super().__init__(container, update_interval_ms=update_interval_ms, styles={
             "frame": {
                 "borderwidth": TrackerConstants.BORDERWIDTH__TINY,
                 "relief": "sunken",
-                "bg": board_specific_colours["bg"],
+                "bg": board_style_args["bg"],
                 "padx": TrackerConstants.PAD__SMALL,
                 "pady": TrackerConstants.PAD__SMALL
             }
         })
 
-        self.styles["board_specific"] = {
-            **board_specific_colours
+        self.styles["board_args"] = {
+            **board_style_args
         }
 
     @property

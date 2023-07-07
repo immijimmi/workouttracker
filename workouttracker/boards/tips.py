@@ -25,10 +25,10 @@ class Tips(Board):
             index=self.tracker.tips_index,
             styles={
                 "button": {
-                    **self.theme.DEFAULT_STYLES["symbol_button"]
+                    **self.theme.STANDARD_STYLES["symbol_button"]
                 },
                 "label": {
-                    **self.theme.DEFAULT_STYLES["paragraph"]
+                    **self.theme.STANDARD_STYLES["paragraph"]
                 }
             }
         ).render().grid(row=0, column=0, sticky="nswe")

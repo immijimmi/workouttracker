@@ -30,7 +30,7 @@ class Actuals(Board):
             elif actual_sets == scheduled_sets and actual_sets > 0:
                 return TrackerConstants.COLOURS["blue"]
             elif actual_sets == scheduled_sets:
-                return self.theme.DEFAULT_STYLE_ARGS["fg"]
+                return self.theme.STANDARD_STYLE_ARGS["fg"]
             elif actual_sets > 0:
                 return TrackerConstants.COLOURS["yellow"]
             else:
@@ -108,12 +108,12 @@ class Actuals(Board):
             update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
             styles={
                 "label": {
-                    **self.theme.DEFAULT_STYLES["label"],
-                    **self.theme.DEFAULT_STYLES["highlight"],
+                    **self.theme.STANDARD_STYLES["label"],
+                    **self.theme.STANDARD_STYLES["highlight"],
                     "width": 36  # Extra room left to keep the size somewhat constant between dates
                 },
                 "button": {
-                    **self.theme.DEFAULT_STYLES["symbol_button"]
+                    **self.theme.STANDARD_STYLES["symbol_button"]
                 }
             }
         )
@@ -162,8 +162,8 @@ class Actuals(Board):
             row_index += 1
             Label(self._frame, text=current_workout_name, anchor="w", width=30,
                   **{
-                      **self.theme.DEFAULT_STYLES["label"],
-                      "bg": self.styles["board_specific"]["bg"]
+                      **self.theme.STANDARD_STYLES["label"],
+                      "bg": self.styles["board_args"]["bg"]
                   }).grid(row=row_index, column=column_index, sticky="nswe")
 
             column_index += 1
@@ -176,8 +176,8 @@ class Actuals(Board):
                     "label": {
                         "anchor": "e",
                         "width": 4,
-                        **self.theme.DEFAULT_STYLES["label"],
-                        "bg": self.styles["board_specific"]["bg"]
+                        **self.theme.STANDARD_STYLES["label"],
+                        "bg": self.styles["board_args"]["bg"]
                     },
                 }
             )
@@ -195,14 +195,14 @@ class Actuals(Board):
                 limits=(0, None),
                 styles={
                     "label": {
-                        **self.theme.DEFAULT_STYLES["label"],
-                        **self.theme.DEFAULT_STYLES["highlight"],
+                        **self.theme.STANDARD_STYLES["label"],
+                        **self.theme.STANDARD_STYLES["highlight"],
                         "width": 10,
                         "bg": workout_status_color,
                         "fg": TrackerConstants.COLOURS["cool_dark_grey"]
                     },
                     "button": {
-                        **self.theme.DEFAULT_STYLES["symbol_button"]
+                        **self.theme.STANDARD_STYLES["symbol_button"]
                     }
                 }
             )
@@ -216,7 +216,7 @@ class Actuals(Board):
                 on_change=partial(toggle_workout_desc, current_workout_type_id),
                 styles={
                     "button": {
-                        **self.theme.DEFAULT_STYLES["button"],
+                        **self.theme.STANDARD_STYLES["button"],
                         "state": ("disabled" if current_workout_desc == "" else "normal")
                     }
                 }
@@ -226,7 +226,7 @@ class Actuals(Board):
                 row_index += 1
                 Label(
                     self._frame, text=current_workout_desc,
-                    **self.theme.DEFAULT_STYLES["paragraph"], **self.theme.DEFAULT_STYLES["highlight"],
+                    **self.theme.STANDARD_STYLES["paragraph"], **self.theme.STANDARD_STYLES["highlight"],
                 ).grid(row=row_index, column=0, columnspan=9, sticky="nswe")
 
         row_index += 1

@@ -68,7 +68,7 @@ class Timer(Board):
             on_change=on_change__stopwatch_start_button,
             styles={
                     "button": {
-                        **self.theme.DEFAULT_STYLES["button"],
+                        **self.theme.STANDARD_STYLES["button"],
                         "width": 6
                     }
                 }
@@ -82,7 +82,7 @@ class Timer(Board):
             width=6,
             command=on_change__stopwatch_reset_button,
             state=("disabled" if self.tracker.stopwatch.is_running else "normal"),
-            **self.theme.DEFAULT_STYLES["button"]
+            **self.theme.STANDARD_STYLES["button"]
         )
         stopwatch_reset_button.grid(row=1, column=2, sticky="nswe")
         self.children["stopwatch_reset_button"] = stopwatch_reset_button
@@ -93,8 +93,8 @@ class Timer(Board):
             update_interval_ms=TrackerConstants.INTERVAL__TINY_DELAY,
             styles={
                 "label": {
-                    **self.theme.DEFAULT_STYLES["label"],
-                    **self.theme.DEFAULT_STYLES["highlight"],
+                    **self.theme.STANDARD_STYLES["label"],
+                    **self.theme.STANDARD_STYLES["highlight"],
                     "anchor": "w"
                 }
             }
@@ -108,17 +108,17 @@ class Timer(Board):
             on_change=on_change__stopwatch_note_editor,
             styles={
                 "frame": {
-                    "bg": self.theme.DEFAULT_STYLE_ARGS["bg"],
-                    "padx": self.theme.DEFAULT_STYLE_ARGS["padx"],
-                    "pady": self.theme.DEFAULT_STYLE_ARGS["pady"],
-                    **self.theme.DEFAULT_STYLES["highlight"]
+                    "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
+                    "padx": self.theme.STANDARD_STYLE_ARGS["padx"],
+                    "pady": self.theme.STANDARD_STYLE_ARGS["pady"],
+                    **self.theme.STANDARD_STYLES["highlight"]
                 },
                 "entry": {
                     "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
-                    "font": self.theme.DEFAULT_STYLE_ARGS["font"],
-                    "insertbackground": self.theme.DEFAULT_STYLE_ARGS["fg"],
+                    "font": self.theme.STANDARD_STYLE_ARGS["font"],
+                    "insertbackground": self.theme.STANDARD_STYLE_ARGS["fg"],
                     "width": 5,
-                    "fg": self.theme.DEFAULT_STYLE_ARGS["fg"]
+                    "fg": self.theme.STANDARD_STYLE_ARGS["fg"]
                 }
             }
         )
@@ -131,7 +131,7 @@ class Timer(Board):
             width=6,
             command=on_change__stopwatch_save_button,
             state="disabled" if self.tracker.stopwatch.is_running else "normal",
-            **self.theme.DEFAULT_STYLES["button"]
+            **self.theme.STANDARD_STYLES["button"]
         )
         stopwatch_save_button.grid(row=3, column=2, sticky="nswe")
         self.children["stopwatch_save_button"] = stopwatch_save_button

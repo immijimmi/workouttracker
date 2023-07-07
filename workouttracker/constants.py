@@ -82,39 +82,3 @@ class Constants:
         "cool_less_dark_grey_white_tint": "#54545A",  # #46464C@255 + #FFFFFF@20
         "tk_default_grey": "#f0f0f0"
     }
-
-    BOARD_SPECIFIC_COLOURS = {  # The keys used here are the class names of each board
-        # Meta boards
-        "BoardController": {
-            "bg": COLOURS["cool_dark_grey_green_tint"],
-            "highlight": COLOURS["cool_less_dark_grey_green_tint"]
-        },
-        "File": {
-            "bg": COLOURS["cool_dark_grey_green_tint"],
-            "highlight": COLOURS["cool_less_dark_grey_green_tint"]
-        },
-
-        # Editor boards
-        "Schedule": {
-            "bg": COLOURS["cool_dark_grey_yellow_tint"],
-            "highlight": COLOURS["cool_less_dark_grey_yellow_tint"]
-        },
-        "SchedulesEditor": {
-            "bg": COLOURS["cool_dark_grey_yellow_tint"],
-            "highlight": COLOURS["cool_less_dark_grey_yellow_tint"]
-        },
-        "WorkoutsEditor": {
-            "bg": COLOURS["cool_dark_grey_yellow_tint"],
-            "highlight": COLOURS["cool_less_dark_grey_yellow_tint"]
-        },
-
-        # Tracking boards
-        "Actuals": {
-            "bg": COLOURS["cool_dark_grey_blue_tint"],
-            "highlight": COLOURS["cool_less_dark_grey_blue_tint"]
-        },
-        "Timer": {
-            "bg": COLOURS["cool_dark_grey_blue_tint"],
-            "highlight": COLOURS["cool_less_dark_grey_blue_tint"]
-        }
-    }

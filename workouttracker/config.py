@@ -17,7 +17,7 @@ class Config:
     INITIAL_BOARDS_VISIBLE = {BoardController}
     BOARD_HANDLER_CLS = ResponsiveGrid
 
-    # Board Handler-Specific Details
+    # Board handler-specific details
     BOARDS_GRID_LAYOUT = {  # Row and column must be provided. rowspan and columnspan are defaulted to 1 if not provided
         BoardController: {"row": 0, "column": 0, "rowspan": 3},
         Actuals: {"row": 0, "column": 1, "rowspan": 2, "columnspan": 7},
@@ -30,32 +30,33 @@ class Config:
     }  # Note that boards can end up truncated if not given enough rows or columns
 
     class Theme:
-        DEFAULT_STYLE_ARGS = {
+        STANDARD_STYLE_ARGS = {
             "fg": Constants.COLOURS["cool_off_white"],
             "bg": Constants.COLOURS["cool_dark_grey"],
             "font": Constants.NORMAL_FONT,
             "padx": Constants.PAD__SMALL,
-            "pady": Constants.PAD__SMALL
+            "pady": Constants.PAD__SMALL,
+            "highlight": Constants.COLOURS["cool_less_dark_grey"]
         }
 
-        DEFAULT_STYLES = {
+        STANDARD_STYLES = {
             "label": {
-                "font": DEFAULT_STYLE_ARGS["font"],
-                "fg": DEFAULT_STYLE_ARGS["fg"],
-                "bg": DEFAULT_STYLE_ARGS["bg"],
-                "padx": DEFAULT_STYLE_ARGS["padx"],
-                "pady": DEFAULT_STYLE_ARGS["pady"]
+                "font": STANDARD_STYLE_ARGS["font"],
+                "fg": STANDARD_STYLE_ARGS["fg"],
+                "bg": STANDARD_STYLE_ARGS["bg"],
+                "padx": STANDARD_STYLE_ARGS["padx"],
+                "pady": STANDARD_STYLE_ARGS["pady"]
             },
             "button": {
-                "font": DEFAULT_STYLE_ARGS["font"],
-                "fg": DEFAULT_STYLE_ARGS["fg"],
-                "bg": DEFAULT_STYLE_ARGS["bg"],
-                "padx": DEFAULT_STYLE_ARGS["padx"],
+                "font": STANDARD_STYLE_ARGS["font"],
+                "fg": STANDARD_STYLE_ARGS["fg"],
+                "bg": STANDARD_STYLE_ARGS["bg"],
+                "padx": STANDARD_STYLE_ARGS["padx"],
             },
             "symbol_button": {
-                "font": DEFAULT_STYLE_ARGS["font"],
-                "fg": DEFAULT_STYLE_ARGS["fg"],
-                "bg": DEFAULT_STYLE_ARGS["bg"],
+                "font": STANDARD_STYLE_ARGS["font"],
+                "fg": STANDARD_STYLE_ARGS["fg"],
+                "bg": STANDARD_STYLE_ARGS["bg"],
                 "padx": Constants.PAD__NORMAL,
                 "width": 1
             },
@@ -65,17 +66,53 @@ class Config:
             },
             "paragraph": {
                 "font": Constants.SMALL_ITALICS_FONT,
-                "fg": DEFAULT_STYLE_ARGS["fg"],
-                "bg": DEFAULT_STYLE_ARGS["bg"]
-            },
-            "board_specific_colours": {
-                "bg": DEFAULT_STYLE_ARGS["bg"],
-                "highlight": Constants.COLOURS["cool_less_dark_grey"]
+                "fg": STANDARD_STYLE_ARGS["fg"],
+                "bg": STANDARD_STYLE_ARGS["bg"]
             },
             "text_unsaved": {
                 "fg": Constants.COLOURS["yellow"]
             },
             "text_saved": {
-                "fg": DEFAULT_STYLE_ARGS["fg"],
+                "fg": STANDARD_STYLE_ARGS["fg"],
+            },
+            "board_args": {
+                "bg": STANDARD_STYLE_ARGS["bg"],
+                "highlight": STANDARD_STYLE_ARGS["highlight"]
+            }
+        }
+
+        BOARD_STYLE_ARGS = {  # The keys used here are the class names of each board
+            # Meta boards
+            "BoardController": {
+                "bg": Constants.COLOURS["cool_dark_grey_green_tint"],
+                "highlight": Constants.COLOURS["cool_less_dark_grey_green_tint"]
+            },
+            "File": {
+                "bg": Constants.COLOURS["cool_dark_grey_green_tint"],
+                "highlight": Constants.COLOURS["cool_less_dark_grey_green_tint"]
+            },
+
+            # Editor boards
+            "Schedule": {
+                "bg": Constants.COLOURS["cool_dark_grey_yellow_tint"],
+                "highlight": Constants.COLOURS["cool_less_dark_grey_yellow_tint"]
+            },
+            "SchedulesEditor": {
+                "bg": Constants.COLOURS["cool_dark_grey_yellow_tint"],
+                "highlight": Constants.COLOURS["cool_less_dark_grey_yellow_tint"]
+            },
+            "WorkoutsEditor": {
+                "bg": Constants.COLOURS["cool_dark_grey_yellow_tint"],
+                "highlight": Constants.COLOURS["cool_less_dark_grey_yellow_tint"]
+            },
+
+            # Tracking boards
+            "Actuals": {
+                "bg": Constants.COLOURS["cool_dark_grey_blue_tint"],
+                "highlight": Constants.COLOURS["cool_less_dark_grey_blue_tint"]
+            },
+            "Timer": {
+                "bg": Constants.COLOURS["cool_dark_grey_blue_tint"],
+                "highlight": Constants.COLOURS["cool_less_dark_grey_blue_tint"]
             }
         }

@@ -59,14 +59,16 @@ class SchedulesEditor(Board):
         # ID Row
         id_frame = Frame(
             self._frame,
-            bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-            **TrackerConstants.DEFAULT_STYLES["highlight"]
+            bg=self.theme.DEFAULT_STYLE_ARGS["bg"],
+            **self.theme.DEFAULT_STYLES["highlight"]
         )
         id_title_label = Label(
             id_frame, text="id", width=title_column_char_width, anchor="w",
-            **TrackerConstants.DEFAULT_STYLES["label"])
+            **self.theme.DEFAULT_STYLES["label"]
+        )
         id_value_label = Label(
-            id_frame, text=str(active_schedule_id), anchor="w", **TrackerConstants.DEFAULT_STYLES["label"])
+            id_frame, text=str(active_schedule_id), anchor="w", **self.theme.DEFAULT_STYLES["label"]
+        )
 
         id_title_label.grid(row=0, column=0, sticky="nswe")
         id_value_label.grid(row=0, column=1,  sticky="nswe")
@@ -75,12 +77,13 @@ class SchedulesEditor(Board):
         # Name Row
         name_frame = Frame(
             self._frame,
-            bg=TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-            **TrackerConstants.DEFAULT_STYLES["highlight"]
+            bg=self.theme.DEFAULT_STYLE_ARGS["bg"],
+            **self.theme.DEFAULT_STYLES["highlight"]
         )
         name_title_label = Label(
             name_frame, text="name", width=title_column_char_width, anchor="w",
-            **TrackerConstants.DEFAULT_STYLES["label"])
+            **self.theme.DEFAULT_STYLES["label"]
+        )
         string_editor = StringEditor(
             name_frame,
             get_data=get_data__string_editor,
@@ -88,20 +91,20 @@ class SchedulesEditor(Board):
             update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
             styles={
                 "frame": {
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                    "padx": TrackerConstants.DEFAULT_STYLE_ARGS["padx"],
-                    "pady": TrackerConstants.DEFAULT_STYLE_ARGS["pady"],
+                    "bg": self.theme.DEFAULT_STYLE_ARGS["bg"],
+                    "padx": self.theme.DEFAULT_STYLE_ARGS["padx"],
+                    "pady": self.theme.DEFAULT_STYLE_ARGS["pady"],
                 },
                 "entry": {
                     "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
-                    "font": TrackerConstants.DEFAULT_STYLE_ARGS["font"],
-                    "insertbackground": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                    "font": self.theme.DEFAULT_STYLE_ARGS["font"],
+                    "insertbackground": self.theme.DEFAULT_STYLE_ARGS["fg"],
                 },
                 "entry_unsaved": {
-                    **TrackerConstants.DEFAULT_STYLES["unsaved"]
+                    **self.theme.DEFAULT_STYLES["text_unsaved"]
                 },
                 "entry_saved": {
-                    "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"]
+                    **self.theme.DEFAULT_STYLES["text_saved"]
                 }
             }
         )
@@ -113,10 +116,14 @@ class SchedulesEditor(Board):
 
         # Buttons
         save_button = Button(
-            self._frame, text="Save", width=6, command=save_schedule_name, **TrackerConstants.DEFAULT_STYLES["button"])
+            self._frame, text="Save", width=6, command=save_schedule_name,
+            **self.theme.DEFAULT_STYLES["button"]
+        )
         self.children["save_button"] = save_button
         delete_button = Button(
-            self._frame, text="Delete", width=6, command=delete_schedule, **TrackerConstants.DEFAULT_STYLES["button"])
+            self._frame, text="Delete", width=6, command=delete_schedule,
+            **self.theme.DEFAULT_STYLES["button"]
+        )
 
         save_button.grid(row=4, column=3, sticky="nswe")
         delete_button.grid(row=4, column=4, sticky="nswe")

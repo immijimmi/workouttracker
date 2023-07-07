@@ -82,8 +82,8 @@ class WorkoutsEditor(Board):
         entry_width = 13
 
         value_column_styles = {
-            "padx": TrackerConstants.DEFAULT_STYLE_ARGS["padx"],
-            "pady": TrackerConstants.DEFAULT_STYLE_ARGS["pady"]
+            "padx": self.theme.DEFAULT_STYLE_ARGS["padx"],
+            "pady": self.theme.DEFAULT_STYLE_ARGS["pady"]
         }
 
         column_index = 0
@@ -94,18 +94,18 @@ class WorkoutsEditor(Board):
             id_frame = Frame(
                 self._frame,
                 **{
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                    **TrackerConstants.DEFAULT_STYLES["highlight"]
+                    "bg": self.theme.DEFAULT_STYLE_ARGS["bg"],
+                    **self.theme.DEFAULT_STYLES["highlight"]
                 }
             )
             id_title_label = Label(
                 id_frame, text="id", width=title_column_char_width, anchor="w",
-                **TrackerConstants.DEFAULT_STYLES["label"]
+                **self.theme.DEFAULT_STYLES["label"]
             )
             id_value_label = Label(
                 id_frame, text=current_workout_type_id, anchor="w",
                 **{
-                    **TrackerConstants.DEFAULT_STYLES["label"],
+                    **self.theme.DEFAULT_STYLES["label"],
                     **value_column_styles
                 }
             )
@@ -120,13 +120,13 @@ class WorkoutsEditor(Board):
             name_frame = Frame(
                 self._frame,
                 **{
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                    **TrackerConstants.DEFAULT_STYLES["highlight"]
+                    "bg": self.theme.DEFAULT_STYLE_ARGS["bg"],
+                    **self.theme.DEFAULT_STYLES["highlight"]
                 }
             )
             name_title_label = Label(
                 name_frame, text="name", width=title_column_char_width, anchor="w",
-                **TrackerConstants.DEFAULT_STYLES["label"]
+                **self.theme.DEFAULT_STYLES["label"]
             )
             name_string_editor = StringEditor(
                 name_frame,
@@ -135,20 +135,20 @@ class WorkoutsEditor(Board):
                 update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
                 styles={
                     "frame": {
-                        "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                        "bg": self.theme.DEFAULT_STYLE_ARGS["bg"],
                         **value_column_styles
                     },
                     "entry": {
                         "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
-                        "font": TrackerConstants.DEFAULT_STYLE_ARGS["font"],
-                        "insertbackground": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                        "font": self.theme.DEFAULT_STYLE_ARGS["font"],
+                        "insertbackground": self.theme.DEFAULT_STYLE_ARGS["fg"],
                         "width": entry_width,
                     },
                     "entry_unsaved": {
-                        **TrackerConstants.DEFAULT_STYLES["unsaved"]
+                        **self.theme.DEFAULT_STYLES["text_unsaved"]
                     },
                     "entry_saved": {
-                        "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"]
+                        **self.theme.DEFAULT_STYLES["text_saved"]
                     }
                 }
             )
@@ -162,13 +162,13 @@ class WorkoutsEditor(Board):
             desc_frame = Frame(
                 self._frame,
                 **{
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                    **TrackerConstants.DEFAULT_STYLES["highlight"]
+                    "bg": self.theme.DEFAULT_STYLE_ARGS["bg"],
+                    **self.theme.DEFAULT_STYLES["highlight"]
                 }
             )
             desc_title_label = Label(
                 desc_frame, text="desc", width=title_column_char_width, anchor="w",
-                **TrackerConstants.DEFAULT_STYLES["label"]
+                **self.theme.DEFAULT_STYLES["label"]
             )
             desc_string_editor = StringEditor(
                 desc_frame,
@@ -177,20 +177,20 @@ class WorkoutsEditor(Board):
                 update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
                 styles={
                     "frame": {
-                        "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                        "bg": self.theme.DEFAULT_STYLE_ARGS["bg"],
                         **value_column_styles
                     },
                     "entry": {
                         "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
-                        "font": TrackerConstants.DEFAULT_STYLE_ARGS["font"],
-                        "insertbackground": TrackerConstants.DEFAULT_STYLE_ARGS["fg"],
+                        "font": self.theme.DEFAULT_STYLE_ARGS["font"],
+                        "insertbackground": self.theme.DEFAULT_STYLE_ARGS["fg"],
                         "width": entry_width,
                     },
                     "entry_unsaved": {
-                        **TrackerConstants.DEFAULT_STYLES["unsaved"]
+                        **self.theme.DEFAULT_STYLES["text_unsaved"]
                     },
                     "entry_saved": {
-                        "fg": TrackerConstants.DEFAULT_STYLE_ARGS["fg"]
+                        **self.theme.DEFAULT_STYLES["text_saved"]
                     }
                 }
             )
@@ -204,13 +204,13 @@ class WorkoutsEditor(Board):
             ssr_frame = Frame(
                 self._frame,
                 **{
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
-                    **TrackerConstants.DEFAULT_STYLES["highlight"]
+                    "bg": self.theme.DEFAULT_STYLE_ARGS["bg"],
+                    **self.theme.DEFAULT_STYLES["highlight"]
                 }
             )
             ssr_title_label = Label(
                 ssr_frame, text="reps/set", width=title_column_char_width, anchor="w",
-                **TrackerConstants.DEFAULT_STYLES["label"])
+                **self.theme.DEFAULT_STYLES["label"])
             ssr_number_stepper = NumberStepper(
                 ssr_frame,
                 get_data=partial(get_data__single_set_reps, current_workout_type_id),
@@ -220,16 +220,16 @@ class WorkoutsEditor(Board):
                 limits=(1, None),
                 styles={
                     "frame": {
-                        "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"],
+                        "bg": self.theme.DEFAULT_STYLE_ARGS["bg"],
                         **value_column_styles
                     },
                     "label": {
-                        **TrackerConstants.DEFAULT_STYLES["label"],
-                        **TrackerConstants.DEFAULT_STYLES["highlight"],
+                        **self.theme.DEFAULT_STYLES["label"],
+                        **self.theme.DEFAULT_STYLES["highlight"],
                         "width": 3
                     },
                     "button": {
-                        **TrackerConstants.DEFAULT_STYLES["symbol_button"]
+                        **self.theme.DEFAULT_STYLES["symbol_button"]
                     }
                 }
             )
@@ -246,13 +246,13 @@ class WorkoutsEditor(Board):
 
         new_workout_type_button = Button(
             self._frame, text="New",
-            command=new_workout_type, **TrackerConstants.DEFAULT_STYLES["button"])
+            command=new_workout_type, **self.theme.DEFAULT_STYLES["button"])
         self.children["new_workout_type_button"] = new_workout_type_button
         new_workout_type_button.grid(row=0, column=column_index, rowspan=3, sticky="nswe")
 
         save_all_workout_types_button = Button(
             self._frame, text="Save",
-            command=save_all_workout_types_changes, **TrackerConstants.DEFAULT_STYLES["button"])
+            command=save_all_workout_types_changes, **self.theme.DEFAULT_STYLES["button"])
         self.children["save_all_workout_types_button"] = save_all_workout_types_button
         save_all_workout_types_button.grid(row=4, column=column_index, rowspan=3, sticky="nswe")
         save_all_workout_types_button.configure(state="disabled")

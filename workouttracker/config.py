@@ -2,6 +2,7 @@ from importlib import resources
 
 from .boards import BoardController, File, Actuals, Schedule, WorkoutsEditor, SchedulesEditor, Timer
 from .boardhandlers import ResponsiveGrid
+from .constants import Constants
 
 
 class Config:
@@ -27,3 +28,54 @@ class Config:
         WorkoutsEditor: {"row": 4, "column": 1, "rowspan": 3, "columnspan": 12},
         Timer: {"row": 4, "column": 13, "rowspan": 3, "columnspan": 4}
     }  # Note that boards can end up truncated if not given enough rows or columns
+
+    class Theme:
+        DEFAULT_STYLE_ARGS = {
+            "fg": Constants.COLOURS["cool_off_white"],
+            "bg": Constants.COLOURS["cool_dark_grey"],
+            "font": Constants.NORMAL_FONT,
+            "padx": Constants.PAD__SMALL,
+            "pady": Constants.PAD__SMALL
+        }
+
+        DEFAULT_STYLES = {
+            "label": {
+                "font": DEFAULT_STYLE_ARGS["font"],
+                "fg": DEFAULT_STYLE_ARGS["fg"],
+                "bg": DEFAULT_STYLE_ARGS["bg"],
+                "padx": DEFAULT_STYLE_ARGS["padx"],
+                "pady": DEFAULT_STYLE_ARGS["pady"]
+            },
+            "button": {
+                "font": DEFAULT_STYLE_ARGS["font"],
+                "fg": DEFAULT_STYLE_ARGS["fg"],
+                "bg": DEFAULT_STYLE_ARGS["bg"],
+                "padx": DEFAULT_STYLE_ARGS["padx"],
+            },
+            "symbol_button": {
+                "font": DEFAULT_STYLE_ARGS["font"],
+                "fg": DEFAULT_STYLE_ARGS["fg"],
+                "bg": DEFAULT_STYLE_ARGS["bg"],
+                "padx": Constants.PAD__NORMAL,
+                "width": 1
+            },
+            "highlight": {
+                "relief": "raised",
+                "borderwidth": Constants.BORDERWIDTH__TINY
+            },
+            "paragraph": {
+                "font": Constants.SMALL_ITALICS_FONT,
+                "fg": DEFAULT_STYLE_ARGS["fg"],
+                "bg": DEFAULT_STYLE_ARGS["bg"]
+            },
+            "board_specific_colours": {
+                "bg": DEFAULT_STYLE_ARGS["bg"],
+                "highlight": Constants.COLOURS["cool_less_dark_grey"]
+            },
+            "text_unsaved": {
+                "fg": Constants.COLOURS["yellow"]
+            },
+            "text_saved": {
+                "fg": DEFAULT_STYLE_ARGS["fg"],
+            }
+        }

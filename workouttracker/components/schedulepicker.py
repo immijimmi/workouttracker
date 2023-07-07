@@ -53,10 +53,10 @@ class SchedulePicker(ButtonListBox):
             on_change=on_change__button_list_box,
             styles={
                 "canvas": {
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+                    "bg": board.theme.DEFAULT_STYLE_ARGS["bg"]
                 },
                 "button": {
-                    **TrackerConstants.DEFAULT_STYLES["button"],
+                    **board.theme.DEFAULT_STYLES["button"],
                     "relief": "raised"
                 },
                 "button_selected": {

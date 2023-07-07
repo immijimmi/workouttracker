@@ -52,25 +52,25 @@ class Schedule(Board):
             limits=(0, None),
             styles={
                 "frame": {
-                    "bg": TrackerConstants.DEFAULT_STYLE_ARGS["bg"]
+                    "bg": self.theme.DEFAULT_STYLE_ARGS["bg"]
                 },
                 "x_label": {
-                    **TrackerConstants.DEFAULT_STYLES["label"],
-                    **TrackerConstants.DEFAULT_STYLES["highlight"],
+                    **self.theme.DEFAULT_STYLES["label"],
+                    **self.theme.DEFAULT_STYLES["highlight"],
                     "width": 3
                 },
                 "y_label": {
-                    **TrackerConstants.DEFAULT_STYLES["label"],
+                    **self.theme.DEFAULT_STYLES["label"],
                     **({"width": max([len(label) for label in workout_y_labels])} if workout_y_labels else {})
                 },
                 "number_stepper": {
                     "label": {
-                        **TrackerConstants.DEFAULT_STYLES["label"],
-                        **TrackerConstants.DEFAULT_STYLES["highlight"],
+                        **self.theme.DEFAULT_STYLES["label"],
+                        **self.theme.DEFAULT_STYLES["highlight"],
                         "width": 3
                     },
                     "button": {
-                        **TrackerConstants.DEFAULT_STYLES["symbol_button"]
+                        **self.theme.DEFAULT_STYLES["symbol_button"]
                     }
                 }
             }

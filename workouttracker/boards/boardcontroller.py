@@ -42,7 +42,7 @@ class BoardController(Board):
             on_change=toggle_full_view,
             styles={
                 "button": {
-                    **TrackerConstants.DEFAULT_STYLES["button"],
+                    **self.theme.DEFAULT_STYLES["button"],
                 }
             }
         ).render().grid(row=row_index, column=0, columnspan=2, sticky="nswe")
@@ -59,13 +59,15 @@ class BoardController(Board):
                 column_index = 0
                 row_index += 1
 
-                Label(self._frame, text=other_board.display_name, **TrackerConstants.DEFAULT_STYLES["label"]
-                      ).grid(row=row_index, column=column_index, sticky="nswe")
+                Label(
+                    self._frame, text=other_board.display_name,
+                    **self.theme.DEFAULT_STYLES["label"]
+                ).grid(row=row_index, column=column_index, sticky="nswe")
                 column_index += 1
 
                 board_specific_colours = TrackerConstants.BOARD_SPECIFIC_COLOURS.get(
                     other_board_class.__name__,
-                    TrackerConstants.DEFAULT_STYLES["board_specific_colours"]
+                    self.theme.DEFAULT_STYLES["board_specific_colours"]
                 )
                 ToggleButton(
                     self._frame,
@@ -75,7 +77,7 @@ class BoardController(Board):
                     on_change=partial(toggle_board_visibility, other_board_class),
                     styles={
                         "button": {
-                            **TrackerConstants.DEFAULT_STYLES["button"],
+                            **self.theme.DEFAULT_STYLES["button"],
                             "bg": board_specific_colours["bg"]
                         }
                     }

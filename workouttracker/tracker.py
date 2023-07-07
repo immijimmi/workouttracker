@@ -16,7 +16,7 @@ from .config import Config
 class Tracker(Component.with_extensions(GridHelper)):
     def __init__(self, container, config=Config):
         super().__init__(container, styles={
-            "frame": {"bg": Constants.DEFAULT_STYLE_ARGS["bg"]}
+            "frame": {"bg": config.Theme.DEFAULT_STYLE_ARGS["bg"]}
         })
 
         self._config = config

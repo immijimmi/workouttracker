@@ -3,7 +3,7 @@ from .boardcontroller import BoardController
 from .actuals import Actuals
 from .file import File
 from .schedule import Schedule
-from .scheduleeditor import ScheduleEditor
+from .scheduleseditor import SchedulesEditor
 from .timer import Timer
 from .tips import Tips
-from .workouteditor import WorkoutEditor
+from .workoutseditor import WorkoutsEditor

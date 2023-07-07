@@ -7,7 +7,7 @@ from ..constants import Constants as TrackerConstants
 from .board import Board
 
 
-class ScheduleEditor(Board):
+class SchedulesEditor(Board):
     def __init__(self, tracker, container):
         super().__init__(tracker, container)
 

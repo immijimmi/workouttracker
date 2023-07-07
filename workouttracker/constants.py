@@ -71,20 +71,51 @@ class Constants:
         "cool_dark_grey": "#37373C",
         "cool_dark_grey_green_tint": "#333E39",  # #37373C@255 + #00B211@15
         "cool_dark_grey_blue_tint": "#3A3C4B",  # #37373C@255 + #667FFF@20
+        "cool_dark_grey_yellow_tint": "#444036",  # #37373C@255 + #D1AA00@22
+        "cool_dark_grey_purple_tint": "#363246",  # #37373C@255 + #3200BF@20
+        "cool_dark_grey_white_tint": "#46464B",  # #37373C@255 + #FFFFFF@20
         "cool_less_dark_grey": "#46464C",
         "cool_less_dark_grey_green_tint": "#414C48",  # #46464C@255 + #00B211@15
         "cool_less_dark_grey_blue_tint": "#484A5A",  # #46464C@255 + #667FFF@20
+        "cool_less_dark_grey_yellow_tint": "#514E45",  # #46464C@255 + #D1AA00@22
+        "cool_less_dark_grey_purple_tint": "#444055",  # #46464C@255 + #3200BF@20
+        "cool_less_dark_grey_white_tint": "#54545A",  # #46464C@255 + #FFFFFF@20
         "tk_default_grey": "#f0f0f0"
     }
 
     BOARD_SPECIFIC_COLOURS = {  # The keys used here are the class names of each board
-        "Actuals": {
-            "bg": COLOURS["cool_dark_grey_blue_tint"],
-            "highlight": COLOURS["cool_less_dark_grey_blue_tint"]
+        # Meta boards
+        "BoardController": {
+            "bg": COLOURS["cool_dark_grey_green_tint"],
+            "highlight": COLOURS["cool_less_dark_grey_green_tint"]
         },
         "File": {
             "bg": COLOURS["cool_dark_grey_green_tint"],
             "highlight": COLOURS["cool_less_dark_grey_green_tint"]
+        },
+
+        # Editor boards
+        "Schedule": {
+            "bg": COLOURS["cool_dark_grey_yellow_tint"],
+            "highlight": COLOURS["cool_less_dark_grey_yellow_tint"]
+        },
+        "SchedulesEditor": {
+            "bg": COLOURS["cool_dark_grey_yellow_tint"],
+            "highlight": COLOURS["cool_less_dark_grey_yellow_tint"]
+        },
+        "WorkoutsEditor": {
+            "bg": COLOURS["cool_dark_grey_yellow_tint"],
+            "highlight": COLOURS["cool_less_dark_grey_yellow_tint"]
+        },
+
+        # Tracking boards
+        "Actuals": {
+            "bg": COLOURS["cool_dark_grey_blue_tint"],
+            "highlight": COLOURS["cool_less_dark_grey_blue_tint"]
+        },
+        "Timer": {
+            "bg": COLOURS["cool_dark_grey_blue_tint"],
+            "highlight": COLOURS["cool_less_dark_grey_blue_tint"]
         }
     }
 

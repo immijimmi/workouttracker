@@ -7,7 +7,7 @@ from .board import Board
 from ..constants import Constants as TrackerConstants
 
 
-class WorkoutEditor(Board):
+class WorkoutsEditor(Board):
     def __init__(self, tracker, container):
         super().__init__(tracker, container)
 

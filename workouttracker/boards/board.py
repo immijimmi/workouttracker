@@ -19,11 +19,11 @@ class Board(Component.with_extensions(GridHelper), ABC):
 
         super().__init__(container, update_interval_ms=update_interval_ms, styles={
             "frame": {
-                "borderwidth": TrackerConstants.BORDERWIDTH__TINY,
+                "borderwidth": TrackerConstants.BORDERWIDTH_TINY,
                 "relief": "sunken",
                 "bg": board_style_args["bg"],
-                "padx": TrackerConstants.PAD__SMALL,
-                "pady": TrackerConstants.PAD__SMALL
+                "padx": TrackerConstants.PAD_SMALL,
+                "pady": TrackerConstants.PAD_SMALL
             }
         })
 

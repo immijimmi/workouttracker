@@ -105,7 +105,7 @@ class Actuals(Board):
             date_text_format="%a %Y/%m/%d",
             get_data=lambda stepper: self._date_offset,
             on_change=on_change__date_stepper,
-            update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
+            update_interval_ms=TrackerConstants.INTERVAL_SHORT,
             styles={
                 "label": {
                     **self.theme.STANDARD_STYLES["label"],
@@ -171,7 +171,7 @@ class Actuals(Board):
             label_wrapper = LabelWrapper(
                 self._frame,
                 get_data=partial(get_data__label_wrapper, current_workout_type_id),
-                update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
+                update_interval_ms=TrackerConstants.INTERVAL_SHORT,
                 styles={
                     "label": {
                         "anchor": "e",
@@ -189,7 +189,7 @@ class Actuals(Board):
                 self._frame,
                 get_data=partial(get_data__number_stepper, current_workout_type_id),
                 on_change=partial(on_change__number_stepper, current_workout_type_id),
-                update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY,
+                update_interval_ms=TrackerConstants.INTERVAL_SHORT,
                 text_format=stepper_text_format,
                 step_amounts=(1,) if self._date_offset == 0 else (),
                 limits=(0, None),

@@ -90,7 +90,7 @@ class Timer(Board):
         stopwatch_label = LabelWrapper(
             self._frame,
             get_data=get_data__stopwatch_label,
-            update_interval_ms=TrackerConstants.INTERVAL__TINY_DELAY,
+            update_interval_ms=TrackerConstants.INTERVAL_TINY,
             styles={
                 "label": {
                     **self.theme.STANDARD_STYLES["label"],

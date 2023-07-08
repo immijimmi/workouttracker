@@ -33,9 +33,9 @@ class Config:
         STANDARD_STYLE_ARGS = {
             "fg": Constants.COLOURS["cool_off_white"],
             "bg": Constants.COLOURS["cool_dark_grey"],
-            "font": Constants.NORMAL_FONT,
-            "padx": Constants.PAD__SMALL,
-            "pady": Constants.PAD__SMALL,
+            "font": Constants.FONT_NORMAL,
+            "padx": Constants.PAD_SMALL,
+            "pady": Constants.PAD_SMALL,
             "highlight": Constants.COLOURS["cool_less_dark_grey"]
         }
 
@@ -57,15 +57,15 @@ class Config:
                 "font": STANDARD_STYLE_ARGS["font"],
                 "fg": STANDARD_STYLE_ARGS["fg"],
                 "bg": STANDARD_STYLE_ARGS["bg"],
-                "padx": Constants.PAD__NORMAL,
+                "padx": Constants.PAD_NORMAL,
                 "width": 1
             },
             "highlighted": {
                 "relief": "raised",
-                "borderwidth": Constants.BORDERWIDTH__TINY
+                "borderwidth": Constants.BORDERWIDTH_TINY
             },
             "paragraph": {
-                "font": Constants.SMALL_ITALICS_FONT,
+                "font": Constants.FONT_SMALL_ITALIC,
                 "fg": STANDARD_STYLE_ARGS["fg"],
                 "bg": STANDARD_STYLE_ARGS["bg"]
             },

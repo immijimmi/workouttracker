@@ -60,7 +60,7 @@ class SchedulesEditor(Board):
         id_frame = Frame(
             self._frame,
             bg=self.theme.STANDARD_STYLE_ARGS["bg"],
-            **self.theme.STANDARD_STYLES["highlight"]
+            **self.theme.STANDARD_STYLES["highlighted"]
         )
         id_title_label = Label(
             id_frame, text="id", width=title_column_char_width, anchor="w",
@@ -78,7 +78,7 @@ class SchedulesEditor(Board):
         name_frame = Frame(
             self._frame,
             bg=self.theme.STANDARD_STYLE_ARGS["bg"],
-            **self.theme.STANDARD_STYLES["highlight"]
+            **self.theme.STANDARD_STYLES["highlighted"]
         )
         name_title_label = Label(
             name_frame, text="name", width=title_column_char_width, anchor="w",

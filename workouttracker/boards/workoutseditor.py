@@ -95,7 +95,7 @@ class WorkoutsEditor(Board):
                 self._frame,
                 **{
                     "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
-                    **self.theme.STANDARD_STYLES["highlight"]
+                    **self.theme.STANDARD_STYLES["highlighted"]
                 }
             )
             id_title_label = Label(
@@ -121,7 +121,7 @@ class WorkoutsEditor(Board):
                 self._frame,
                 **{
                     "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
-                    **self.theme.STANDARD_STYLES["highlight"]
+                    **self.theme.STANDARD_STYLES["highlighted"]
                 }
             )
             name_title_label = Label(
@@ -163,7 +163,7 @@ class WorkoutsEditor(Board):
                 self._frame,
                 **{
                     "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
-                    **self.theme.STANDARD_STYLES["highlight"]
+                    **self.theme.STANDARD_STYLES["highlighted"]
                 }
             )
             desc_title_label = Label(
@@ -205,7 +205,7 @@ class WorkoutsEditor(Board):
                 self._frame,
                 **{
                     "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
-                    **self.theme.STANDARD_STYLES["highlight"]
+                    **self.theme.STANDARD_STYLES["highlighted"]
                 }
             )
             ssr_title_label = Label(
@@ -225,7 +225,7 @@ class WorkoutsEditor(Board):
                     },
                     "label": {
                         **self.theme.STANDARD_STYLES["label"],
-                        **self.theme.STANDARD_STYLES["highlight"],
+                        **self.theme.STANDARD_STYLES["highlighted"],
                         "width": 3
                     },
                     "button": {

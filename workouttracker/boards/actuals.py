@@ -109,7 +109,7 @@ class Actuals(Board):
             styles={
                 "label": {
                     **self.theme.STANDARD_STYLES["label"],
-                    **self.theme.STANDARD_STYLES["highlight"],
+                    **self.theme.STANDARD_STYLES["highlighted"],
                     "width": 36  # Extra room left to keep the size somewhat constant between dates
                 },
                 "button": {
@@ -196,7 +196,7 @@ class Actuals(Board):
                 styles={
                     "label": {
                         **self.theme.STANDARD_STYLES["label"],
-                        **self.theme.STANDARD_STYLES["highlight"],
+                        **self.theme.STANDARD_STYLES["highlighted"],
                         "width": 10,
                         "bg": workout_status_color,
                         "fg": TrackerConstants.COLOURS["cool_dark_grey"]
@@ -226,7 +226,7 @@ class Actuals(Board):
                 row_index += 1
                 Label(
                     self._frame, text=current_workout_desc,
-                    **self.theme.STANDARD_STYLES["paragraph"], **self.theme.STANDARD_STYLES["highlight"],
+                    **self.theme.STANDARD_STYLES["paragraph"], **self.theme.STANDARD_STYLES["highlighted"],
                 ).grid(row=row_index, column=0, columnspan=9, sticky="nswe")
 
         row_index += 1

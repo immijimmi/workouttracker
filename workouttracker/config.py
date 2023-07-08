@@ -60,7 +60,7 @@ class Config:
                 "padx": Constants.PAD__NORMAL,
                 "width": 1
             },
-            "highlight": {
+            "highlighted": {
                 "relief": "raised",
                 "borderwidth": Constants.BORDERWIDTH__TINY
             },

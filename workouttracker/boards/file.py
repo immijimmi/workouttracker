@@ -77,7 +77,8 @@ class File(Board):
 
         self._apply_frame_stretch(
             rows=[3+len(self.active_alerts)] + ([len(self.active_alerts)] if self.active_alerts else []),
-            columns=[0, 4])
+            columns=[0, 4]
+        )
 
         row_index = -1
 
@@ -90,7 +91,7 @@ class File(Board):
                 on_expire=on_expire__alert,
                 styles={
                     "frame": {
-                        **self.theme.STANDARD_STYLES["highlight"],
+                        **self.theme.STANDARD_STYLES["highlighted"],
                         "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
                     },
                     "inner_frame": {
@@ -115,32 +116,38 @@ class File(Board):
             alert_component.render().grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
-        Label(self._frame, text="Save Location",
-              **{
-                  **self.theme.STANDARD_STYLES["label"],
-                  "bg": self.styles["board_args"]["bg"]
-              }
-              ).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
+        Label(
+            self._frame, text="Save Location",
+            **{
+                **self.theme.STANDARD_STYLES["label"],
+                "bg": self.styles["board_args"]["bg"]
+            }
+        ).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 1
-        path_label = Label(self._frame, textvariable=self._file_path__var,
-                           **self.theme.STANDARD_STYLES["label"], **self.theme.STANDARD_STYLES["highlight"])
+        path_label = Label(
+            self._frame, textvariable=self._file_path__var,
+            **{**self.theme.STANDARD_STYLES["label"], **self.theme.STANDARD_STYLES["highlighted"]}
+        )
         self.children["file_path_label"] = path_label
         self._set_path_label_style()
         path_label.grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 
         row_index += 2
-        Button(self._frame, text="Open...", width=8, command=lambda: set_file_config("Open"),
-               **self.theme.STANDARD_STYLES["button"]
-               ).grid(row=row_index, column=1, sticky="nswe")
+        Button(
+            self._frame, text="Open...", width=8, command=lambda: set_file_config("Open"),
+            **self.theme.STANDARD_STYLES["button"]
+        ).grid(row=row_index, column=1, sticky="nswe")
 
-        Button(self._frame, text="Import...", width=8, command=lambda: set_file_config("Import"),
-               **self.theme.STANDARD_STYLES["button"]
-               ).grid(row=row_index, column=2, sticky="nswe")
+        Button(
+            self._frame, text="Import...", width=8, command=lambda: set_file_config("Import"),
+            **self.theme.STANDARD_STYLES["button"]
+        ).grid(row=row_index, column=2, sticky="nswe")
 
-        Button(self._frame, text="Save As...", width=8, command=lambda: set_file_config("Save As"),
-               **self.theme.STANDARD_STYLES["button"]
-               ).grid(row=row_index, column=3, sticky="nswe")
+        Button(
+            self._frame, text="Save As...", width=8, command=lambda: set_file_config("Save As"),
+            **self.theme.STANDARD_STYLES["button"]
+        ).grid(row=row_index, column=3, sticky="nswe")
 
     def _set_path_label_style(self):
         style = (

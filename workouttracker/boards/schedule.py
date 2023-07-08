@@ -56,7 +56,7 @@ class Schedule(Board):
                 },
                 "x_label": {
                     **self.theme.STANDARD_STYLES["label"],
-                    **self.theme.STANDARD_STYLES["highlight"],
+                    **self.theme.STANDARD_STYLES["highlighted"],
                     "width": 3
                 },
                 "y_label": {
@@ -66,7 +66,7 @@ class Schedule(Board):
                 "number_stepper": {
                     "label": {
                         **self.theme.STANDARD_STYLES["label"],
-                        **self.theme.STANDARD_STYLES["highlight"],
+                        **self.theme.STANDARD_STYLES["highlighted"],
                         "width": 3
                     },
                     "button": {

@@ -94,7 +94,7 @@ class Timer(Board):
             styles={
                 "label": {
                     **self.theme.STANDARD_STYLES["label"],
-                    **self.theme.STANDARD_STYLES["highlight"],
+                    **self.theme.STANDARD_STYLES["highlighted"],
                     "anchor": "w"
                 }
             }
@@ -111,7 +111,7 @@ class Timer(Board):
                     "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
                     "padx": self.theme.STANDARD_STYLE_ARGS["padx"],
                     "pady": self.theme.STANDARD_STYLE_ARGS["pady"],
-                    **self.theme.STANDARD_STYLES["highlight"]
+                    **self.theme.STANDARD_STYLES["highlighted"]
                 },
                 "entry": {
                     "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],

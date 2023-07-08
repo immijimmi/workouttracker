@@ -12,7 +12,7 @@ from .board import Board
 
 class File(Board):
     def __init__(self, tracker, container):
-        super().__init__(tracker, container, update_interval_ms=TrackerConstants.INTERVAL__SHORT_DELAY)
+        super().__init__(tracker, container, update_interval_ms=TrackerConstants.INTERVAL_SHORT)
 
         self.active_alerts = {}
 
@@ -96,12 +96,12 @@ class File(Board):
                     },
                     "inner_frame": {
                         "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
-                        "padx": TrackerConstants.PAD__TINY_SMALL,
-                        "pady": TrackerConstants.PAD__TINY_SMALL
+                        "padx": TrackerConstants.PAD_VERY_SMALL,
+                        "pady": TrackerConstants.PAD_VERY_SMALL
                     },
                     "label": {
                         **self.theme.STANDARD_STYLES["label"],
-                        "font": TrackerConstants.SMALL_ITALICS_FONT
+                        "font": TrackerConstants.FONT_SMALL_ITALIC
                     },
                     "button": {
                         **self.theme.STANDARD_STYLES["symbol_button"],

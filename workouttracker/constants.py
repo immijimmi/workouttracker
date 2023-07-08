@@ -21,11 +21,11 @@ class Constants:
     PROGRESS_BAR_WIDTH = 60
 
     # Padding
-    PAD__TINY = 2
-    PAD__TINY_SMALL = 3
-    PAD__SMALL = 4
-    PAD__SMALL_NORMAL = 5
-    PAD__NORMAL = 6
+    PAD_TINY = 2
+    PAD_VERY_SMALL = 3
+    PAD_SMALL = 4
+    PAD_SMALL_NORMAL = 5
+    PAD_NORMAL = 6
 
     # Min Sizes
     DIVIDER_SIZE = 4
@@ -33,9 +33,9 @@ class Constants:
     WORKOUT_SETS_ACTUALS_SIZE = 80
 
     # Border Sizes
-    BORDERWIDTH__TINY = 1
-    BORDERWIDTH__SMALL = 2
-    BORDERWIDTH__NORMAL = 3
+    BORDERWIDTH_TINY = 1
+    BORDERWIDTH_SMALL = 2
+    BORDERWIDTH_NORMAL = 3
 
     # Font Sizes
     FONTSIZE_TINY = 9
@@ -43,17 +43,18 @@ class Constants:
     FONTSIZE_NORMAL = 11
 
     # Fonts
-    NORMAL_FONT = ("Bahnschrift", FONTSIZE_NORMAL)
-    SMALL_FONT = ("Bahnschrift", FONTSIZE_SMALL)
-    TINY_FONT = ("Bahnschrift", FONTSIZE_TINY)
-    BOLD_FONT = ("Bahnschrift", FONTSIZE_NORMAL, "bold")
-    ITALICS_FONT = ("Bahnschrift", FONTSIZE_NORMAL, "italic")
-    SMALL_ITALICS_FONT = ("Bahnschrift", FONTSIZE_SMALL, "italic")
+    FONT_TINY = ("Bahnschrift", FONTSIZE_TINY)
+    FONT_SMALL = ("Bahnschrift", FONTSIZE_SMALL)
+    FONT_SMALL_ITALIC = ("Bahnschrift", FONTSIZE_SMALL, "italic")
+    FONT_NORMAL = ("Bahnschrift", FONTSIZE_NORMAL)
+    FONT_NORMAL_ITALIC = ("Bahnschrift", FONTSIZE_NORMAL, "italic")
+    FONT_NORMAL_BOLD = ("Bahnschrift", FONTSIZE_NORMAL, "bold")
+
     SYMBOL_FONT = ("Bahnschrift", FONTSIZE_NORMAL)
 
     # Update Intervals
-    INTERVAL__TINY_DELAY = 20
-    INTERVAL__SHORT_DELAY = 500
+    INTERVAL_TINY = 20
+    INTERVAL_SHORT = 500
 
     # File Handling Errors
     READ_ERRORS = (FileNotFoundError, decoder.JSONDecodeError)

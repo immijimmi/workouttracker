@@ -60,6 +60,10 @@ class Config:
                 "padx": Constants.PAD_NORMAL,
                 "width": 1
             },
+            "padded": {
+                "padx": STANDARD_STYLE_ARGS["padx"],
+                "pady": STANDARD_STYLE_ARGS["pady"]
+            },
             "highlighted": {
                 "relief": "raised",
                 "borderwidth": Constants.BORDERWIDTH_TINY

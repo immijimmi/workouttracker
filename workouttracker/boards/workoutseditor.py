@@ -81,11 +81,6 @@ class WorkoutsEditor(Board):
         title_column_char_width = 8
         entry_width = 13
 
-        value_column_styles = {
-            "padx": self.theme.STANDARD_STYLE_ARGS["padx"],
-            "pady": self.theme.STANDARD_STYLE_ARGS["pady"]
-        }
-
         column_index = 0
         for current_workout_type_id in all_workout_types:
             row_index = 0
@@ -106,7 +101,7 @@ class WorkoutsEditor(Board):
                 id_frame, text=current_workout_type_id, anchor="w",
                 **{
                     **self.theme.STANDARD_STYLES["label"],
-                    **value_column_styles
+                    **self.theme.STANDARD_STYLES["padded"]
                 }
             )
 
@@ -136,7 +131,7 @@ class WorkoutsEditor(Board):
                 styles={
                     "frame": {
                         "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
-                        **value_column_styles
+                        **self.theme.STANDARD_STYLES["padded"]
                     },
                     "entry": {
                         "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
@@ -178,7 +173,7 @@ class WorkoutsEditor(Board):
                 styles={
                     "frame": {
                         "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
-                        **value_column_styles
+                        **self.theme.STANDARD_STYLES["padded"]
                     },
                     "entry": {
                         "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
@@ -221,7 +216,7 @@ class WorkoutsEditor(Board):
                 styles={
                     "frame": {
                         "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
-                        **value_column_styles
+                        **self.theme.STANDARD_STYLES["padded"]
                     },
                     "label": {
                         **self.theme.STANDARD_STYLES["label"],

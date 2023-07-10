@@ -79,7 +79,7 @@ class WorkoutsEditor(Board):
         self._apply_dividers(TrackerConstants.DIVIDER_SIZE, rows=[1, 3, 5], columns=[*column_dividers])
 
         title_column_char_width = 8
-        entry_width = 13
+        entry_width = 12
 
         column_index = 0
         for current_workout_type_id in all_workout_types:

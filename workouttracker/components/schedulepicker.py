@@ -42,13 +42,10 @@ class SchedulePicker(ButtonListBox):
 
             board.tracker.render()
 
-        def get_height__button_list_box():
-            return board.height_clearance
-
         super().__init__(
             container,
             board.state.registered_get("active_schedule_id"),
-            get_height__button_list_box,
+            lambda: board.height_clearance,
             get_data=get_data__button_list_box,
             on_change=on_change__button_list_box,
             styles={

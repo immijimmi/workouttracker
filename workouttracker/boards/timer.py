@@ -130,7 +130,11 @@ class Timer(Board):
             text="Save",
             width=6,
             command=on_change__stopwatch_save_button,
-            state="disabled" if self.tracker.stopwatch.is_running else "normal",
+            state=(
+                "disabled" if (
+                    self.tracker.stopwatch.is_running or not self.tracker.stopwatch.elapsed
+                ) else "normal"
+            ),
             **self.theme.STANDARD_STYLES["button"]
         )
         stopwatch_save_button.grid(row=3, column=2, sticky="nswe")

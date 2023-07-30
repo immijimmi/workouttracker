@@ -33,7 +33,6 @@ class BoardController(Board):
 
         self._apply_frame_stretch(rows=[0], columns=[0])
 
-        config = self.tracker.config
         row_index = 0
 
         ToggleButton(
@@ -50,7 +49,7 @@ class BoardController(Board):
         if self._full_view:
             other_boards = sorted(
                 [board for board in self.tracker.boards if not issubclass(type(board), BoardController)],
-                key=lambda board: config.BOARDS_LIST.index(type(board))
+                key=lambda board: self.config.BOARDS_LIST.index(type(board))
             )
 
             for other_board in other_boards:

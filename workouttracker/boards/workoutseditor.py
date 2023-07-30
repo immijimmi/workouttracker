@@ -19,7 +19,7 @@ class WorkoutsEditor(Board):
 
     def _render(self):
         def save_all_workout_types_changes():
-            workout_types = self.tracker.state.registered_get("workout_types")
+            workout_types = self.state.registered_get("workout_types")
 
             for workout_type_id in workout_types:
                 workout_id_components = self.children[workout_type_id]
@@ -70,7 +70,7 @@ class WorkoutsEditor(Board):
         """
         self.children.clear()
 
-        all_workout_types = self.tracker.state.registered_get("workout_types")
+        all_workout_types = self.state.registered_get("workout_types")
 
         column_dividers = [(x*4)+3 for x in range(len(all_workout_types))]
         last_divider_column_index = max(column_dividers, default=1)  # If there are none, it takes the end of the board

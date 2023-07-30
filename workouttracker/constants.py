@@ -62,6 +62,8 @@ class Constants:
 
     # Misc
     COLOURS = {
+        ##### TODO: V1 Colour Scheme - to be deprecated and removed entirely, default theme will be in Config
+        "tk_default_grey": "#f0f0f0",
         "orange": "#FF9859",
         "yellow": "#FFD800",
         "blue": "#667FFF",
@@ -81,5 +83,4 @@ class Constants:
         "cool_less_dark_grey_yellow_tint": "#514E45",  # #46464C@255 + #D1AA00@22
         "cool_less_dark_grey_purple_tint": "#444055",  # #46464C@255 + #3200BF@20
         "cool_less_dark_grey_white_tint": "#54545A",  # #46464C@255 + #FFFFFF@20
-        "tk_default_grey": "#f0f0f0"
     }

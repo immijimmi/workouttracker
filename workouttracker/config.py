@@ -30,6 +30,18 @@ class Config:
     }  # Note that boards can end up truncated if not given enough rows or columns
 
     class Theme:
+        COLOURS = {
+            "disabled": "#E5E5E5",
+            "pending": "#FFC760",
+
+            # These 5 colours should form a continuous scale from 'bad' -> 'good'
+            "score_0": "#FF9A60",
+            "score_1": "#FFBD78",
+            "score_2": "#FFD482",
+            "score_3": "#DCD482",
+            "score_4": "#A5E178",
+        }
+
         STANDARD_STYLE_ARGS = {
             "fg": Constants.COLOURS["cool_off_white"],
             "bg": Constants.COLOURS["cool_dark_grey"],
@@ -74,7 +86,7 @@ class Config:
                 "bg": STANDARD_STYLE_ARGS["bg"]
             },
             "text_unsaved": {
-                "fg": Constants.COLOURS["yellow"]
+                "fg": COLOURS["pending"]
             },
             "text_saved": {
                 "fg": STANDARD_STYLE_ARGS["fg"],

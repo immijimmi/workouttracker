@@ -44,6 +44,8 @@ class Tracker(Component.with_extensions(GridHelper)):
             self.is_state_unsaved = False
 
         # Board-specific temporary variables
+        self.is_actuals_minimal = False  # Will be toggled to hide extra detail in Actuals
+
         self.tips = self.state.registered_get("workout_tips")
         shuffle(self.tips)
         self.tips_index = 0

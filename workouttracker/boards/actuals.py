@@ -26,15 +26,18 @@ class Actuals(Board):
 
         def determine_workout_status_color(actual_sets, scheduled_sets):
             if actual_sets > scheduled_sets:
-                return TrackerConstants.COLOURS["green"]
+                return self.theme.COLOURS["score_4"]
             elif actual_sets == scheduled_sets and actual_sets > 0:
-                return TrackerConstants.COLOURS["blue"]
+                return self.theme.COLOURS["score_3"]
             elif actual_sets == scheduled_sets:
-                return self.theme.STANDARD_STYLE_ARGS["fg"]
+                return self.theme.COLOURS["disabled"]
             elif actual_sets > 0:
-                return TrackerConstants.COLOURS["yellow"]
+                if actual_sets == (scheduled_sets - 1):
+                    return self.theme.COLOURS["score_2"]
+                else:
+                    return self.theme.COLOURS["score_1"]
             else:
-                return TrackerConstants.COLOURS["orange"]
+                return self.theme.COLOURS["score_0"]
 
         def on_change__date_stepper(stepper, increment_amount):
             self._date_offset = stepper.offset

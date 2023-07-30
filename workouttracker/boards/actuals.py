@@ -99,8 +99,14 @@ class Actuals(Board):
 
             self.render()
 
+        def toggle_minimal(toggle_button):
+            self.tracker.is_actuals_minimal = not self.tracker.is_actuals_minimal
+
+            self.render()
+
         self._apply_frame_stretch(rows=[1], columns=[4])
 
+        # Working value to be incremented as widgets are placed
         row_index = 0
 
         date_stepper = DateStepper(
@@ -121,12 +127,29 @@ class Actuals(Board):
             }
         )
         date_stepper.render().grid(row=row_index, column=0, columnspan=4, sticky="nswe")
-        row_index += 1
 
         date_stepper_back_button_width = date_stepper.children["back_button"].winfo_reqwidth()
         date_stepper_forward_button_width = date_stepper.children["forward_button"].winfo_reqwidth()
         self._frame.grid_columnconfigure(0, minsize=date_stepper_back_button_width)
         self._frame.grid_columnconfigure(3, minsize=date_stepper_forward_button_width)
+
+        if self._date_offset == 0:
+            ToggleButton(
+                self._frame,
+                text_values={
+                    True: "Show Empty Entries",
+                    False: "Hide Empty Entries"
+                },
+                get_data=(lambda component: self.tracker.is_actuals_minimal),
+                on_change=toggle_minimal,
+                styles={
+                    "button": {
+                        **self.theme.STANDARD_STYLES["button"]
+                    }
+                }
+            ).render().grid(row=row_index, column=5, columnspan=4, sticky="nswe")
+
+        row_index += 1
 
         actuals_working_date = datetime.now().date() + timedelta(days=self._date_offset)
         actuals_working_date_key = actuals_working_date.strftime(TrackerConstants.DATE_KEY_FORMAT)
@@ -146,10 +169,12 @@ class Actuals(Board):
                 [active_schedule_id, actuals_working_date.strftime("%a"), current_workout_type_id]
             )
 
-            if self._date_offset != 0:  # Rendering a previous date
-                if scheduled_workout_sets == 0 and actual_reps_completed == 0:
-                    continue  # Ignore workout types that were not scheduled nor performed on this date
-            is_date_empty = False
+            # If this workout is empty and not on today's quota
+            if (scheduled_workout_sets == 0) and (actual_reps_completed == 0):
+                # If currently displaying a previous day's logs, or if the layout is set to minimal
+                if (self._date_offset != 0) or self.tracker.is_actuals_minimal:
+                    continue  # Do not render
+            is_date_empty = False  # If the above workout is to be rendered below, then this date is not empty
 
             current_workout_name = (
                     workout_details["name"] or
@@ -161,8 +186,11 @@ class Actuals(Board):
             actual_sets_completed = int(actual_reps_completed / current_workout_reps_per_set)
             workout_status_color = determine_workout_status_color(actual_sets_completed, scheduled_workout_sets)
 
+            # Working value to be incremented as widgets are placed
             column_index = 1
+
             row_index += 1
+
             Label(self._frame, text=current_workout_name, anchor="w", width=30,
                   **{
                       **self.theme.STANDARD_STYLES["label"],
@@ -186,7 +214,7 @@ class Actuals(Board):
             )
             label_wrapper.render().grid(row=row_index, column=column_index, sticky="nsw")
 
-            column_index += 3 if self._date_offset == 0 else 4
+            column_index += (3 if self._date_offset == 0 else 4)
             stepper_text_format = get_workout_stepper_label_format(scheduled_workout_sets)
             number_stepper = NumberStepper(
                 self._frame,
@@ -209,10 +237,13 @@ class Actuals(Board):
                     }
                 }
             )
-            number_stepper.render().grid(row=row_index, column=column_index,
-                                         columnspan=3 if self._date_offset == 0 else 1, sticky="nswe")
+            number_stepper.render().grid(
+                row=row_index, column=column_index,
+                columnspan=(3 if self._date_offset == 0 else 1),
+                sticky="nswe"
+            )
 
-            column_index += 3 if self._date_offset == 0 else 2
+            column_index += (3 if self._date_offset == 0 else 2)
             ToggleButton(
                 self._frame,
                 text_values={True: "Desc", False: "Desc"},
@@ -231,8 +262,6 @@ class Actuals(Board):
                     self._frame, text=current_workout_desc,
                     **self.theme.STANDARD_STYLES["paragraph"], **self.theme.STANDARD_STYLES["highlighted"],
                 ).grid(row=row_index, column=0, columnspan=9, sticky="nswe")
-
-        row_index += 1
 
         if not is_date_empty:
             self._apply_dividers(TrackerConstants.DIVIDER_SIZE, rows=[1], columns=[4])

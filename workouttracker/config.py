@@ -36,9 +36,9 @@ class Config:
 
             # These 5 colours should form a continuous scale from 'bad' -> 'good'
             "score_0": "#FF9A60",
-            "score_1": "#FFBD78",
+            "score_1": "#FFC87C",
             "score_2": "#FFD482",
-            "score_3": "#DCD482",
+            "score_3": "#C6D780",
             "score_4": "#A5E178",
         }
 

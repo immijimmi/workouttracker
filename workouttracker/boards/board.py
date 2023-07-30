@@ -9,8 +9,6 @@ from ..constants import Constants as TrackerConstants
 class Board(Component.with_extensions(GridHelper), ABC):
     def __init__(self, tracker, container, update_interval_ms=None):
         self._tracker = tracker
-        self._state = self.tracker.state
-        self._theme = self.tracker.config.Theme
 
         board_style_args = self.theme.BOARD_STYLE_ARGS.get(
             type(self).__name__,
@@ -37,11 +35,15 @@ class Board(Component.with_extensions(GridHelper), ABC):
 
     @property
     def state(self):
-        return self._state
+        return self._tracker.state
+
+    @property
+    def config(self):
+        return self._tracker.config
 
     @property
     def theme(self):
-        return self._theme
+        return self._tracker.config.Theme
 
     @property
     def display_name(self) -> str:

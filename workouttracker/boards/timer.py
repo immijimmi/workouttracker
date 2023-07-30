@@ -1,6 +1,6 @@
 from tkcomponents.basiccomponents import ToggleButton, LabelWrapper, StringEditor
 
-from tkinter import Button
+from tkinter import Button, DISABLED, NORMAL
 from datetime import datetime, timezone
 
 from ..constants import Constants as TrackerConstants
@@ -81,7 +81,7 @@ class Timer(Board):
             text="Reset",
             width=6,
             command=on_change__stopwatch_reset_button,
-            state=("disabled" if self.tracker.stopwatch.is_running else "normal"),
+            state=(DISABLED if self.tracker.stopwatch.is_running else NORMAL),
             **self.theme.STANDARD_STYLES["button"]
         )
         stopwatch_reset_button.grid(row=1, column=2, sticky="nswe")
@@ -131,9 +131,9 @@ class Timer(Board):
             width=6,
             command=on_change__stopwatch_save_button,
             state=(
-                "disabled" if (
+                DISABLED if (
                     self.tracker.stopwatch.is_running or not self.tracker.stopwatch.elapsed
-                ) else "normal"
+                ) else NORMAL
             ),
             **self.theme.STANDARD_STYLES["button"]
         )

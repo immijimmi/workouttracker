@@ -31,8 +31,8 @@ class Config:
 
     class Theme:
         COLOURS = {
-            "disabled": "#E5E5E5",
-            "pending": "#FFC760",
+            "disabled": "#E1E1DA",
+            "pending": "#FFC666",
 
             # These 5 colours should form a continuous scale from 'bad' -> 'good'
             "score_0": "#FF9A60",

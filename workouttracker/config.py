@@ -31,15 +31,15 @@ class Config:
 
     class Theme:
         COLOURS = {
-            "disabled": "#E1E1DA",
-            "pending": "#FFC666",
+            "disabled": "#E5E5DE",
+            "pending": "#FCCF64",
 
             # These 5 colours should form a continuous scale from 'bad' -> 'good'
-            "score_0": "#FF9A60",
-            "score_1": "#FFC87C",
-            "score_2": "#FFD482",
-            "score_3": "#C6D780",
-            "score_4": "#A5E178",
+            "score_0": "#FF975A",
+            "score_1": "#FEC278",
+            "score_2": "#FED87D",
+            "score_3": "#B6DE7B",
+            "score_4": "#96E670",
         }
 
         STANDARD_STYLE_ARGS = {

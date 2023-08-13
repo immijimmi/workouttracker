@@ -2,6 +2,7 @@ from managedstate.extensions import PartialQuery
 
 
 class Constants:
+    DATA_VERSION_KEY = "version"
     DATA_VERSION = "0.5.0"
 
     WEEKDAY_KEY_STRINGS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")

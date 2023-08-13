@@ -80,7 +80,7 @@ class Tracker(Component.with_extensions(GridHelper)):
 
             # Version checking
             try:
-                data_version = data["version"]
+                data_version = data[Constants.DATA_VERSION_KEY]
             except KeyError:
                 error_msg = error_msg_template.format("no version number found in file data")
 
@@ -126,7 +126,13 @@ class Tracker(Component.with_extensions(GridHelper)):
 
         try:
             with open(file_path, "w") as data_file:
-                data_file.write(json.dumps(self.state.get()))
+                data = self.state.get()
+
+                # Versioning
+                if Constants.DATA_VERSION_KEY not in data:
+                    data[Constants.DATA_VERSION_KEY] = Constants.DATA_VERSION
+
+                data_file.write(json.dumps(data))
 
             self.is_state_unsaved = False
             return True, None

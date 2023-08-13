@@ -72,7 +72,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         (if unsuccessful) a relevant string error message
         """
 
-        error_msg_template = "Unable to load data from file: {}"
+        error_msg_template = "Load unsuccessful: {}"
 
         try:
             with open(file_path, "r") as data_file:
@@ -99,13 +99,13 @@ class Tracker(Component.with_extensions(GridHelper)):
             return True, None
 
         except FileNotFoundError as ex:
-            error_msg = error_msg_template.format("could not locate data file under the provided file path")
+            error_msg = error_msg_template.format("no file found at the target location")
 
             warning(error_msg_template.format(ex))
             return False, error_msg
 
         except json.decoder.JSONDecodeError as ex:
-            error_msg = error_msg_template.format("could not parse file data from JSON")
+            error_msg = error_msg_template.format("unable to parse data from JSON format")
 
             warning(error_msg_template.format(ex))
             return False, error_msg
@@ -122,7 +122,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         (if unsuccessful) a relevant string error message
         """
 
-        error_msg_template = "Unable to save data to file: {}"
+        error_msg_template = "Save unsuccessful: {}"
 
         try:
             with open(file_path, "w") as data_file:

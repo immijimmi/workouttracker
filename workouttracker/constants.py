@@ -17,7 +17,7 @@ class Constants:
 
     TIP_PLACEHOLDER = "You have not added any tips."
 
-    ALERT_DURATION = 3000
+    ALERT_DURATION = 5000
     PROGRESS_BAR_WIDTH = 60
 
     # Padding

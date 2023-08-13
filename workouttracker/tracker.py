@@ -7,6 +7,7 @@ import json
 from random import shuffle
 from logging import warning
 from os import path
+from typing import Optional
 
 from .constants import Constants
 from .stopwatch import Stopwatch
@@ -30,7 +31,7 @@ class Tracker(Component.with_extensions(GridHelper)):
             "set",
             lambda result, state_obj, *args, **kwargs: (
                 None if state_obj.extension_data.get("registered_path_label", None) == "load_file"
-                else self.save_state(self.state_file_path, do_catch_errors=True)
+                else self.try_save_state(self.state_file_path)
             )
         )  # Only save if this was not a load operation
 
@@ -39,7 +40,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         self.is_state_unsaved = True
         self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
 
-        is_loaded = self.load_state(self.state_file_path, do_catch_errors=True)
+        is_loaded, error_msg = self.try_load_state(self.state_file_path)
         if is_loaded:
             self.is_state_unsaved = False
 
@@ -64,7 +65,15 @@ class Tracker(Component.with_extensions(GridHelper)):
         frame_stretch = self._board_handler.arrange_boards()
         self._apply_frame_stretch(**frame_stretch)
 
-    def load_state(self, file_path: str, do_catch_errors: bool = False) -> bool:
+    def try_load_state(self, file_path: str) -> tuple[bool, Optional[str]]:
+        """
+        Attempts to load data into the application state using the provided file path.
+        Returns a tuple containing first a bool indicating if the operation was successful, and second
+        (if unsuccessful) a relevant string error message
+        """
+
+        error_msg_template = "Unable to load data from file: {}"
+
         try:
             with open(file_path, "r") as data_file:
                 data = json.loads(data_file.read())
@@ -73,47 +82,59 @@ class Tracker(Component.with_extensions(GridHelper)):
             try:
                 data_version = data["version"]
             except KeyError:
-                error_msg = "no version number found in file data"
-                if do_catch_errors:
-                    warning(error_msg)
-                    return False
-                else:
-                    raise KeyError(error_msg)
+                error_msg = error_msg_template.format("no version number found in file data")
+
+                warning(error_msg)
+                return False, error_msg
 
             if data_version != Constants.DATA_VERSION:
-                error_msg = (
-                    f"incompatible file data version: {data_version} != {Constants.DATA_VERSION}"
+                error_msg = error_msg_template.format(
+                    f"incompatible file data version ({data_version} != {Constants.DATA_VERSION})"
                 )
-                if do_catch_errors:
-                    warning(error_msg)
-                    return False
-                else:
-                    raise RuntimeError(error_msg)
+
+                warning(error_msg)
+                return False, error_msg
 
             self.state.registered_set(data, "load_file")
-            return True
+            return True, None
 
-        except Constants.READ_ERRORS as ex:
-            if do_catch_errors:
-                warning(str(ex))
-                return False
-            else:
-                raise ex
+        except FileNotFoundError as ex:
+            error_msg = error_msg_template.format("could not locate data file under the provided file path")
 
-    def save_state(self, file_path: str, do_catch_errors: bool = False) -> bool:
+            warning(error_msg_template.format(ex))
+            return False, error_msg
+
+        except json.decoder.JSONDecodeError as ex:
+            error_msg = error_msg_template.format("could not parse file data from JSON")
+
+            warning(error_msg_template.format(ex))
+            return False, error_msg
+
+        # Default case
+        except Exception as ex:
+            warning(error_msg_template.format(ex))
+            return False, "Unable to load data from file."
+
+    def try_save_state(self, file_path: str) -> tuple[bool, Optional[str]]:
+        """
+        Attempts to save data from the application state to a file using the provided file path.
+        Returns a tuple containing first a bool indicating if the operation was successful, and second
+        (if unsuccessful) a relevant string error message
+        """
+
+        error_msg_template = "Unable to save data to file: {}"
+
         try:
             with open(file_path, "w") as data_file:
                 data_file.write(json.dumps(self.state.get()))
 
             self.is_state_unsaved = False
-            return True
+            return True, None
 
-        except Constants.WRITE_ERRORS as ex:
-            if do_catch_errors:
-                warning(str(ex))
-                return False
-            else:
-                raise ex
+        # Default case
+        except Exception as ex:
+            warning(error_msg_template.format(ex))
+            return False, "Unable to save data to file."
 
     def state__add_schedule(self):
         schedules = self.state.registered_get("workout_schedules")

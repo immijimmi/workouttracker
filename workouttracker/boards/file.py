@@ -54,15 +54,13 @@ class File(Board):
                 return self._add_alert("Selected file is already open.")
 
             if operation in ("Open", "Import"):
-                try:
-                    self.tracker.load_state(selected_file_path, do_catch_errors=False)
-                except Exception as ex:
-                    return self._add_alert(f"Unable to open selected file ({ex}).")
+                is_loaded, error_msg = self.tracker.try_load_state(selected_file_path)
+                if not is_loaded:
+                    return self._add_alert(error_msg)
             else:
-                try:
-                    self.tracker.save_state(selected_file_path, do_catch_errors=False)
-                except Exception as ex:
-                    return self._add_alert(f"Unable to save as selected file name ({ex}).")
+                is_saved, error_msg = self.tracker.try_save_state(selected_file_path)
+                if not is_saved:
+                    return self._add_alert(error_msg)
 
             if operation in ("Open", "Save As"):
                 self.tracker.state_file_path = selected_file_path

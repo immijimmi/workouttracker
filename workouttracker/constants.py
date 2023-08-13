@@ -1,7 +1,5 @@
 from managedstate.extensions import PartialQuery
 
-from json import decoder
-
 
 class Constants:
     DATA_VERSION = "0.5.0"
@@ -57,10 +55,6 @@ class Constants:
     # Update Intervals
     INTERVAL_TINY = 20
     INTERVAL_SHORT = 500
-
-    # File Handling Errors
-    READ_ERRORS = (FileNotFoundError, decoder.JSONDecodeError)
-    WRITE_ERRORS = (OSError,)
 
     # Misc
     COLOURS = {

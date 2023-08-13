@@ -38,7 +38,7 @@ class File(Board):
 
         def set_file_config(operation):
             if operation not in ("Open", "Import", "Save As"):
-                raise ValueError
+                raise ValueError(operation)
 
             filetypes = (("JSON Files", "*.json"), ("All Files", "*.*"))
             if operation in ("Open", "Import"):
@@ -54,13 +54,15 @@ class File(Board):
                 return self._add_alert("Selected file is already open.")
 
             if operation in ("Open", "Import"):
-                loaded = self.tracker.load_state(selected_file_path, catch=True)
-                if not loaded:
-                    return self._add_alert("Unable to open selected file.")
+                try:
+                    self.tracker.load_state(selected_file_path, do_catch_errors=False)
+                except Exception as ex:
+                    return self._add_alert(f"Unable to open selected file ({ex}).")
             else:
-                saved = self.tracker.save_state(selected_file_path, catch=True)
-                if not saved:
-                    return self._add_alert("Unable to save as selected file name.")
+                try:
+                    self.tracker.save_state(selected_file_path, do_catch_errors=False)
+                except Exception as ex:
+                    return self._add_alert(f"Unable to save as selected file name ({ex}).")
 
             if operation in ("Open", "Save As"):
                 self.tracker.state_file_path = selected_file_path

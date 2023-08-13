@@ -4,6 +4,8 @@ from json import decoder
 
 
 class Constants:
+    DATA_VERSION = "0.5.0"
+
     WEEKDAY_KEY_STRINGS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
     PATH_DYNAMIC_KEY = PartialQuery(lambda key: key)

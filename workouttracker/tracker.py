@@ -30,7 +30,7 @@ class Tracker(Component.with_extensions(GridHelper)):
             "set",
             lambda result, state_obj, *args, **kwargs: (
                 None if state_obj.extension_data.get("registered_path_label", None) == "load_file"
-                else self.save_state(self.state_file_path, catch=True)
+                else self.save_state(self.state_file_path, do_catch_errors=True)
             )
         )  # Only save if this was not a load operation
 
@@ -39,8 +39,8 @@ class Tracker(Component.with_extensions(GridHelper)):
         self.is_state_unsaved = True
         self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
 
-        loaded = self.load_state(self.state_file_path, catch=True)
-        if loaded:
+        is_loaded = self.load_state(self.state_file_path, do_catch_errors=True)
+        if is_loaded:
             self.is_state_unsaved = False
 
         # Board-specific temporary variables
@@ -64,29 +64,56 @@ class Tracker(Component.with_extensions(GridHelper)):
         frame_stretch = self._board_handler.arrange_boards()
         self._apply_frame_stretch(**frame_stretch)
 
-    def load_state(self, file_path, catch=False):
+    def load_state(self, file_path: str, do_catch_errors: bool = False) -> bool:
         try:
             with open(file_path, "r") as data_file:
-                self.state.registered_set(json.loads(data_file.read()), "load_file")
+                data = json.loads(data_file.read())
+
+            # Version checking
+            try:
+                data_version = data["version"]
+            except KeyError:
+                error_msg = "no version number found in file data"
+                if do_catch_errors:
+                    warning(error_msg)
+                    return False
+                else:
+                    raise KeyError(error_msg)
+
+            if data_version != Constants.DATA_VERSION:
+                error_msg = (
+                    f"incompatible file data version: {data_version} != {Constants.DATA_VERSION}"
+                )
+                if do_catch_errors:
+                    warning(error_msg)
+                    return False
+                else:
+                    raise RuntimeError(error_msg)
+
+            self.state.registered_set(data, "load_file")
             return True
+
         except Constants.READ_ERRORS as ex:
-            if not catch:
+            if do_catch_errors:
+                warning(str(ex))
+                return False
+            else:
                 raise ex
 
-            warning("Unable to load application state from file: {0}".format(ex))
-
-    def save_state(self, file_path, catch=False):
+    def save_state(self, file_path: str, do_catch_errors: bool = False) -> bool:
         try:
             with open(file_path, "w") as data_file:
                 data_file.write(json.dumps(self.state.get()))
 
             self.is_state_unsaved = False
             return True
-        except Constants.WRITE_ERRORS as ex:
-            if not catch:
-                raise ex
 
-            warning("Unable to save application state to file: {0}".format(ex))
+        except Constants.WRITE_ERRORS as ex:
+            if do_catch_errors:
+                warning(str(ex))
+                return False
+            else:
+                raise ex
 
     def state__add_schedule(self):
         schedules = self.state.registered_get("workout_schedules")

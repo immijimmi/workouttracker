@@ -72,7 +72,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         (if unsuccessful) a relevant string error message
         """
 
-        error_msg_template = "Load unsuccessful: {}"
+        error_msg_template = "Failed to load file: {}"
 
         try:
             with open(file_path, "r") as data_file:
@@ -122,7 +122,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         (if unsuccessful) a relevant string error message
         """
 
-        error_msg_template = "Save unsuccessful: {}"
+        error_msg_template = "Failed to save file: {}"
 
         try:
             with open(file_path, "w") as data_file:

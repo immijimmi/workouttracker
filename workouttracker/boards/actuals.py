@@ -21,22 +21,32 @@ class Actuals(Board):
         return "Daily Goals"
 
     def _render(self):
+        def truncate_actual_sets(sets: float):
+            """
+            Formats actual sets values to the correct amount of decimal places, without rounding up.
+
+            Should be used anywhere that a value for actual sets completed is calculated, to ensure that
+            all actuals values used in this board are to the same precision
+            """
+
+            return float(f"{sets:.1f}")
+
         def get_workout_stepper_label_format(scheduled_sets):
-            return "{0}" + "/{0} sets".format(scheduled_sets)
+            return "{0:g}" + "/{0} sets".format(scheduled_sets)
 
         def determine_workout_status_color(actual_sets, scheduled_sets):
-            if actual_sets > scheduled_sets:
+            if actual_sets > scheduled_sets:  # Sets over-completed
                 return self.theme.COLOURS["score_4"]
-            elif actual_sets == scheduled_sets and actual_sets > 0:
+            elif actual_sets == scheduled_sets and actual_sets > 0:  # Sets completed
                 return self.theme.COLOURS["score_3"]
-            elif actual_sets == scheduled_sets:
+            elif actual_sets == scheduled_sets:  # Sets empty
                 return self.theme.COLOURS["disabled"]
-            elif actual_sets > 0:
-                if actual_sets == (scheduled_sets - 1):
+            elif actual_sets > 0:  # Sets partially completed
+                if actual_sets >= (scheduled_sets - 1):  # Sets partially completed, and close to completion
                     return self.theme.COLOURS["score_2"]
-                else:
+                else:  # Sets partially completed, but not close to completion
                     return self.theme.COLOURS["score_1"]
-            else:
+            else:  # Sets not completed at all
                 return self.theme.COLOURS["score_0"]
 
         def on_change__date_stepper(stepper, increment_amount):
@@ -53,7 +63,7 @@ class Actuals(Board):
 
             workout_reps_actual = self.state.registered_get(
                 "completed_reps_single_entry", [working_date_key, workout_type_id])
-            workout_sets_actual = int(workout_reps_actual / workout_reps)
+            workout_sets_actual = truncate_actual_sets(workout_reps_actual / workout_reps)
 
             schedule_id = self.state.registered_get("active_schedule_id")
             workout_sets_scheduled = self.state.registered_get(
@@ -76,7 +86,7 @@ class Actuals(Board):
 
             workout_reps_actual = self.state.registered_get(
                 "completed_reps_single_entry", [working_date_key, workout_type_id])
-            workout_sets_actual = int(workout_reps_actual / workout_reps)
+            workout_sets_actual = truncate_actual_sets(workout_reps_actual / workout_reps)
 
             sets_actual_difference = stepper.value - workout_sets_actual
             reps_actual_difference = sets_actual_difference * workout_reps
@@ -170,7 +180,7 @@ class Actuals(Board):
             current_workout_desc = workout_details["desc"]
             current_workout_reps_per_set = workout_details["single_set_reps"]
 
-            actual_sets_completed = int(actual_reps_completed / current_workout_reps_per_set)
+            actual_sets_completed = truncate_actual_sets(actual_reps_completed / current_workout_reps_per_set)
             workout_status_color = determine_workout_status_color(actual_sets_completed, scheduled_workout_sets)
 
             column_index = 1  # Working value to be incremented as widgets are placed

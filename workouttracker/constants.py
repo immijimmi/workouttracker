@@ -3,14 +3,14 @@ from managedstate.extensions import PartialQuery
 
 class Constants:
     DATA_VERSION_KEY = "version"
-    DATA_VERSION = "0.5.0"
+    DATA_VERSION = "0.4.0"
 
     WEEKDAY_KEY_STRINGS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
     PATH_DYNAMIC_KEY = PartialQuery(lambda key: key)
 
     WINDOW_MINSIZE = (255, 33)
-    WINDOW_TITLE = "Workout Logger"
+    WINDOW_TITLE_FORMAT = "{0} - Workout Tracker"
 
     DATE_KEY_FORMAT = "%Y/%m/%d"
     # Should be used whenever a label does not contain the same kind of information as is standard for its section

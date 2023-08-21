@@ -6,7 +6,6 @@ from .constants import Constants
 
 
 class Config:
-    STATE_FILE_PATH = "data.json"
     # This method of resource access will locate the file relative to this project, regardless of what the cwd is
     with resources.path("workouttracker.res", "icon.ico") as path:
         ICON_FILE_PATH = path

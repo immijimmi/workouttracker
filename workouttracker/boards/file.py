@@ -150,10 +150,9 @@ class File(Board):
         ).grid(row=row_index, column=3, sticky="nswe")
 
     def _set_path_label_style(self):
-        style = (
-            {**self.theme.STANDARD_STYLES["text_unsaved"]} if self.tracker.is_state_unsaved else
-            {**self.theme.STANDARD_STYLES["text_saved"]}
-        )
+        style = self.theme.STANDARD_STYLES[
+            "text_unsaved" if self.tracker.is_state_unsaved else "text_saved"
+        ]
 
         self.children["file_path_label"].config(**style)
 

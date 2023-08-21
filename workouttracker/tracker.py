@@ -6,8 +6,7 @@ from tkcomponents.extensions import GridHelper
 import json
 from random import shuffle
 from logging import warning
-from os import path
-from typing import Optional
+from typing import Optional, Callable
 
 from .constants import Constants
 from .stopwatch import Stopwatch
@@ -15,11 +14,16 @@ from .config import Config
 
 
 class Tracker(Component.with_extensions(GridHelper)):
-    def __init__(self, container, config=Config):
+    def __init__(
+            self, container,
+            on_file_change: Callable[["Tracker"], None] = (lambda tracker: None),
+            config=Config
+    ):
         super().__init__(container, styles={
             "frame": {"bg": config.Theme.STANDARD_STYLE_ARGS["bg"]}
         })
 
+        self._on_file_change = on_file_change
         self._config = config
 
         self._board_handler = self._config.BOARD_HANDLER_CLS(self)
@@ -36,9 +40,11 @@ class Tracker(Component.with_extensions(GridHelper)):
         )  # Only save if this was not a load operation
 
         # Tracker temporary variables
-        self.state_file_path = path.relpath(self._config.STATE_FILE_PATH)
-        self.is_state_unsaved = True
         self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
+
+        self._state_file_path = None
+        self._is_state_unsaved = True
+        self._on_file_change(self)
 
         is_loaded, error_msg = self.try_load_state(self.state_file_path)
         if is_loaded:
@@ -55,6 +61,28 @@ class Tracker(Component.with_extensions(GridHelper)):
         self.stopwatch_note = ""
 
     @property
+    def state_file_path(self) -> Optional[str]:
+        return self._state_file_path
+
+    @state_file_path.setter
+    def state_file_path(self, value: Optional[str]):
+        if value != self._state_file_path:
+            self._state_file_path = value
+
+            self._on_file_change(self)
+
+    @property
+    def is_state_unsaved(self) -> bool:
+        return self._is_state_unsaved
+
+    @is_state_unsaved.setter
+    def is_state_unsaved(self, value: bool):
+        if value != self._is_state_unsaved:
+            self._is_state_unsaved = value
+
+            self._on_file_change(self)
+
+    @property
     def config(self):
         return self._config
 
@@ -65,7 +93,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         frame_stretch = self._board_handler.arrange_boards()
         self._apply_frame_stretch(**frame_stretch)
 
-    def try_load_state(self, file_path: str) -> tuple[bool, Optional[str]]:
+    def try_load_state(self, file_path: Optional[str]) -> tuple[bool, Optional[str]]:
         """
         Attempts to load data into the application state using the provided file path.
         Returns a tuple containing first a bool indicating if the operation was successful, and second
@@ -73,6 +101,11 @@ class Tracker(Component.with_extensions(GridHelper)):
         """
 
         error_msg_template = "Failed to load file: {}"
+
+        if file_path is None:
+            error_msg = error_msg_template.format("no file currently selected")
+
+            return False, error_msg
 
         try:
             with open(file_path, "r") as data_file:
@@ -115,7 +148,7 @@ class Tracker(Component.with_extensions(GridHelper)):
             warning(error_msg_template.format(ex))
             return False, "Unable to load data from file."
 
-    def try_save_state(self, file_path: str) -> tuple[bool, Optional[str]]:
+    def try_save_state(self, file_path: Optional[str]) -> tuple[bool, Optional[str]]:
         """
         Attempts to save data from the application state to a file using the provided file path.
         Returns a tuple containing first a bool indicating if the operation was successful, and second
@@ -123,6 +156,11 @@ class Tracker(Component.with_extensions(GridHelper)):
         """
 
         error_msg_template = "Failed to save file: {}"
+
+        if file_path is None:
+            error_msg = error_msg_template.format("save location not set")
+
+            return False, error_msg
 
         try:
             with open(file_path, "w") as data_file:

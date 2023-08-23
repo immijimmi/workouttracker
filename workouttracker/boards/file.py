@@ -91,8 +91,9 @@ class File(Board):
                 on_expire=on_expire__alert,
                 styles={
                     "frame": {
-                        **self.theme.STANDARD_STYLES["highlighted"],
                         "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
+                        **self.theme.STANDARD_STYLES["highlighted"],
+                        **self.theme.STANDARD_STYLES["tinted"],
                     },
                     "inner_frame": {
                         "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
@@ -101,14 +102,14 @@ class File(Board):
                     },
                     "label": {
                         **self.theme.STANDARD_STYLES["label"],
-                        "font": TrackerConstants.FONT_SMALL_ITALIC
+                        "font": TrackerConstants.FONT_SMALL_ITALIC,
                     },
                     "button": {
                         **self.theme.STANDARD_STYLES["symbol_button"],
                     },
                     "progress_bar": {
-                        "filled_bar_frame": {"bg": TrackerConstants.COLOURS["cool_less_dark_grey"]},
-                        "empty_bar_frame": {"bg": TrackerConstants.COLOURS["tk_default_grey"]}
+                        "filled_bar_frame": {"bg": self.theme.COLOURS["accent_0"]},
+                        "empty_bar_frame": {"bg": self.theme.STANDARD_STYLE_ARGS["bg"]}
                     }
                 }
             )
@@ -120,7 +121,7 @@ class File(Board):
             self._frame, text="Save Location",
             **{
                 **self.theme.STANDARD_STYLES["label"],
-                "bg": self.styles["board_args"]["bg"]
+                "bg": self.styles["board"]["bg"]
             }
         ).grid(row=row_index, column=0, columnspan=5, sticky="nswe")
 

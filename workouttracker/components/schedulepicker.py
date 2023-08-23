@@ -6,16 +6,20 @@ from ..constants import Constants as TrackerConstants
 class SchedulePicker(ButtonListBox):
     def __init__(self, board, container, new_schedule_button=False):
         def get_data__button_list_box(list_box):
-            schedule_button_style = {"bg": TrackerConstants.COLOURS["cool_less_dark_grey"]}
+            button_style_1 = {"bg": board.theme.COLOURS["accent_4"]}
+            button_style_2 = {"bg": board.theme.COLOURS["accent_3"]}
 
-            result = [{"value": None, "text": TrackerConstants.META_LABEL_FORMAT.format(None)}]
+            result = [{
+                "value": None,
+                "text": TrackerConstants.META_LABEL_FORMAT.format(None)
+            }]
 
             schedules = board.state.registered_get("workout_schedules")
             for schedule_id in schedules:
                 result.append({
                     "value": schedule_id,
                     "text": schedules[schedule_id]["name"] or TrackerConstants.META_LABEL_FORMAT.format(schedule_id),
-                    "style": schedule_button_style if schedules[schedule_id]["name"] else {}
+                    "style": button_style_2 if schedules[schedule_id]["name"] else button_style_1
                 })
 
             if new_schedule_button:
@@ -57,7 +61,8 @@ class SchedulePicker(ButtonListBox):
                     "relief": "raised"
                 },
                 "button_selected": {
-                    "bg": TrackerConstants.COLOURS["tk_default_grey"],
+                    "bg": board.theme.STANDARD_STYLE_ARGS["fg"],
+                    "fg": board.theme.STANDARD_STYLE_ARGS["bg"],
                     "relief": "sunken"
                 },
                 "scrollbar": {

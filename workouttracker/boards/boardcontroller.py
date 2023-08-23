@@ -3,7 +3,6 @@ from tkcomponents.basiccomponents import ToggleButton
 from tkinter import Label
 from functools import partial
 
-from ..constants import Constants as TrackerConstants
 from .board import Board
 
 
@@ -64,9 +63,9 @@ class BoardController(Board):
                 ).grid(row=row_index, column=column_index, sticky="nswe")
                 column_index += 1
 
-                board_style_args = self.theme.BOARD_STYLE_ARGS.get(
+                board_styles = self.theme.BOARD_STYLES.get(
                     other_board_class.__name__,
-                    self.theme.STANDARD_STYLES["board_args"]
+                    self.theme.STANDARD_STYLES["board"]
                 )
                 ToggleButton(
                     self._frame,
@@ -77,7 +76,7 @@ class BoardController(Board):
                     styles={
                         "button": {
                             **self.theme.STANDARD_STYLES["button"],
-                            "bg": board_style_args["bg"]
+                            **board_styles["button"]
                         }
                     }
                 ).render().grid(row=row_index, column=column_index, sticky="nswe")

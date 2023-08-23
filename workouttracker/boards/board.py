@@ -10,23 +10,23 @@ class Board(Component.with_extensions(GridHelper), ABC):
     def __init__(self, tracker, container, update_interval_ms=None):
         self._tracker = tracker
 
-        board_style_args = self.theme.BOARD_STYLE_ARGS.get(
+        board_styles = self.theme.BOARD_STYLES.get(
             type(self).__name__,
-            self.theme.STANDARD_STYLES["board_args"]
+            self.theme.STANDARD_STYLES["board"]
         )
 
         super().__init__(container, update_interval_ms=update_interval_ms, styles={
             "frame": {
                 "borderwidth": TrackerConstants.BORDERWIDTH_TINY,
                 "relief": "sunken",
-                "bg": board_style_args["bg"],
+                "bg": board_styles["bg"],
                 "padx": TrackerConstants.PAD_SMALL,
                 "pady": TrackerConstants.PAD_SMALL
             }
         })
 
-        self.styles["board_args"] = {
-            **board_style_args
+        self.styles["board"] = {
+            **board_styles
         }
 
     @property

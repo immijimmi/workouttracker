@@ -57,6 +57,7 @@ class Schedule(Board):
                 "x_label": {
                     **self.theme.STANDARD_STYLES["label"],
                     **self.theme.STANDARD_STYLES["highlighted"],
+                    **self.theme.STANDARD_STYLES["tinted"],
                     "width": 3
                 },
                 "y_label": {
@@ -67,6 +68,7 @@ class Schedule(Board):
                     "label": {
                         **self.theme.STANDARD_STYLES["label"],
                         **self.theme.STANDARD_STYLES["highlighted"],
+                        **self.theme.STANDARD_STYLES["tinted"],
                         "width": 3
                     },
                     "button": {

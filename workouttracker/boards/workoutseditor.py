@@ -90,7 +90,7 @@ class WorkoutsEditor(Board):
                 self._frame,
                 **{
                     "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
-                    **self.theme.STANDARD_STYLES["highlighted"]
+                    **self.theme.STANDARD_STYLES["highlighted"],
                 }
             )
             id_title_label = Label(
@@ -134,7 +134,7 @@ class WorkoutsEditor(Board):
                         **self.theme.STANDARD_STYLES["padded"]
                     },
                     "entry": {
-                        "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
+                        "bg": self.theme.STANDARD_STYLE_ARGS["highlight"],
                         "font": self.theme.STANDARD_STYLE_ARGS["font"],
                         "insertbackground": self.theme.STANDARD_STYLE_ARGS["fg"],
                         "width": entry_width,
@@ -176,7 +176,7 @@ class WorkoutsEditor(Board):
                         **self.theme.STANDARD_STYLES["padded"]
                     },
                     "entry": {
-                        "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
+                        "bg": self.theme.STANDARD_STYLE_ARGS["highlight"],
                         "font": self.theme.STANDARD_STYLE_ARGS["font"],
                         "insertbackground": self.theme.STANDARD_STYLE_ARGS["fg"],
                         "width": entry_width,
@@ -221,6 +221,7 @@ class WorkoutsEditor(Board):
                     "label": {
                         **self.theme.STANDARD_STYLES["label"],
                         **self.theme.STANDARD_STYLES["highlighted"],
+                        **self.theme.STANDARD_STYLES["tinted"],
                         "width": 3
                     },
                     "button": {

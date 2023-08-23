@@ -189,7 +189,7 @@ class Actuals(Board):
             Label(self._frame, text=current_workout_name, anchor="w", width=30,
                   **{
                       **self.theme.STANDARD_STYLES["label"],
-                      "bg": self.styles["board_args"]["bg"]
+                      "bg": self.styles["board"]["bg"]
                   }).grid(row=row_index, column=column_index, sticky="nswe")
 
             column_index += 1
@@ -203,7 +203,7 @@ class Actuals(Board):
                         "anchor": "e",
                         "width": 4,
                         **self.theme.STANDARD_STYLES["label"],
-                        "bg": self.styles["board_args"]["bg"]
+                        "bg": self.styles["board"]["bg"]
                     },
                 }
             )
@@ -225,7 +225,7 @@ class Actuals(Board):
                         **self.theme.STANDARD_STYLES["highlighted"],
                         "width": 10,
                         "bg": workout_status_color,
-                        "fg": TrackerConstants.COLOURS["cool_dark_grey"]
+                        "fg": self.theme.STANDARD_STYLE_ARGS["bg"]
                     },
                     "button": {
                         **self.theme.STANDARD_STYLES["symbol_button"]

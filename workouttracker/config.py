@@ -30,8 +30,21 @@ class Config:
 
     class Theme:
         COLOURS = {
-            "disabled": "#E5E5DE",
-            "pending": "#FCCF64",
+            # These colours should form a continuous gradation
+            "light_0": "#F2F2F3",
+            "light_1": "#EDEDEE",
+            "light_2": "#E8E8E9",
+
+            # These colours should form a continuous gradation
+            "dark_0": "#353536",
+            "dark_1": "#3C3C3D",
+            "dark_2": "#49494A",
+
+            # These colours use dark_0 as a base and add a tinted hue
+            "dark_red": "#332B2B",
+            "dark_orange": "#332D29",
+            "dark_green": "#2F332C",
+            "dark_blue": "#2D2C33",
 
             # These 5 colours should form a continuous scale from 'bad' -> 'good'
             "score_0": "#FF975A",
@@ -39,15 +52,26 @@ class Config:
             "score_2": "#FED87D",
             "score_3": "#B6DE7B",
             "score_4": "#96E670",
+
+            # These colours should form a continuous gradation
+            "accent_0": "#A0A090",
+            "accent_1": "#89897B",
+            "accent_2": "#727266",
+            "accent_3": "#54544B",
+            "accent_4": "#3A3A33",
+
+            # Status colours
+            "disabled": "#E8E8E9",
+            "pending": "#FED87D",
         }
 
         STANDARD_STYLE_ARGS = {
-            "fg": Constants.COLOURS["cool_off_white"],
-            "bg": Constants.COLOURS["cool_dark_grey"],
+            "fg": COLOURS["light_0"],
+            "bg": COLOURS["dark_0"],
             "font": Constants.FONT_NORMAL,
             "padx": Constants.PAD_SMALL,
             "pady": Constants.PAD_SMALL,
-            "highlight": Constants.COLOURS["cool_less_dark_grey"]
+            "highlight": COLOURS["dark_2"],
         }
 
         STANDARD_STYLES = {
@@ -61,15 +85,21 @@ class Config:
             "button": {
                 "font": STANDARD_STYLE_ARGS["font"],
                 "fg": STANDARD_STYLE_ARGS["fg"],
-                "bg": STANDARD_STYLE_ARGS["bg"],
+                "bg": COLOURS["dark_1"],
                 "padx": STANDARD_STYLE_ARGS["padx"],
+                "activebackground": STANDARD_STYLE_ARGS["fg"],
+                "activeforeground": STANDARD_STYLE_ARGS["bg"],
+                "disabledforeground": COLOURS["dark_2"],
             },
             "symbol_button": {
                 "font": STANDARD_STYLE_ARGS["font"],
                 "fg": STANDARD_STYLE_ARGS["fg"],
-                "bg": STANDARD_STYLE_ARGS["bg"],
+                "bg": COLOURS["accent_2"],
                 "padx": Constants.PAD_NORMAL,
-                "width": 1
+                "activebackground": STANDARD_STYLE_ARGS["fg"],
+                "activeforeground": STANDARD_STYLE_ARGS["bg"],
+                "width": 1,
+                "disabledforeground": COLOURS["accent_1"],
             },
             "padded": {
                 "padx": STANDARD_STYLE_ARGS["padx"],
@@ -78,6 +108,9 @@ class Config:
             "highlighted": {
                 "relief": "raised",
                 "borderwidth": Constants.BORDERWIDTH_TINY
+            },
+            "tinted": {
+                "bg": COLOURS["accent_4"]
             },
             "paragraph": {
                 "font": Constants.FONT_SMALL_ITALIC,
@@ -90,44 +123,40 @@ class Config:
             "text_saved": {
                 "fg": STANDARD_STYLE_ARGS["fg"],
             },
-            "board_args": {
+            "board": {
                 "bg": STANDARD_STYLE_ARGS["bg"],
-                "highlight": STANDARD_STYLE_ARGS["highlight"]
+                "button": {
+                    "bg": COLOURS["dark_1"]
+                }
             }
         }
 
-        BOARD_STYLE_ARGS = {  # The keys used here are the class names of each board
+        BOARD_STYLES = {  # The keys used here are the class names of each board
             # Meta boards
             "BoardController": {
-                "bg": Constants.COLOURS["cool_dark_grey_green_tint"],
-                "highlight": Constants.COLOURS["cool_less_dark_grey_green_tint"]
+                "bg": COLOURS["accent_4"],
+                "button": {
+                    "bg": COLOURS["accent_3"]
+                }
             },
             "File": {
-                "bg": Constants.COLOURS["cool_dark_grey_green_tint"],
-                "highlight": Constants.COLOURS["cool_less_dark_grey_green_tint"]
+                "bg": COLOURS["accent_4"],
+                "button": {
+                    "bg": COLOURS["accent_3"]
+                }
             },
 
-            # Editor boards
-            "Schedule": {
-                "bg": Constants.COLOURS["cool_dark_grey_yellow_tint"],
-                "highlight": Constants.COLOURS["cool_less_dark_grey_yellow_tint"]
-            },
-            "SchedulesEditor": {
-                "bg": Constants.COLOURS["cool_dark_grey_yellow_tint"],
-                "highlight": Constants.COLOURS["cool_less_dark_grey_yellow_tint"]
-            },
-            "WorkoutsEditor": {
-                "bg": Constants.COLOURS["cool_dark_grey_yellow_tint"],
-                "highlight": Constants.COLOURS["cool_less_dark_grey_yellow_tint"]
-            },
-
-            # Tracking boards
+            # Daily usage boards
             "Actuals": {
-                "bg": Constants.COLOURS["cool_dark_grey_blue_tint"],
-                "highlight": Constants.COLOURS["cool_less_dark_grey_blue_tint"]
+                "bg": COLOURS["accent_3"],
+                "button": {
+                    "bg": COLOURS["accent_2"]
+                }
             },
             "Timer": {
-                "bg": Constants.COLOURS["cool_dark_grey_blue_tint"],
-                "highlight": Constants.COLOURS["cool_less_dark_grey_blue_tint"]
-            }
+                "bg": COLOURS["accent_3"],
+                "button": {
+                    "bg": COLOURS["accent_2"]
+                }
+            },
         }

@@ -96,9 +96,10 @@ class SchedulesEditor(Board):
                     "pady": self.theme.STANDARD_STYLE_ARGS["pady"],
                 },
                 "entry": {
-                    "bg": TrackerConstants.COLOURS["cool_less_dark_grey"],
+                    "bg": self.theme.STANDARD_STYLE_ARGS["highlight"],
                     "font": self.theme.STANDARD_STYLE_ARGS["font"],
                     "insertbackground": self.theme.STANDARD_STYLE_ARGS["fg"],
+                    "disabledbackground": self.theme.COLOURS["disabled"],
                 },
                 "entry_unsaved": {
                     **self.theme.STANDARD_STYLES["text_unsaved"]

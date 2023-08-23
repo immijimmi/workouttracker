@@ -56,28 +56,3 @@ class Constants:
     # Update Intervals
     INTERVAL_TINY = 20
     INTERVAL_SHORT = 500
-
-    # Misc
-    COLOURS = {
-        ##### TODO: V1 Colour Scheme - to be deprecated and removed entirely, default theme will be in Config
-        "tk_default_grey": "#f0f0f0",
-        "orange": "#FF9859",
-        "yellow": "#FFD800",
-        "blue": "#667FFF",
-        "green": "#00B211",
-        "grey": "#CCCCCC",
-        "white": "#FFFFFF",
-        "cool_off_white": "#FAFAFF",
-        "cool_dark_grey": "#37373C",
-        "cool_dark_grey_green_tint": "#333E39",  # #37373C@255 + #00B211@15
-        "cool_dark_grey_blue_tint": "#3A3C4B",  # #37373C@255 + #667FFF@20
-        "cool_dark_grey_yellow_tint": "#444036",  # #37373C@255 + #D1AA00@22
-        "cool_dark_grey_purple_tint": "#363246",  # #37373C@255 + #3200BF@20
-        "cool_dark_grey_white_tint": "#46464B",  # #37373C@255 + #FFFFFF@20
-        "cool_less_dark_grey": "#46464C",
-        "cool_less_dark_grey_green_tint": "#414C48",  # #46464C@255 + #00B211@15
-        "cool_less_dark_grey_blue_tint": "#484A5A",  # #46464C@255 + #667FFF@20
-        "cool_less_dark_grey_yellow_tint": "#514E45",  # #46464C@255 + #D1AA00@22
-        "cool_less_dark_grey_purple_tint": "#444055",  # #46464C@255 + #3200BF@20
-        "cool_less_dark_grey_white_tint": "#54545A",  # #46464C@255 + #FFFFFF@20
-    }

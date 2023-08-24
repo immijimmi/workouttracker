@@ -54,11 +54,11 @@ class Config:
             "score_4": "#96E670",
 
             # These colours should form a continuous gradation
-            "accent_0": "#A0A090",
-            "accent_1": "#89897B",
-            "accent_2": "#727266",
-            "accent_3": "#54544B",
-            "accent_4": "#3A3A33",
+            "accent_0": "#999989",
+            "accent_1": "#7C7C70",
+            "accent_2": "#636359",
+            "accent_3": "#4C4C47",
+            "accent_4": "#35352F",
 
             # Status colours
             "disabled": "#E8E8E9",

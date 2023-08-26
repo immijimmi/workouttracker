@@ -13,6 +13,7 @@ class Actuals(Board):
         super().__init__(tracker, container)
 
         self._date_offset = 0
+        self._is_only_today_editable = True
 
         self._visible_workout_descriptions = set()
 
@@ -111,12 +112,24 @@ class Actuals(Board):
 
         def toggle_minimal(toggle_button):
             self.tracker.is_actuals_minimal = not self.tracker.is_actuals_minimal
+            self.render()
 
+        def toggle_editing_other_dates(toggle_button):
+            self._is_only_today_editable = not self._is_only_today_editable
             self.render()
 
         self._apply_frame_stretch(rows=[1], columns=[4])
 
         is_rendering_today = (self._date_offset == 0)
+        is_rendering_empty_workouts = (
+                (is_rendering_today and (not self.tracker.is_actuals_minimal)) or
+                ((not is_rendering_today) and (not self._is_only_today_editable))
+        )
+        is_editable = (
+            is_rendering_today or
+            ((not is_rendering_today) and (not self._is_only_today_editable))
+        )
+
         row_index = 0  # Working value to be incremented as widgets are placed
 
         date_stepper = DateStepper(
@@ -129,6 +142,7 @@ class Actuals(Board):
                 "label": {
                     **self.theme.STANDARD_STYLES["label"],
                     **self.theme.STANDARD_STYLES["highlighted"],
+                    **self.theme.STANDARD_STYLES["tinted"],
                     "width": 36  # Extra room left to keep the size somewhat constant between dates
                 },
                 "button": {
@@ -168,14 +182,13 @@ class Actuals(Board):
             if (scheduled_workout_sets == 0) and (actual_reps_completed == 0):
                 empty_workouts += 1
 
-                # If currently displaying a previous day's logs, or if the layout is set to minimal
-                if (not is_rendering_today) or self.tracker.is_actuals_minimal:
+                if not is_rendering_empty_workouts:
                     continue  # Do not render
             rendered_workouts += 1
 
             current_workout_name = (
                     workout_details["name"] or
-                    TrackerConstants.META_LABEL_FORMAT.format(current_workout_type_id)
+                    TrackerConstants.METALABEL_FORMAT.format(current_workout_type_id)
             )
             current_workout_desc = workout_details["desc"]
             current_workout_reps_per_set = workout_details["single_set_reps"]
@@ -186,14 +199,15 @@ class Actuals(Board):
             column_index = 1  # Working value to be incremented as widgets are placed
             row_index += 1
 
+            # Workout name label
             Label(self._frame, text=current_workout_name, anchor="w", width=30,
                   **{
                       **self.theme.STANDARD_STYLES["label"],
                       "bg": self.styles["board"]["bg"]
                   }).grid(row=row_index, column=column_index, sticky="nswe")
 
+            # Workout reps label
             column_index += 1
-
             label_wrapper = LabelWrapper(
                 self._frame,
                 get_data=partial(get_data__label_wrapper, current_workout_type_id),
@@ -209,7 +223,8 @@ class Actuals(Board):
             )
             label_wrapper.render().grid(row=row_index, column=column_index, sticky="nsw")
 
-            column_index += (3 if is_rendering_today else 4)
+            # Workout stepper
+            column_index += (3 if is_editable else 4)
             stepper_text_format = get_workout_stepper_label_format(scheduled_workout_sets)
             number_stepper = NumberStepper(
                 self._frame,
@@ -217,7 +232,7 @@ class Actuals(Board):
                 on_change=partial(on_change__number_stepper, current_workout_type_id),
                 update_interval_ms=TrackerConstants.INTERVAL_SHORT,
                 text_format=stepper_text_format,
-                step_amounts=(1,) if is_rendering_today else (),
+                step_amounts=(1,) if is_editable else (),
                 limits=(0, None),
                 styles={
                     "label": {
@@ -234,11 +249,12 @@ class Actuals(Board):
             )
             number_stepper.render().grid(
                 row=row_index, column=column_index,
-                columnspan=(3 if is_rendering_today else 1),
+                columnspan=(3 if is_editable else 1),
                 sticky="nswe"
             )
 
-            column_index += (3 if is_rendering_today else 2)
+            # Description button
+            column_index += (3 if is_editable else 2)
             ToggleButton(
                 self._frame,
                 text_values={True: "Desc", False: "Desc"},
@@ -251,6 +267,7 @@ class Actuals(Board):
                 }
             ).render().grid(row=row_index, column=column_index, sticky="nswe")
 
+            # Description box
             if current_workout_type_id in self._visible_workout_descriptions:
                 row_index += 1
                 Label(
@@ -258,9 +275,8 @@ class Actuals(Board):
                     **self.theme.STANDARD_STYLES["paragraph"], **self.theme.STANDARD_STYLES["highlighted"],
                 ).grid(row=row_index, column=0, columnspan=9, sticky="nswe")
 
+        # Top-right button
         if is_rendering_today and empty_workouts:
-            self._apply_dividers(TrackerConstants.DIVIDER_SIZE, columns=[4])
-
             ToggleButton(
                 self._frame,
                 text_values={
@@ -275,11 +291,27 @@ class Actuals(Board):
                     }
                 }
             ).render().grid(row=0, column=5, columnspan=4, sticky="nswe")
+        elif (not is_rendering_today) and len(workout_types):
+            ToggleButton(
+                self._frame,
+                text_values={
+                    True: "Unlock Editing",
+                    False: "Lock Editing"
+                },
+                get_data=(lambda component: self._is_only_today_editable),
+                on_change=toggle_editing_other_dates,
+                styles={
+                    "button": {
+                        **self.theme.STANDARD_STYLES["button"]
+                    }
+                }
+            ).render().grid(row=0, column=5, columnspan=4, sticky="nswe")
 
+        # Final adjustments
         if rendered_workouts > 0:
-            self._apply_dividers(TrackerConstants.DIVIDER_SIZE, rows=[1])
+            self._apply_dividers(TrackerConstants.DIVIDER_SIZE, rows=[1], columns=[4])
 
-            # Prevents columns shrinking below the necessary width for the buttons and labels in the workout steppers
+            # Prevents columns shrinking below the necessary width for the buttons and labels in the workouts' steppers
             # Necessary due to the way the description box Label widgets impact spacing of some columns they occupy
             number_stepper_label_width = number_stepper.children["label"].winfo_reqwidth()
             self._frame.grid_columnconfigure(6, minsize=number_stepper_label_width)

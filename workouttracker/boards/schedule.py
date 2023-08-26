@@ -39,7 +39,7 @@ class Schedule(Board):
         workout_types = self.state.registered_get("workout_types")
         workout_y_values = workout_types.keys()
         workout_y_labels = [
-            (workout_types[workout_type_id]["name"] or TrackerConstants.META_LABEL_FORMAT.format(workout_type_id))
+            (workout_types[workout_type_id]["name"] or TrackerConstants.METALABEL_FORMAT.format(workout_type_id))
             for workout_type_id in workout_y_values
         ]
 

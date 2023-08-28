@@ -1,6 +1,6 @@
 from importlib import resources
 
-from .boards import BoardController, File, Actuals, Schedule, WorkoutsEditor, SchedulesEditor, Timer
+from .boards import BoardsController, File, Actuals, Schedule, WorkoutsEditor, SchedulesEditor, Timer
 from .boardhandlers import ResponsiveGrid
 from .constants import Constants
 
@@ -11,14 +11,14 @@ class Config:
         ICON_FILE_PATH = path
 
     # All boards to be rendered. List order will be taken into account whenever displaying these boards in list form
-    BOARDS_LIST = [BoardController, File, Actuals, Schedule, WorkoutsEditor, SchedulesEditor, Timer]
+    BOARDS_LIST = [BoardsController, File, Actuals, Schedule, WorkoutsEditor, SchedulesEditor, Timer]
 
-    INITIAL_BOARDS_VISIBLE = {BoardController}
+    INITIAL_BOARDS_VISIBLE = {BoardsController}
     BOARD_HANDLER_CLS = ResponsiveGrid
 
     # Board handler-specific details
     BOARDS_GRID_LAYOUT = {  # Row and column must be provided. rowspan and columnspan are defaulted to 1 if not provided
-        BoardController: {"row": 0, "column": 0, "rowspan": 3},
+        BoardsController: {"row": 0, "column": 0, "rowspan": 3},
         Actuals: {"row": 0, "column": 1, "rowspan": 2, "columnspan": 7},
         Schedule: {"row": 2, "column": 1, "rowspan": 2, "columnspan": 8},
         # Tips: {"row": 4, "column": 1, "columnspan": 5},  ##### TODO: Tips are disabled until further notice
@@ -133,7 +133,7 @@ class Config:
 
         BOARD_STYLES = {  # The keys used here are the class names of each board
             # Meta boards
-            "BoardController": {
+            "BoardsController": {
                 "bg": COLOURS["accent_4"],
                 "button": {
                     "bg": COLOURS["accent_3"]

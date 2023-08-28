@@ -6,7 +6,7 @@ from functools import partial
 from .board import Board
 
 
-class BoardController(Board):
+class BoardsController(Board):
     def __init__(self, tracker, container):
         super().__init__(tracker, container)
 
@@ -47,7 +47,7 @@ class BoardController(Board):
 
         if self._full_view:
             other_boards = sorted(
-                [board for board in self.tracker.boards if not issubclass(type(board), BoardController)],
+                [board for board in self.tracker.boards if not issubclass(type(board), BoardsController)],
                 key=lambda board: self.config.BOARDS_LIST.index(type(board))
             )
 

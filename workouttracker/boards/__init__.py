@@ -1,5 +1,5 @@
 from .board import Board
-from .boardcontroller import BoardController
+from .boardscontroller import BoardsController
 from .actuals import Actuals
 from .file import File
 from .schedule import Schedule

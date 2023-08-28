@@ -11,7 +11,7 @@ class Config:
         ICON_FILE_PATH = path
 
     # All boards to be rendered. List order will be taken into account whenever displaying these boards in list form
-    BOARDS_LIST = [BoardsController, File, Actuals, Timer, Schedule, SchedulesEditor, WorkoutsEditor]
+    BOARDS_LIST = [BoardsController, File, Actuals, Schedule, SchedulesEditor, WorkoutsEditor, Timer]
 
     INITIAL_BOARDS_VISIBLE = {BoardsController}
     BOARD_HANDLER_CLS = ResponsiveGrid

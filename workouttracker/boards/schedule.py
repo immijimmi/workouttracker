@@ -10,7 +10,7 @@ class Schedule(Board):
 
     @property
     def display_name(self):
-        return "Workout Schedule"
+        return "Schedule"
 
     def _render(self):
         def on_change__stepper_table(x_value, y_value, table, increment_value):

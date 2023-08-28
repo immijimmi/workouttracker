@@ -19,7 +19,7 @@ class Actuals(Board):
 
     @property
     def display_name(self):
-        return "Workout Diary"
+        return "Diary"
 
     def _render(self):
         def truncate_actual_sets(sets: float):
@@ -143,7 +143,7 @@ class Actuals(Board):
                     **self.theme.STANDARD_STYLES["label"],
                     **self.theme.STANDARD_STYLES["highlighted"],
                     **self.theme.STANDARD_STYLES["tinted"],
-                    "width": 36  # Extra room left to keep the size somewhat constant between dates
+                    "width": 42  # Extra room left to keep the size somewhat constant between dates
                 },
                 "button": {
                     **self.theme.STANDARD_STYLES["symbol_button"]
@@ -200,7 +200,7 @@ class Actuals(Board):
             row_index += 1
 
             # Workout name label
-            Label(self._frame, text=current_workout_name, anchor="w", width=30,
+            Label(self._frame, text=current_workout_name, anchor="w", width=35,
                   **{
                       **self.theme.STANDARD_STYLES["label"],
                       "bg": self.styles["board"]["bg"]
@@ -215,7 +215,7 @@ class Actuals(Board):
                 styles={
                     "label": {
                         "anchor": "e",
-                        "width": 4,
+                        "width": 5,
                         **self.theme.STANDARD_STYLES["label"],
                         "bg": self.styles["board"]["bg"]
                     },

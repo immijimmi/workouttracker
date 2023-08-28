@@ -19,7 +19,7 @@ class Actuals(Board):
 
     @property
     def display_name(self):
-        return "Daily Goals"
+        return "Workout Diary"
 
     def _render(self):
         def truncate_actual_sets(sets: float):

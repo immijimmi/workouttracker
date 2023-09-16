@@ -2,6 +2,7 @@ from tkcomponents.basiccomponents import StringEditor, NumberStepper
 
 from tkinter import Frame, Label, Button
 from functools import partial
+from datetime import datetime
 
 from .board import Board
 from ..constants import Constants as TrackerConstants
@@ -32,6 +33,17 @@ class WorkoutsEditor(Board):
 
                 self.state.registered_set(workout_type_details, "workout_type_details", [workout_type_id])
 
+                if workout_id_components["current_difficulty"].is_unsaved:
+                    workout_type_difficulty_log = self.state.registered_get(
+                        "workout_type_difficulty_log",
+                        [workout_type_id]
+                    )
+
+                    datetime_key = datetime.utcnow().strftime(TrackerConstants.DATETIME_KEY_FORMAT)
+                    workout_type_difficulty_log[datetime_key] = workout_id_components["current_difficulty"].value
+
+                    self.state.registered_set(workout_type_difficulty_log, "workout_type_difficulty_log", [workout_type_id])
+
             self.tracker.render()
 
         def new_workout_type():
@@ -39,7 +51,7 @@ class WorkoutsEditor(Board):
 
             self.tracker.render()
 
-        def on_change__string_editor(editor, old_value):
+        def on_change_string_editor(editor, old_value):
             if editor.is_unsaved:
                 self._unsaved_components.add(editor)
             else:
@@ -49,19 +61,23 @@ class WorkoutsEditor(Board):
             self.children["save_all_workout_types_button"].configure(
                 state="normal" if self._unsaved_components else "disabled")
 
-        def on_change__number_stepper(workout_type_id, stepper, increment_amount):
+        def on_change_reps_stepper(workout_type_id, stepper, increment_amount):
             workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
             workout_type_details["single_set_reps"] = stepper.value
 
             self.state.registered_set(workout_type_details, "workout_type_details", [workout_type_id])
 
-        def get_data__name(workout_type_id, editor):
+        def get_data_name(workout_type_id, editor):
             return self.state.registered_get("workout_type_details", [workout_type_id])["name"]
 
-        def get_data__desc(workout_type_id, editor):
+        def get_data_current_difficulty(workout_type_id, editor):
+            result = self.state.registered_get("workout_type_current_difficulty", [workout_type_id])
+            return "" if result is None else result
+
+        def get_data_desc(workout_type_id, editor):
             return self.state.registered_get("workout_type_details", [workout_type_id])["desc"]
 
-        def get_data__single_set_reps(workout_type_id, stepper):
+        def get_data_reps(workout_type_id, stepper):
             return self.state.registered_get("workout_type_details", [workout_type_id])["single_set_reps"]
 
         """
@@ -75,11 +91,11 @@ class WorkoutsEditor(Board):
         column_dividers = [(x*4)+3 for x in range(len(all_workout_types))]
         last_divider_column_index = max(column_dividers, default=1)  # If there are none, it takes the end of the board
 
-        self._apply_frame_stretch(rows=[7], columns=[last_divider_column_index])
-        self._apply_dividers(TrackerConstants.DIVIDER_SIZE, rows=[1, 3, 5], columns=[*column_dividers])
+        self._apply_frame_stretch(rows=[9], columns=[last_divider_column_index])
+        self._apply_dividers(TrackerConstants.DIVIDER_SIZE, rows=[1, 3, 5, 7], columns=[*column_dividers])
 
-        title_column_char_width = 8
-        entry_width = 12
+        title_column_char_width = 12
+        entry_width = 14
 
         column_index = 0
         for current_workout_type_id in all_workout_types:
@@ -125,8 +141,8 @@ class WorkoutsEditor(Board):
             )
             name_string_editor = StringEditor(
                 name_frame,
-                get_data=partial(get_data__name, current_workout_type_id),
-                on_change=on_change__string_editor,
+                get_data=partial(get_data_name, current_workout_type_id),
+                on_change=on_change_string_editor,
                 update_interval_ms=TrackerConstants.INTERVAL_SHORT,
                 styles={
                     "frame": {
@@ -153,6 +169,48 @@ class WorkoutsEditor(Board):
 
             row_index += 2
 
+            # Current Difficulty Row
+            current_difficulty_frame = Frame(
+                self._frame,
+                **{
+                    "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
+                    **self.theme.STANDARD_STYLES["highlighted"]
+                }
+            )
+            current_difficulty_title_label = Label(
+                current_difficulty_frame, text="curr. wgt./diff.", width=title_column_char_width, anchor="w",
+                **self.theme.STANDARD_STYLES["label"]
+            )
+            current_difficulty_string_editor = StringEditor(
+                current_difficulty_frame,
+                get_data=partial(get_data_current_difficulty, current_workout_type_id),
+                on_change=on_change_string_editor,
+                update_interval_ms=TrackerConstants.INTERVAL_SHORT,
+                styles={
+                    "frame": {
+                        "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
+                        **self.theme.STANDARD_STYLES["padded"]
+                    },
+                    "entry": {
+                        "bg": self.theme.STANDARD_STYLE_ARGS["highlight"],
+                        "font": self.theme.STANDARD_STYLE_ARGS["font"],
+                        "insertbackground": self.theme.STANDARD_STYLE_ARGS["fg"],
+                        "width": entry_width,
+                    },
+                    "entry_unsaved": {
+                        **self.theme.STANDARD_STYLES["text_unsaved"]
+                    },
+                    "entry_saved": {
+                        **self.theme.STANDARD_STYLES["text_saved"]
+                    }
+                }
+            )
+            current_difficulty_title_label.grid(row=0, column=0, sticky="nswe")
+            current_difficulty_string_editor.render().grid(row=0, column=1, sticky="nswe")
+            current_difficulty_frame.grid(row=row_index, column=column_index, columnspan=3, sticky="nswe")
+
+            row_index += 2
+
             # Desc Row
             desc_frame = Frame(
                 self._frame,
@@ -162,13 +220,13 @@ class WorkoutsEditor(Board):
                 }
             )
             desc_title_label = Label(
-                desc_frame, text="desc", width=title_column_char_width, anchor="w",
+                desc_frame, text="desc.", width=title_column_char_width, anchor="w",
                 **self.theme.STANDARD_STYLES["label"]
             )
             desc_string_editor = StringEditor(
                 desc_frame,
-                get_data=partial(get_data__desc, current_workout_type_id),
-                on_change=on_change__string_editor,
+                get_data=partial(get_data_desc, current_workout_type_id),
+                on_change=on_change_string_editor,
                 update_interval_ms=TrackerConstants.INTERVAL_SHORT,
                 styles={
                     "frame": {
@@ -208,8 +266,8 @@ class WorkoutsEditor(Board):
                 **self.theme.STANDARD_STYLES["label"])
             ssr_number_stepper = NumberStepper(
                 ssr_frame,
-                get_data=partial(get_data__single_set_reps, current_workout_type_id),
-                on_change=partial(on_change__number_stepper, current_workout_type_id),
+                get_data=partial(get_data_reps, current_workout_type_id),
+                on_change=partial(on_change_reps_stepper, current_workout_type_id),
                 update_interval_ms=TrackerConstants.INTERVAL_SHORT,
                 step_amounts=(1,),
                 limits=(1, None),
@@ -235,6 +293,7 @@ class WorkoutsEditor(Board):
 
             self.children[current_workout_type_id] = {}
             self.children[current_workout_type_id]["name"] = name_string_editor
+            self.children[current_workout_type_id]["current_difficulty"] = current_difficulty_string_editor
             self.children[current_workout_type_id]["desc"] = desc_string_editor
             self.children[current_workout_type_id]["single_set_reps"] = ssr_number_stepper
 

@@ -19,7 +19,6 @@ class BoardsController(Board):
     def _render(self):
         def toggle_full_view(toggle_button):
             self._full_view = not self._full_view
-
             self.render()
 
         def toggle_board_visibility(board_class, toggle_button):

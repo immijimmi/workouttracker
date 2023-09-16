@@ -1,4 +1,4 @@
-from managedstate.extensions import PartialQuery
+from managedstate import KeyQuery
 
 
 class Constants:
@@ -7,12 +7,17 @@ class Constants:
 
     WEEKDAY_KEY_STRINGS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
-    PATH_DYNAMIC_KEY = PartialQuery(lambda key: key)
+    # managedstate queries
+    MAX_DICT_KEY = KeyQuery(
+        lambda substate: max(substate.keys())
+    )
 
     WINDOW_MINSIZE = (255, 33)
     WINDOW_TITLE_FORMAT = "{0} - Workout Tracker"
 
     DATE_KEY_FORMAT = "%Y/%m/%d"
+    DATETIME_KEY_FORMAT = f"{DATE_KEY_FORMAT}T%H:%M:%SZ"  # Expects a UTC datetime
+
     # Should be used whenever a label does not contain the same kind of information as is standard for its section
     METALABEL_FORMAT = "({0})"
 

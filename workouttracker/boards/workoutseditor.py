@@ -128,6 +128,7 @@ class WorkoutsEditor(Board):
                     "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
                     **self.theme.STANDARD_STYLES["padded"],
                     **self.theme.STANDARD_STYLES["highlighted"],
+                    **self.theme.STANDARD_STYLES["tinted"],
                 }
             )
 

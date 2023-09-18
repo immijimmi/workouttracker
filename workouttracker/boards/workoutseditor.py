@@ -159,7 +159,7 @@ class WorkoutsEditor(Board):
                 sticky="nswe"
             )
 
-        column_index = (hidden_workouts_columnspan + 1)
+        column_index = (hidden_workouts_columnspan + 1) * bool(hidden_workouts)
         for current_workout_type_id in self._visible_workouts:
             row_index = 0
 

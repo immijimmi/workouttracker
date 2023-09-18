@@ -169,6 +169,8 @@ class Actuals(Board):
         empty_workouts = 0
         for current_workout_type_id in workout_types:
             workout_details = self.state.registered_get("workout_type_details", [current_workout_type_id])
+            current_difficulty = self.state.registered_get("workout_type_current_difficulty", [current_workout_type_id])
+
             actual_reps_completed = self.state.registered_get(
                 "completed_reps_single_entry",
                 [actuals_working_date_key, current_workout_type_id]
@@ -189,6 +191,8 @@ class Actuals(Board):
             current_workout_name = (
                     workout_details["name"] or
                     TrackerConstants.METALABEL_FORMAT.format(current_workout_type_id)
+            ) + (
+                f" ({current_difficulty})" if current_difficulty else ""
             )
             current_workout_desc = workout_details["desc"]
             current_workout_reps_per_set = workout_details["single_set_reps"]

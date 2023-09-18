@@ -3,6 +3,7 @@ from tkcomponents.basiccomponents import StringEditor, NumberStepper
 from tkinter import Frame, Label, Button
 from functools import partial
 from datetime import datetime
+from math import ceil
 
 from .board import Board
 from ..constants import Constants as TrackerConstants
@@ -12,6 +13,7 @@ class WorkoutsEditor(Board):
     def __init__(self, tracker, container):
         super().__init__(tracker, container)
 
+        self._visible_workouts = set()
         self._unsaved_components = set()
 
     @property
@@ -20,9 +22,7 @@ class WorkoutsEditor(Board):
 
     def _render(self):
         def save_all_workout_types_changes():
-            workout_types = self.state.registered_get("workout_types")
-
-            for workout_type_id in workout_types:
+            for workout_type_id in self._visible_workouts:
                 workout_id_components = self.children[workout_type_id]
 
                 workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
@@ -48,7 +48,6 @@ class WorkoutsEditor(Board):
 
         def new_workout_type():
             self.tracker.state__add_workout_type()
-
             self.tracker.render()
 
         def on_change_string_editor(editor, old_value):
@@ -58,7 +57,7 @@ class WorkoutsEditor(Board):
                 if editor in self._unsaved_components:
                     self._unsaved_components.remove(editor)
 
-            self.children["save_all_workout_types_button"].configure(
+            self.children["save_button"].configure(
                 state="normal" if self._unsaved_components else "disabled")
 
         def on_change_reps_stepper(workout_type_id, stepper, increment_amount):
@@ -80,6 +79,10 @@ class WorkoutsEditor(Board):
         def get_data_reps(workout_type_id, stepper):
             return self.state.registered_get("workout_type_details", [workout_type_id])["single_set_reps"]
 
+        def on_click_show_workout(workout_id):
+            self._visible_workouts.add(workout_id)
+            self.render()
+
         """
         .children is reset generically rather than via individual keys,
         since this component creates children using dynamic keys
@@ -87,18 +90,77 @@ class WorkoutsEditor(Board):
         self.children.clear()
 
         all_workout_types = self.state.registered_get("workout_types")
+        hidden_workouts = set(all_workout_types.keys()) - self._visible_workouts
 
-        column_dividers = [(x*4)+3 for x in range(len(all_workout_types))]
-        last_divider_column_index = max(column_dividers, default=1)  # If there are none, it takes the end of the board
-
-        self._apply_frame_stretch(rows=[9], columns=[last_divider_column_index])
-        self._apply_dividers(TrackerConstants.DIVIDER_SIZE, rows=[1, 3, 5, 7], columns=[*column_dividers])
-
-        title_column_char_width = 12
+        hidden_workout_button_rows = 5
+        hidden_workout_button_columnspan = 2
+        workout_segments = 5
+        workout_columnspan = 4
+        workout_title_column_width = 12
         entry_width = 14
 
-        column_index = 0
-        for current_workout_type_id in all_workout_types:
+        hidden_workouts_columns = ceil(len(hidden_workouts)/hidden_workout_button_rows)
+        hidden_workouts_columnspan = hidden_workouts_columns * hidden_workout_button_columnspan
+        hidden_workouts_rowspan = (workout_segments * 2) - 1
+        workout_row_dividers = [x for x in range(1, workout_segments + 3, 2)]
+
+        column_dividers = (
+                ([hidden_workouts_columnspan] if hidden_workouts else []) +
+                [
+                    (
+                            (x * (workout_columnspan + 1)) +
+                            (hidden_workouts_columnspan + bool(hidden_workouts) + workout_columnspan)
+                    )
+                    for x in range(len(self._visible_workouts))
+                ]
+        )
+        row_dividers = workout_row_dividers if self._visible_workouts else [1]
+        frame_stretch_column_index = max(column_dividers, default=1)
+        frame_stretch_row_index = [hidden_workouts_rowspan] if all_workout_types else [3]
+
+        self._apply_frame_stretch(rows=[frame_stretch_row_index], columns=[frame_stretch_column_index])
+        self._apply_dividers(TrackerConstants.DIVIDER_SIZE, rows=row_dividers, columns=column_dividers)
+
+        if hidden_workouts:
+            hidden_workouts_frame = Frame(
+                self._frame,
+                **{
+                    "bg": self.theme.STANDARD_STYLE_ARGS["bg"],
+                    **self.theme.STANDARD_STYLES["padded"],
+                    **self.theme.STANDARD_STYLES["highlighted"],
+                }
+            )
+
+            # Dividers for `hidden_workouts_frame`
+            for divider_row_index in range(1, (min(hidden_workout_button_rows, len(hidden_workouts))*2)-2, 2):
+                hidden_workouts_frame.grid_rowconfigure(divider_row_index, minsize=TrackerConstants.DIVIDER_SIZE)
+            for divider_column_index in range(1, int((len(hidden_workouts)-1)/hidden_workout_button_rows)*2, 2):
+                hidden_workouts_frame.grid_columnconfigure(divider_column_index, minsize=TrackerConstants.DIVIDER_SIZE)
+
+            # Render buttons for hidden workouts
+            for button_index, current_workout_type_id in enumerate(hidden_workouts):
+                button_row = (button_index*2) % (hidden_workout_button_rows*2)
+                button_column = int(button_index/hidden_workout_button_rows)*2
+
+                show_workout_button = Button(
+                    hidden_workouts_frame,
+                    text=(
+                            all_workout_types[current_workout_type_id]["name"] or
+                            TrackerConstants.METALABEL_FORMAT.format(current_workout_type_id)
+                    ),
+                    command=partial(on_click_show_workout, current_workout_type_id),
+                    **self.theme.STANDARD_STYLES["button"]
+                )
+                show_workout_button.grid(row=button_row, column=button_column, sticky="nswe")
+
+            hidden_workouts_frame.grid(
+                row=0, column=0,
+                rowspan=hidden_workouts_rowspan, columnspan=hidden_workouts_columnspan,
+                sticky="nswe"
+            )
+
+        column_index = (hidden_workouts_columnspan + 1)
+        for current_workout_type_id in self._visible_workouts:
             row_index = 0
 
             # ID Row
@@ -110,7 +172,7 @@ class WorkoutsEditor(Board):
                 }
             )
             id_title_label = Label(
-                id_frame, text="id", width=title_column_char_width, anchor="w",
+                id_frame, text="id", width=workout_title_column_width, anchor="w",
                 **self.theme.STANDARD_STYLES["label"]
             )
             id_value_label = Label(
@@ -123,7 +185,7 @@ class WorkoutsEditor(Board):
 
             id_title_label.grid(row=0, column=0, sticky="nswe")
             id_value_label.grid(row=0, column=1, sticky="nswe")
-            id_frame.grid(row=row_index, column=column_index, columnspan=3, sticky="nswe")
+            id_frame.grid(row=row_index, column=column_index, columnspan=workout_columnspan, sticky="nswe")
 
             row_index += 2
 
@@ -136,7 +198,7 @@ class WorkoutsEditor(Board):
                 }
             )
             name_title_label = Label(
-                name_frame, text="name", width=title_column_char_width, anchor="w",
+                name_frame, text="name", width=workout_title_column_width, anchor="w",
                 **self.theme.STANDARD_STYLES["label"]
             )
             name_string_editor = StringEditor(
@@ -165,7 +227,7 @@ class WorkoutsEditor(Board):
             )
             name_title_label.grid(row=0, column=0, sticky="nswe")
             name_string_editor.render().grid(row=0, column=1, sticky="nswe")
-            name_frame.grid(row=row_index, column=column_index, columnspan=3, sticky="nswe")
+            name_frame.grid(row=row_index, column=column_index, columnspan=workout_columnspan, sticky="nswe")
 
             row_index += 2
 
@@ -178,7 +240,7 @@ class WorkoutsEditor(Board):
                 }
             )
             current_difficulty_title_label = Label(
-                current_difficulty_frame, text="curr. wgt./diff.", width=title_column_char_width, anchor="w",
+                current_difficulty_frame, text="curr. wgt./diff.", width=workout_title_column_width, anchor="w",
                 **self.theme.STANDARD_STYLES["label"]
             )
             current_difficulty_string_editor = StringEditor(
@@ -207,7 +269,7 @@ class WorkoutsEditor(Board):
             )
             current_difficulty_title_label.grid(row=0, column=0, sticky="nswe")
             current_difficulty_string_editor.render().grid(row=0, column=1, sticky="nswe")
-            current_difficulty_frame.grid(row=row_index, column=column_index, columnspan=3, sticky="nswe")
+            current_difficulty_frame.grid(row=row_index, column=column_index, columnspan=workout_columnspan, sticky="nswe")
 
             row_index += 2
 
@@ -220,7 +282,7 @@ class WorkoutsEditor(Board):
                 }
             )
             desc_title_label = Label(
-                desc_frame, text="desc.", width=title_column_char_width, anchor="w",
+                desc_frame, text="desc.", width=workout_title_column_width, anchor="w",
                 **self.theme.STANDARD_STYLES["label"]
             )
             desc_string_editor = StringEditor(
@@ -249,7 +311,7 @@ class WorkoutsEditor(Board):
             )
             desc_title_label.grid(row=0, column=0, sticky="nswe")
             desc_string_editor.render().grid(row=0, column=1, sticky="nswe")
-            desc_frame.grid(row=row_index, column=column_index, columnspan=3, sticky="nswe")
+            desc_frame.grid(row=row_index, column=column_index, columnspan=workout_columnspan, sticky="nswe")
 
             row_index += 2
 
@@ -262,7 +324,7 @@ class WorkoutsEditor(Board):
                 }
             )
             ssr_title_label = Label(
-                ssr_frame, text="reps/set", width=title_column_char_width, anchor="w",
+                ssr_frame, text="reps/set", width=workout_title_column_width, anchor="w",
                 **self.theme.STANDARD_STYLES["label"])
             ssr_number_stepper = NumberStepper(
                 ssr_frame,
@@ -289,7 +351,7 @@ class WorkoutsEditor(Board):
             )
             ssr_title_label.grid(row=0, column=0, sticky="nswe")
             ssr_number_stepper.render().grid(row=0, column=1, sticky="nswe")
-            ssr_frame.grid(row=row_index, column=column_index, columnspan=3, sticky="nswe")
+            ssr_frame.grid(row=row_index, column=column_index, columnspan=workout_columnspan, sticky="nswe")
 
             self.children[current_workout_type_id] = {}
             self.children[current_workout_type_id]["name"] = name_string_editor
@@ -297,17 +359,18 @@ class WorkoutsEditor(Board):
             self.children[current_workout_type_id]["desc"] = desc_string_editor
             self.children[current_workout_type_id]["single_set_reps"] = ssr_number_stepper
 
-            column_index += 4
+            column_index += (workout_columnspan + 1)
 
-        new_workout_type_button = Button(
+        new_button = Button(
             self._frame, text="New",
             command=new_workout_type, **self.theme.STANDARD_STYLES["button"])
-        self.children["new_workout_type_button"] = new_workout_type_button
-        new_workout_type_button.grid(row=0, column=column_index, rowspan=3, sticky="nswe")
+        self.children["new_button"] = new_button
+        new_button.grid(row=0, column=column_index, sticky="nswe")
 
-        save_all_workout_types_button = Button(
+        save_button_row = (hidden_workouts_rowspan-1) if all_workout_types else 2
+        save_button = Button(
             self._frame, text="Save",
             command=save_all_workout_types_changes, **self.theme.STANDARD_STYLES["button"])
-        self.children["save_all_workout_types_button"] = save_all_workout_types_button
-        save_all_workout_types_button.grid(row=4, column=column_index, rowspan=3, sticky="nswe")
-        save_all_workout_types_button.configure(state="disabled")
+        self.children["save_button"] = save_button
+        save_button.grid(row=save_button_row, column=column_index, sticky="nswe")
+        save_button.configure(state="disabled")

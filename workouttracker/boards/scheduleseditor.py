@@ -13,7 +13,7 @@ class SchedulesEditor(Board):
 
     @property
     def display_name(self):
-        return "Change Schedule"
+        return "Switch Schedule"
 
     def _render(self):
         def get_data__string_editor(editor):

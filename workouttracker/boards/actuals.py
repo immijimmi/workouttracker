@@ -86,15 +86,16 @@ class Actuals(Board):
             workout_reps = workout_type_details["single_set_reps"]
 
             workout_reps_actual = self.state.registered_get(
-                "completed_reps_single_entry", [working_date_key, workout_type_id])
-            workout_sets_actual = truncate_actual_sets(workout_reps_actual / workout_reps)
+                "completed_reps_single_entry", [working_date_key, workout_type_id]
+            )
 
-            sets_actual_difference = stepper.value - workout_sets_actual
-            reps_actual_difference = sets_actual_difference * workout_reps
-            new_workout_reps_actual = workout_reps_actual + reps_actual_difference
+            increment_amount_reps = increment_amount * workout_reps
+            new_workout_reps_actual = workout_reps_actual + increment_amount_reps
 
             self.state.registered_set(
-                new_workout_reps_actual, "completed_reps_single_entry", [working_date_key, workout_type_id])
+                new_workout_reps_actual,
+                "completed_reps_single_entry", [working_date_key, workout_type_id]
+            )
 
         def get_data__label_wrapper(workout_type_id, wrapper):
             workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])

@@ -39,8 +39,9 @@ class WorkoutsEditor(Board):
                         [workout_type_id]
                     )
 
-                    datetime_key = datetime.utcnow().strftime(TrackerConstants.DATETIME_KEY_FORMAT)
-                    workout_type_difficulty_log[datetime_key] = workout_id_components["current_difficulty"].value
+                    # If multiple changes to current difficulty are made in the same day, only the latest will be saved
+                    date_key = datetime.now().strftime(TrackerConstants.DATE_KEY_FORMAT)
+                    workout_type_difficulty_log[date_key] = workout_id_components["current_difficulty"].value
 
                     self.state.registered_set(workout_type_difficulty_log, "workout_type_difficulty_log", [workout_type_id])
 

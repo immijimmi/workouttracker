@@ -46,7 +46,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
 
         self._state_file_path = None
-        self._is_state_unsaved = True
+        self._is_state_unsaved = False
         self._on_file_change(self)
 
         is_loaded, error_msg = self.try_load_state(self.state_file_path)

@@ -9,8 +9,9 @@ from random import shuffle
 from logging import warning
 from typing import Optional, Callable
 
-from .constants import Constants
+from .migrationhandler import MigrationHandler
 from .stopwatch import Stopwatch
+from .constants import Constants
 from .config import Config
 
 
@@ -27,6 +28,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         self._on_file_change = on_file_change
         self._config = config
 
+        self._migration_handler = MigrationHandler(self)
         self._board_handler = self._config.BOARD_HANDLER_CLS(self)
 
         # State Initialisation
@@ -35,10 +37,10 @@ class Tracker(Component.with_extensions(GridHelper)):
         self.state.add_listener(
             "set",
             lambda result, state_obj, *args, **kwargs: (
-                None if state_obj.extension_data.get("registered_path_label", None) == "load_file"
+                None if state_obj.extension_data.get("registered_path_label", None) in ["load_file", "version"]
                 else self.try_save_state(self.state_file_path)
-            )
-        )  # Only save if this was not a load operation
+            )  # Will not trigger an auto-save if this set operation was either to load from file or to set the version
+        )
 
         # Tracker temporary variables
         self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
@@ -112,24 +114,19 @@ class Tracker(Component.with_extensions(GridHelper)):
             with open(file_path, "r") as data_file:
                 data = json.loads(data_file.read())
 
+            working_state = State.with_extensions(Registrar)(data)
+            self.register_paths(working_state)
+
             # Version checking
             try:
-                data_version = data[Constants.DATA_VERSION_KEY]
-            except KeyError:
-                error_msg = error_msg_template.format("no version number found in file data")
+                self._migration_handler.to_latest_version(working_state)
+            except (ValueError, RuntimeError) as ex:
+                error_msg = error_msg_template.format(ex)
 
                 warning(error_msg)
                 return False, error_msg
 
-            if data_version != Constants.DATA_VERSION:
-                error_msg = error_msg_template.format(
-                    f"incompatible file data version ({data_version} != {Constants.DATA_VERSION})"
-                )
-
-                warning(error_msg)
-                return False, error_msg
-
-            self.state.registered_set(data, "load_file")
+            self.state.registered_set(working_state.get(), "load_file")
             return True, None
 
         except FileNotFoundError as ex:
@@ -163,14 +160,16 @@ class Tracker(Component.with_extensions(GridHelper)):
 
             return False, error_msg
 
+        """
+        Ensures the data is tagged with a version before saving to file.
+        Since previous versions are automatically migrated to latest upon loading,
+        there is no need to check for an existing previous version number before doing this
+        """
+        self.state.registered_set(Constants.DATA_VERSION_KEY, "version")
+
         try:
             with open(file_path, "w") as data_file:
                 data = self.state.get()
-
-                # Versioning
-                if Constants.DATA_VERSION_KEY not in data:
-                    data[Constants.DATA_VERSION_KEY] = Constants.DATA_VERSION
-
                 data_file.write(json.dumps(data))
 
             self.is_state_unsaved = False
@@ -259,6 +258,9 @@ class Tracker(Component.with_extensions(GridHelper)):
             [{}, {}, {}, {}, 0]
         )
 
+        state.register_path(
+            "workout_log", ["workout_log"], [{}]
+        )
         state.register_path(
             "completed_reps_single_entry",
             ["workout_log", PartialQueries.KEY, PartialQueries.KEY],

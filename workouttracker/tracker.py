@@ -165,7 +165,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         Since previous versions are automatically migrated to latest upon loading,
         there is no need to check for an existing previous version number before doing this
         """
-        self.state.registered_set(Constants.DATA_VERSION_KEY, "version")
+        self.state.registered_set(Constants.DATA_VERSION, "version")
 
         try:
             with open(file_path, "w") as data_file:

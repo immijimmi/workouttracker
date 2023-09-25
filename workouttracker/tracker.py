@@ -1,4 +1,4 @@
-from managedstate import State
+from managedstate import State, NO_DEFAULT
 from managedstate.extensions import Registrar, Listeners
 from managedstate.extensions.registrar import PartialQueries
 from tkcomponents import Component
@@ -232,12 +232,12 @@ class Tracker(Component.with_extensions(GridHelper)):
         state.register_path(
             "workout_type_difficulty_log",
             ["workout_types", PartialQueries.KEY, "diff_log"],
-            [{}, {}, {}]
+            [{}, NO_DEFAULT, {}]
         )
         state.register_path(
             "workout_type_current_difficulty",
             ["workout_types", PartialQueries.KEY, "diff_log", Constants.MAX_DICT_KEY],
-            [{}, {}, {}, None]
+            [{}, NO_DEFAULT, {}, None]
         )
 
         state.register_path("workout_schedules", ["workout_schedules"], [{}])
@@ -255,7 +255,7 @@ class Tracker(Component.with_extensions(GridHelper)):
                 PartialQueries.KEY,
                 PartialQueries.KEY
             ],
-            [{}, {}, {}, {}, 0]
+            [{}, NO_DEFAULT, {}, {}, 0]
         )
 
         state.register_path(

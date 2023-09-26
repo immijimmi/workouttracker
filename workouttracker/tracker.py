@@ -180,19 +180,6 @@ class Tracker(Component.with_extensions(GridHelper)):
             warning(error_msg_template.format(ex))
             return False, "Unable to save data to file."
 
-    def state__add_schedule(self):
-        schedules = self.state.registered_get("workout_schedules")
-
-        new_id = str(
-            max(
-                (int(schedule_id) for schedule_id in schedules), default=-1
-            ) + 1
-        )  # Gives the new schedule an ID incremented by 1 from the highest previous ID
-        new_schedule = {"name": "", "schedule": {}}
-        schedules[new_id] = new_schedule
-
-        self.state.registered_set(schedules, "workout_schedules")
-
     def state__del_schedule(self, schedule_id):
         schedules = self.state.registered_get("workout_schedules")
         active_schedule_id = self.state.registered_get("active_schedule_id")
@@ -202,19 +189,6 @@ class Tracker(Component.with_extensions(GridHelper)):
             self.state.registered_set(None, "active_schedule_id")
 
         self.state.registered_set(schedules, "workout_schedules")
-
-    def state__add_workout_type(self):
-        workout_types = self.state.registered_get("workout_types")
-
-        new_id = str(
-            max(
-                (int(workout_type_id) for workout_type_id in workout_types), default=-1
-            ) + 1
-        )  # Gives the new workout type an ID incremented by 1 from the highest previous ID
-        new_workout_type = {"name": "", "desc": "", "single_set_reps": 1}
-        workout_types[new_id] = new_workout_type
-
-        self.state.registered_set(workout_types, "workout_types")
 
     @staticmethod
     def register_paths(state: State.with_extensions(Registrar)) -> None:
@@ -228,7 +202,15 @@ class Tracker(Component.with_extensions(GridHelper)):
         state.register_path("workout_tips", ["workout_tips"], [[Constants.TIP_PLACEHOLDER]])
 
         state.register_path("workout_types", ["workout_types"], [{}])
-        state.register_path("workout_type_details", ["workout_types", PartialQueries.KEY], [{}])
+        state.register_path("new_workout_type", ["workout_types", Constants.INCREMENT_STR_ID], [{}])
+        state.register_path("workout_type", ["workout_types", PartialQueries.KEY], [{}])
+        state.register_path("workout_type_name", ["workout_types", PartialQueries.KEY, "name"], [{}, NO_DEFAULT, ""])
+        state.register_path("workout_type_desc", ["workout_types", PartialQueries.KEY, "desc"], [{}, NO_DEFAULT, ""])
+        state.register_path(
+            "workout_type_ssr",
+            ["workout_types", PartialQueries.KEY, "single_set_reps"],
+            [{}, NO_DEFAULT, 1]
+        )
         state.register_path(
             "workout_type_difficulty_log",
             ["workout_types", PartialQueries.KEY, "diff_log"],
@@ -237,14 +219,21 @@ class Tracker(Component.with_extensions(GridHelper)):
         state.register_path(
             "workout_type_current_difficulty",
             ["workout_types", PartialQueries.KEY, "diff_log", Constants.MAX_DICT_KEY],
-            [{}, NO_DEFAULT, {}, None]
+            [{}, NO_DEFAULT, {}, ""]
         )
 
         state.register_path("workout_schedules", ["workout_schedules"], [{}])
+        state.register_path("new_workout_schedule", ["workout_schedule", Constants.INCREMENT_STR_ID], [{}])
+        state.register_path("workout_schedule", ["workout_schedules", PartialQueries.KEY], [{}])
         state.register_path(
-            "workout_schedule",
-            ["workout_schedules", PartialQueries.KEY],
-            [{}]
+            "workout_schedule_name",
+            ["workout_schedules", PartialQueries.KEY, "name"],
+            [{}, NO_DEFAULT, ""]
+        )
+        state.register_path(
+            "workout_schedule_schedule",
+            ["workout_schedules", PartialQueries.KEY, "schedule"],
+            [{}, NO_DEFAULT, ""]
         )
         state.register_path(
             "scheduled_sets_single_entry",

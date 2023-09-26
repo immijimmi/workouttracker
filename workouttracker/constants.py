@@ -10,7 +10,10 @@ class Constants:
     # managedstate queries
     MAX_DICT_KEY = KeyQuery(
         lambda substate: max(substate.keys())
-    )
+    )  # Takes a dict of str keys and returns the one considered the maximum when sorted as strings
+    INCREMENT_STR_ID = KeyQuery(
+        lambda substate: str(max((int(key) for key in substate.keys()), default=-1)+1)
+    )  # Takes a dict of str keys representing integer IDs, and returns a str number 1 higher than the largest present
 
     WINDOW_MINSIZE = (255, 33)
     WINDOW_TITLE_FORMAT = "{0} - Workout Tracker"

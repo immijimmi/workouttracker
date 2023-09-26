@@ -16,10 +16,11 @@ class SchedulePicker(ButtonListBox):
 
             schedules = board.state.registered_get("workout_schedules")
             for schedule_id in schedules:
+                schedule_name = board.state.registered_get("workout_schedule_name", [schedule_id])
                 result.append({
                     "value": schedule_id,
-                    "text": schedules[schedule_id]["name"] or TrackerConstants.METALABEL_FORMAT.format(schedule_id),
-                    "style": button_style_2 if schedules[schedule_id]["name"] else button_style_1
+                    "text": (schedule_name or TrackerConstants.METALABEL_FORMAT.format(schedule_id)),
+                    "style": button_style_2 if schedule_name else button_style_1
                 })
 
             if new_schedule_button:
@@ -35,7 +36,7 @@ class SchedulePicker(ButtonListBox):
                 board.state.registered_set(None, "active_schedule_id")
 
             elif new_value is True:
-                board.tracker.state__add_schedule()
+                board.state.registered_set({}, "new_workout_schedule")
 
             else:
                 schedules = board.state.registered_get("workout_schedules")

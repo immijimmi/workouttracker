@@ -59,16 +59,17 @@ class Actuals(Board):
             working_date_key = working_date.strftime(TrackerConstants.DATE_KEY_FORMAT)
             working_date_weekday = working_date.strftime("%a")
 
-            workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
-            workout_reps = workout_type_details["single_set_reps"]
-
+            workout_reps = self.state.registered_get("workout_type_ssr", [workout_type_id])
             workout_reps_actual = self.state.registered_get(
-                "completed_reps_single_entry", [working_date_key, workout_type_id])
+                "completed_reps_single_entry", [working_date_key, workout_type_id]
+            )
+
             workout_sets_actual = truncate_actual_sets(workout_reps_actual / workout_reps)
 
             schedule_id = self.state.registered_get("active_schedule_id")
             workout_sets_scheduled = self.state.registered_get(
-                "scheduled_sets_single_entry", [schedule_id, working_date_weekday, workout_type_id])
+                "scheduled_sets_single_entry", [schedule_id, working_date_weekday, workout_type_id]
+            )
 
             stepper.text_format = get_workout_stepper_label_format(workout_sets_scheduled)
             status_color = determine_workout_status_color(workout_sets_actual, workout_sets_scheduled)
@@ -82,9 +83,7 @@ class Actuals(Board):
             working_date = (datetime.now() + timedelta(days=self._date_offset))
             working_date_key = working_date.strftime(TrackerConstants.DATE_KEY_FORMAT)
 
-            workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
-            workout_reps = workout_type_details["single_set_reps"]
-
+            workout_reps = self.state.registered_get("workout_type_ssr", [workout_type_id])
             workout_reps_actual = self.state.registered_get(
                 "completed_reps_single_entry", [working_date_key, workout_type_id]
             )
@@ -98,8 +97,7 @@ class Actuals(Board):
             )
 
         def get_data__label_wrapper(workout_type_id, wrapper):
-            workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
-            workout_reps = workout_type_details["single_set_reps"]
+            workout_reps = self.state.registered_get("workout_type_ssr", [workout_type_id])
 
             return "x{0}".format(workout_reps)
 
@@ -169,9 +167,6 @@ class Actuals(Board):
         rendered_workouts = 0
         empty_workouts = 0
         for current_workout_type_id in workout_types:
-            workout_details = self.state.registered_get("workout_type_details", [current_workout_type_id])
-            current_difficulty = self.state.registered_get("workout_type_current_difficulty", [current_workout_type_id])
-
             actual_reps_completed = self.state.registered_get(
                 "completed_reps_single_entry",
                 [actuals_working_date_key, current_workout_type_id]
@@ -189,14 +184,15 @@ class Actuals(Board):
                     continue  # Do not render
             rendered_workouts += 1
 
-            current_workout_name = (
-                    workout_details["name"] or
+            current_workout_desc = self.state.registered_get("workout_type_desc", [current_workout_type_id])
+            current_workout_reps_per_set = self.state.registered_get("workout_type_ssr", [current_workout_type_id])
+            current_difficulty = self.state.registered_get("workout_type_current_difficulty", [current_workout_type_id])
+            current_workout_label_text = (
+                    self.state.registered_get("workout_type_name", [current_workout_type_id]) or
                     TrackerConstants.METALABEL_FORMAT.format(current_workout_type_id)
             ) + (
                 f" ({current_difficulty})" if current_difficulty else ""
             )
-            current_workout_desc = workout_details["desc"]
-            current_workout_reps_per_set = workout_details["single_set_reps"]
 
             actual_sets_completed = truncate_actual_sets(actual_reps_completed / current_workout_reps_per_set)
             workout_status_color = determine_workout_status_color(actual_sets_completed, scheduled_workout_sets)
@@ -205,7 +201,7 @@ class Actuals(Board):
             row_index += 1
 
             # Workout name label
-            Label(self._frame, text=current_workout_name, anchor="w", width=35,
+            Label(self._frame, text=current_workout_label_text, anchor="w", width=35,
                   **{
                       **self.theme.STANDARD_STYLES["label"],
                       "bg": self.styles["board"]["bg"]

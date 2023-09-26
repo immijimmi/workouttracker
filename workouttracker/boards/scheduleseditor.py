@@ -20,7 +20,7 @@ class SchedulesEditor(Board):
             if active_schedule_id is None:
                 return ""
 
-            return self.state.registered_get("workout_schedule", [active_schedule_id])["name"]
+            return self.state.registered_get("workout_schedule_name", [active_schedule_id])
 
         def on_change__string_editor(editor, old_value):
             self.children["save_button"].configure(state="normal" if editor.is_unsaved else "disabled")
@@ -29,12 +29,8 @@ class SchedulesEditor(Board):
             if active_schedule_id is None:
                 return
 
-            new_name = string_editor.value
-
-            schedules = self.state.registered_get("workout_schedules")
-            schedules[active_schedule_id]["name"] = new_name
-
-            self.state.registered_set(schedules, "workout_schedules")
+            new_name = string_editor.value.strip()
+            self.state.registered_set(new_name, "workout_schedule_name", [active_schedule_id])
 
             self.tracker.render()
 

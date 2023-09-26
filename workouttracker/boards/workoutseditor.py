@@ -25,13 +25,21 @@ class WorkoutsEditor(Board):
             for workout_type_id in self._visible_workouts:
                 workout_id_components = self.children[workout_type_id]
 
-                workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
-
-                workout_type_details["name"] = workout_id_components["name"].value
-                workout_type_details["desc"] = workout_id_components["desc"].value
-                workout_type_details["single_set_reps"] = workout_id_components["single_set_reps"].value
-
-                self.state.registered_set(workout_type_details, "workout_type_details", [workout_type_id])
+                self.state.registered_set(
+                    workout_id_components["name"].value.strip(),
+                    "workout_type_name",
+                    [workout_type_id]
+                )
+                self.state.registered_set(
+                    workout_id_components["desc"].value.strip(),
+                    "workout_type_desc",
+                    [workout_type_id]
+                )
+                self.state.registered_set(
+                    workout_id_components["single_set_reps"].value,
+                    "workout_type_ssr",
+                    [workout_type_id]
+                )
 
                 if workout_id_components["current_difficulty"].is_unsaved:
                     workout_type_difficulty_log = self.state.registered_get(
@@ -41,14 +49,18 @@ class WorkoutsEditor(Board):
 
                     # If multiple changes to current difficulty are made in the same day, only the latest will be saved
                     date_key = datetime.now().strftime(TrackerConstants.DATE_KEY_FORMAT)
-                    workout_type_difficulty_log[date_key] = workout_id_components["current_difficulty"].value
+                    workout_type_difficulty_log[date_key] = workout_id_components["current_difficulty"].value.strip()
 
-                    self.state.registered_set(workout_type_difficulty_log, "workout_type_difficulty_log", [workout_type_id])
+                    self.state.registered_set(
+                        workout_type_difficulty_log,
+                        "workout_type_difficulty_log",
+                        [workout_type_id]
+                    )
 
             self.tracker.render()
 
         def new_workout_type():
-            self.tracker.state__add_workout_type()
+            self.tracker.state.registered_set({}, "new_workout_type")
             self.tracker.render()
 
         def on_change_string_editor(editor, old_value):
@@ -62,23 +74,19 @@ class WorkoutsEditor(Board):
                 state="normal" if self._unsaved_components else "disabled")
 
         def on_change_reps_stepper(workout_type_id, stepper, increment_amount):
-            workout_type_details = self.state.registered_get("workout_type_details", [workout_type_id])
-            workout_type_details["single_set_reps"] = stepper.value
-
-            self.state.registered_set(workout_type_details, "workout_type_details", [workout_type_id])
+            self.state.registered_set(stepper.value, "workout_type_ssr", [workout_type_id])
 
         def get_data_name(workout_type_id, editor):
-            return self.state.registered_get("workout_type_details", [workout_type_id])["name"]
+            return self.state.registered_get("workout_type_name", [workout_type_id])
 
         def get_data_current_difficulty(workout_type_id, editor):
-            result = self.state.registered_get("workout_type_current_difficulty", [workout_type_id])
-            return "" if result is None else result
+            return self.state.registered_get("workout_type_current_difficulty", [workout_type_id])
 
         def get_data_desc(workout_type_id, editor):
-            return self.state.registered_get("workout_type_details", [workout_type_id])["desc"]
+            return self.state.registered_get("workout_type_desc", [workout_type_id])
 
         def get_data_reps(workout_type_id, stepper):
-            return self.state.registered_get("workout_type_details", [workout_type_id])["single_set_reps"]
+            return self.state.registered_get("workout_type_ssr", [workout_type_id])
 
         def on_click_show_workout(workout_id):
             self._visible_workouts.add(workout_id)
@@ -147,7 +155,7 @@ class WorkoutsEditor(Board):
                 show_workout_button = Button(
                     hidden_workouts_frame,
                     text=(
-                            all_workout_types[current_workout_type_id]["name"] or
+                            self.state.registered_get("workout_type_name", [current_workout_type_id]) or
                             TrackerConstants.METALABEL_FORMAT.format(current_workout_type_id)
                     ),
                     command=partial(on_click_show_workout, current_workout_type_id),

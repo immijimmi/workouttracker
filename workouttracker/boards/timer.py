@@ -42,7 +42,7 @@ class Timer(Board):
             stopwatch_entry = {
                 "inserted_at": datetime.now(timezone.utc).isoformat(),
                 "duration_s": self.tracker.stopwatch.elapsed.total_seconds(),
-                "note": self.tracker.stopwatch_note
+                "note": self.tracker.stopwatch_note.strip()
             }
 
             stopwatch_saved = self.state.registered_get("stopwatch_saved")

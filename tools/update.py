@@ -5,9 +5,9 @@ from typing import Optional
 # Change this value to a valid tag to exclude any tags that are chronologically before it from the available options
 TAGS_START_FROM: Optional[str] = "v0.3.1"
 # Add valid tags to this set to exclude them from the available options
-TAGS_BLACKLIST = set(
+TAGS_BLACKLIST = set([
 
-)
+])
 
 
 def get_chronological_tags() -> list[str]:

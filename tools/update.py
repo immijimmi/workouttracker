@@ -47,6 +47,8 @@ def prompt_for_tag(tags: set[str]) -> Optional[str]:
 
         if user_input_tag in tags:
             return user_input_tag
+        elif user_input_tag == "":
+            continue
         else:
             print("\nUnable to find a version with that tag.")
 

@@ -3,7 +3,7 @@ from managedstate import KeyQuery
 
 class Constants:
     DATA_VERSION_KEY = "version"
-    DATA_VERSION = "0.1.1"
+    DATA_VERSION = "0.1.2"
 
     WEEKDAY_KEY_STRINGS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 

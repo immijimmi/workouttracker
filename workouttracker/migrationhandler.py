@@ -9,7 +9,8 @@ class MigrationHandler:
         self.tracker = tracker
 
         self.migrate_version_lookup = {
-            "0.1.0": self.to_0_1_1
+            "0.1.0": self.to_0_1_1,
+            "0.1.1": self.to_0_1_2
         }
 
     def to_latest_version(self, state: State.with_extensions(Registrar)) -> None:
@@ -51,6 +52,19 @@ class MigrationHandler:
         state.registered_set(workout_log, "workout_log")
 
         state.registered_set("0.1.1", "version")
+
+    @staticmethod
+    def to_0_1_2(state: State.with_extensions(Registrar)) -> None:
+        # Removing incorrect key generated due to the bug fixed in commit 9481791
+        incorrect_key = "workout_schedule"
+
+        data = state.get()
+        if incorrect_key in data:
+            del data[incorrect_key]
+
+        state.set(data)
+
+        state.registered_set("0.1.2", "version")
 
     @staticmethod
     def register_paths(state: State.with_extensions(Registrar)) -> None:

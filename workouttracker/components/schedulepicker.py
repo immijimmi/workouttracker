@@ -6,12 +6,12 @@ from ..constants import Constants as TrackerConstants
 class SchedulePicker(ButtonListBox):
     def __init__(self, board, container, new_schedule_button=False):
         def get_data__button_list_box(list_box):
-            button_style_1 = {"bg": board.theme.COLOURS["accent_4"]}
-            button_style_2 = {"bg": board.theme.COLOURS["accent_3"]}
+            meta_button_style = {"bg": board.theme.COLOURS["accent_4"]}
 
             result = [{
                 "value": None,
-                "text": TrackerConstants.METALABEL_FORMAT.format(None)
+                "text": TrackerConstants.METALABEL_FORMAT.format(None),
+                "style": meta_button_style
             }]
 
             schedules = board.state.registered_get("workout_schedules")
@@ -19,14 +19,14 @@ class SchedulePicker(ButtonListBox):
                 schedule_name = board.state.registered_get("workout_schedule_name", [schedule_id])
                 result.append({
                     "value": schedule_id,
-                    "text": (schedule_name or TrackerConstants.METALABEL_FORMAT.format(schedule_id)),
-                    "style": button_style_2 if schedule_name else button_style_1
+                    "text": (schedule_name or TrackerConstants.METALABEL_FORMAT.format(schedule_id))
                 })
 
             if new_schedule_button:
                 result.append({
                     "value": True,
-                    "text": TrackerConstants.METALABEL_FORMAT.format("New")
+                    "text": TrackerConstants.METALABEL_FORMAT.format("New"),
+                    "style": meta_button_style
                 })
 
             return result

@@ -54,7 +54,7 @@ class Tracker(Component.with_extensions(GridHelper)):
             self.is_state_unsaved = False
 
         # Board-specific temporary variables
-        self.is_actuals_minimal = False  # Will be toggled to hide extra detail in Actuals
+        self.is_actuals_minimal = True  # Will be toggled to show/hide extra detail in Actuals
 
         self.tips = self.state.registered_get("workout_tips")
         shuffle(self.tips)
@@ -223,7 +223,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         )
 
         state.register_path("workout_schedules", ["workout_schedules"], [{}])
-        state.register_path("new_workout_schedule", ["workout_schedule", Constants.INCREMENT_STR_ID], [{}])
+        state.register_path("new_workout_schedule", ["workout_schedules", Constants.INCREMENT_STR_ID], [{}])
         state.register_path("workout_schedule", ["workout_schedules", PartialQueries.KEY], [{}])
         state.register_path(
             "workout_schedule_name",

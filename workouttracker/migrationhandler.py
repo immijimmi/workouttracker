@@ -64,6 +64,13 @@ class MigrationHandler:
 
         state.set(data)
 
+        # Just in case the aforementioned bug set the active schedule to an invalid schedule ID
+        active_schedule_id = state.registered_get("active_schedule_id")
+        workout_schedules = state.registered_get("workout_schedules")
+
+        if (active_schedule_id is not None) and (active_schedule_id not in workout_schedules):
+            state.registered_set(None, "active_schedule_id")
+
         state.registered_set("0.1.2", "version")
 
     @staticmethod

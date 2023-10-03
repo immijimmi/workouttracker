@@ -67,9 +67,9 @@ class Actuals(Board):
             workout_sets_actual = truncate_actual_sets(workout_reps_actual / workout_reps)
 
             schedule_id = self.state.registered_get("active_schedule_id")
-            workout_sets_scheduled = self.state.registered_get(
+            workout_sets_scheduled = 0 if (schedule_id is None) else (self.state.registered_get(
                 "scheduled_sets_single_entry", [schedule_id, working_date_weekday, workout_type_id]
-            )
+            ))
 
             stepper.text_format = get_workout_stepper_label_format(workout_sets_scheduled)
             status_color = determine_workout_status_color(workout_sets_actual, workout_sets_scheduled)
@@ -171,10 +171,10 @@ class Actuals(Board):
                 "completed_reps_single_entry",
                 [actuals_working_date_key, current_workout_type_id]
             )
-            scheduled_workout_sets = self.state.registered_get(
+            scheduled_workout_sets = 0 if (active_schedule_id is None) else (self.state.registered_get(
                 "scheduled_sets_single_entry",
                 [active_schedule_id, actuals_working_date.strftime("%a"), current_workout_type_id]
-            )
+            ))
 
             # If this workout is empty and not on today's quota
             if (scheduled_workout_sets == 0) and (actual_reps_completed == 0):

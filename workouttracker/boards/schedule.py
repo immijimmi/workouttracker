@@ -20,7 +20,8 @@ class Schedule(Board):
                 return
 
             self.state.registered_set(
-                table.value, "scheduled_sets_single_entry", [active_schedule_id, x_value, y_value])
+                table.value, "scheduled_sets_single_entry", [active_schedule_id, x_value, y_value]
+            )
 
         def get_data__stepper_table(x_value, y_value, table):
             active_schedule_id = self.state.registered_get("active_schedule_id")

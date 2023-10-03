@@ -3,7 +3,7 @@ from subprocess import run, check_output, PIPE
 from typing import Optional
 
 # Change this value to a valid tag to exclude any tags that are chronologically before it from the available options
-TAGS_START_FROM: Optional[str] = "v0.3.1"
+TAGS_START_FROM: Optional[str] = "v0.3.3"
 # Add valid tags to this set to exclude them from the available options
 TAGS_BLACKLIST = set([
 

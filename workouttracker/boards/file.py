@@ -36,12 +36,14 @@ class File(Board):
             del self.active_alerts[alert.value]
             self.render()
 
-        def set_file_config(operation):
-            if operation not in ("Open", "Import", "Save As"):
+        def set_file_config(operation: str):
+            valid_ops = op_open, op_import, op_saveas = ("Open", "Import", "Save As")
+
+            if operation not in valid_ops:
                 raise ValueError(operation)
 
             filetypes = (("JSON Files", "*.json"), ("All Files", "*.*"))
-            if operation in ("Open", "Import"):
+            if operation in (op_open, op_import):
                 selected_file_path = askopenfilename(title=operation, filetypes=filetypes)
             else:
                 selected_file_path = asksaveasfilename(title="Save As", filetypes=filetypes, defaultextension=".json")
@@ -53,19 +55,19 @@ class File(Board):
             if selected_file_path == self.tracker.state_file_path:
                 return self._add_alert("Selected file is already open.")
 
-            if operation in ("Open", "Import"):
-                is_loaded, error_msg = self.tracker.try_load_state(selected_file_path)
-                if not is_loaded:
+            if operation in (op_open, op_import):
+                is_success, error_msg = self.tracker.try_load_state(selected_file_path)
+                if not is_success:
                     return self._add_alert(error_msg)
             else:
-                is_saved, error_msg = self.tracker.try_save_state(selected_file_path)
-                if not is_saved:
+                is_success, error_msg = self.tracker.try_save_state(selected_file_path)
+                if not is_success:
                     return self._add_alert(error_msg)
 
-            if operation in ("Open", "Save As"):
+            if operation in (op_open, op_saveas):
                 self.tracker.state_file_path = selected_file_path
-                self.tracker.is_state_unsaved = False
-            else:
+
+            if operation == op_import:
                 self.tracker.is_state_unsaved = True
 
             self.tracker.render()

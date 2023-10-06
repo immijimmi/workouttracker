@@ -34,13 +34,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         # State Initialisation
         self.state = State.with_extensions(Registrar, Listeners)()
         self.register_paths(self.state)
-        self.state.add_listener(
-            "set",
-            lambda result, state_obj, *args, **kwargs: (
-                None if state_obj.extension_data.get("registered_path_label", None) in ["load_file", "version"]
-                else self.try_save_state(self.state_file_path)
-            )  # Will not trigger an auto-save if this set operation was either to load from file or to set the version
-        )
+        self.state.add_listener("set", self._on_state_change)
 
         # Tracker temporary variables
         self.visible_boards = set(self._config.INITIAL_BOARDS_VISIBLE)
@@ -49,16 +43,8 @@ class Tracker(Component.with_extensions(GridHelper)):
         self._is_state_unsaved = False
         self._on_file_change(self)
 
-        is_loaded, error_msg = self.try_load_state(self.state_file_path)
-        if is_loaded:
-            self.is_state_unsaved = False
-
         # Board-specific temporary variables
         self.is_actuals_minimal = True  # Will be toggled to show/hide extra detail in Actuals
-
-        self.tips = self.state.registered_get("workout_tips")
-        shuffle(self.tips)
-        self.tips_index = 0
 
         self.stopwatch = Stopwatch()
         self.stopwatch_note = ""
@@ -127,6 +113,7 @@ class Tracker(Component.with_extensions(GridHelper)):
                 return False, error_msg
 
             self.state.registered_set(working_state.get(), "load_file")
+            self.is_state_unsaved = False
             return True, None
 
         except FileNotFoundError as ex:
@@ -261,3 +248,10 @@ class Tracker(Component.with_extensions(GridHelper)):
             ["stopwatch", "saved"],
             [{}, []]
         )
+
+    def _on_state_change(self, result, state_obj, *args, **kwargs) -> None:
+        # Any change to state other than setting the version or a load operation should trigger a save
+        if state_obj.extension_data.get("registered_path_label", None) not in ["load_file", "version"]:
+            self.is_state_unsaved = True
+
+            self.try_save_state(self.state_file_path)

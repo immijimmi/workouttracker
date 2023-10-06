@@ -50,12 +50,12 @@ class File(Board):
 
             if selected_file_path == "":
                 return
-
             selected_file_path = path.relpath(selected_file_path)
-            if selected_file_path == self.tracker.state_file_path:
-                return self._add_alert("Selected file is already open.")
 
             if operation in (op_open, op_import):
+                if selected_file_path == self.tracker.state_file_path:
+                    return self._add_alert("Selected file is already open.")
+
                 is_success, error_msg = self.tracker.try_load_state(selected_file_path)
                 if not is_success:
                     return self._add_alert(error_msg)

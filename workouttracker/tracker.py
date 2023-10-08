@@ -5,8 +5,7 @@ from tkcomponents import Component
 from tkcomponents.extensions import GridHelper
 
 import json
-from random import shuffle
-from logging import warning
+import logging
 from typing import Optional, Callable
 
 from .migrationhandler import MigrationHandler
@@ -19,7 +18,7 @@ class Tracker(Component.with_extensions(GridHelper)):
     def __init__(
             self, container,
             on_file_change: Callable[["Tracker"], None] = (lambda tracker: None),
-            config=Config
+            config=Config, logger=None
     ):
         super().__init__(container, styles={
             "frame": {"bg": config.Theme.STANDARD_STYLE_ARGS["bg"]}
@@ -27,6 +26,13 @@ class Tracker(Component.with_extensions(GridHelper)):
 
         self._on_file_change = on_file_change
         self._config = config
+
+        if logger:
+            self._logger = logger
+        else:
+            self._logger = logging.getLogger(str(None))
+            self._logger.handlers = [logging.NullHandler()]
+            self._logger.propagate = False
 
         self._migration_handler = MigrationHandler(self)
         self._board_handler = self._config.BOARD_HANDLER_CLS(self)
@@ -75,6 +81,10 @@ class Tracker(Component.with_extensions(GridHelper)):
     def config(self):
         return self._config
 
+    @property
+    def logger(self):
+        return self._logger
+
     def _render(self):
         # Initialise all boards
         self.boards = {board_class(self, self._frame) for board_class in self._config.BOARDS_LIST}
@@ -94,6 +104,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         if file_path is None:
             error_msg = error_msg_template.format("no file currently selected")
 
+            self.logger.warning(error_msg)
             return False, error_msg
 
         try:
@@ -109,29 +120,31 @@ class Tracker(Component.with_extensions(GridHelper)):
             except (ValueError, RuntimeError) as ex:
                 error_msg = error_msg_template.format(ex)
 
-                warning(error_msg)
+                self.logger.warning(error_msg)
                 return False, error_msg
 
             self.state.registered_set(working_state.get(), "load_file")
             self.is_state_unsaved = False
             return True, None
 
-        except FileNotFoundError as ex:
+        except FileNotFoundError:
             error_msg = error_msg_template.format("no file found at the target location")
 
-            warning(error_msg_template.format(ex))
+            self.logger.warning(error_msg)
             return False, error_msg
 
-        except json.decoder.JSONDecodeError as ex:
+        except json.decoder.JSONDecodeError:
             error_msg = error_msg_template.format("unable to parse data from JSON format")
 
-            warning(error_msg_template.format(ex))
+            self.logger.warning(error_msg, exc_info=True)
             return False, error_msg
 
         # Default case
-        except Exception as ex:
-            warning(error_msg_template.format(ex))
-            return False, "Unable to load data from file."
+        except Exception:
+            error_msg = error_msg_template.format("an unknown error has occurred")
+
+            self.logger.warning(error_msg, exc_info=True)
+            return False, error_msg
 
     def try_save_state(self, file_path: Optional[str]) -> tuple[bool, Optional[str]]:
         """
@@ -145,6 +158,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         if file_path is None:
             error_msg = error_msg_template.format("save location not set")
 
+            self.logger.warning(error_msg)
             return False, error_msg
 
         """
@@ -163,9 +177,11 @@ class Tracker(Component.with_extensions(GridHelper)):
             return True, None
 
         # Default case
-        except Exception as ex:
-            warning(error_msg_template.format(ex))
-            return False, "Unable to save data to file."
+        except Exception:
+            error_msg = error_msg_template.format("an unknown error has occurred")
+
+            self.logger.warning(error_msg, exc_info=True)
+            return False, error_msg
 
     def state__del_schedule(self, schedule_id):
         schedules = self.state.registered_get("workout_schedules")

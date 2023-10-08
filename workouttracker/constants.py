@@ -14,9 +14,6 @@ class Constants:
         lambda substate: str(max((int(key) for key in substate.keys()), default=-1)+1)
     )  # Takes a dict of str keys representing integer IDs, and returns a str number 1 higher than the largest present
 
-    WINDOW_MINSIZE = (255, 33)
-    WINDOW_TITLE_FORMAT = "{0} - Workout Tracker"
-
     DATE_KEY_FORMAT = "%Y/%m/%d"
     DATETIME_KEY_FORMAT = f"{DATE_KEY_FORMAT}T%H:%M:%SZ"  # Expects a UTC datetime
 

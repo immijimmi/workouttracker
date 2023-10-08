@@ -61,7 +61,7 @@ class Config:
             "accent_4": "#35352F",
 
             # Status colours
-            "disabled": "#E8E8E9",
+            "disabled": "#E8E8E9",  # Indicates that the **widget** is disabled, not whatever data it is representing
             "pending": "#FED87D",
         }
 

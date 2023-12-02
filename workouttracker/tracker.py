@@ -27,12 +27,7 @@ class Tracker(Component.with_extensions(GridHelper)):
         self._on_file_change = on_file_change
         self._config = config
 
-        if logger:
-            self._logger = logger
-        else:
-            self._logger = logging.getLogger(str(None))
-            self._logger.handlers = [logging.NullHandler()]
-            self._logger.propagate = False
+        self._logger = logger or logging.root
 
         self._migration_handler = MigrationHandler(self)
         self._board_handler = self._config.BOARD_HANDLER_CLS(self)

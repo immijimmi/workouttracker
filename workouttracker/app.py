@@ -41,7 +41,7 @@ class App:
             self.window.mainloop()
 
         except:
-            self.logger.critical(f"A fatal exception has occurred", exc_info=True)
+            self.logger.critical(f"A fatal exception has occurred.", exc_info=True)
 
         finally:
             for handler in self.logger.handlers:
